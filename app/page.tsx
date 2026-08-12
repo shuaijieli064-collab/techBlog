@@ -1,69 +1,116 @@
-import Image from "next/image";
+import Link from "next/link";
+
+import { PostCard } from "@/components/PostCard";
+import { posts } from "@/lib/posts";
 
 export default function Home() {
+  const featured = posts.filter((post) => post.featured).slice(0, 2);
+  const latest = posts.slice(0, 3);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+      <section className="grid gap-8 py-12 lg:grid-cols-[1.3fr_0.7fr] lg:items-center lg:py-16">
+        <div>
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-sky-600">
+            Software Engineering Student
           </p>
+          <h1 className="max-w-2xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-slate-50">
+            记录代码、学习与成长的技术博客
+          </h1>
+          <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">
+            我是林晨，一名软件工程大二学生。这里记录我的前端实践、算法学习、项目复盘和成长观察，持续记录每一次进步。
+          </p>
+
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <Link
+              href="/posts"
+              className="rounded-full bg-sky-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/20 transition-colors hover:bg-sky-500"
+            >
+              阅读文章
+            </Link>
+            <Link
+              href="/about"
+              className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:text-sky-400"
+            >
+              关于我
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+          <div className="text-sm font-medium uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+            近期状态
+          </div>
+          <div className="mt-6 space-y-5">
+            <div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">12+</div>
+              <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">已发布技术文章</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">4</div>
+              <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">持续关注的学习方向</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">1</div>
+              <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">稳定的写作和成长节奏</div>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="py-8">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">学习笔记地图</h2>
+          <Link href="/notes" className="text-sm font-medium text-sky-600 hover:text-sky-500">
+            查看笔记地图 →
+          </Link>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-4">
+          {[
+            { title: "Java 基础", desc: "对象、集合、异常与并发", tags: ["Java", "Java 基础"] },
+            { title: "Java 后端", desc: "Spring Boot 与服务设计", tags: ["Spring Boot", "后端框架"] },
+            { title: "数据库", desc: "MySQL、MyBatis 与事务", tags: ["MySQL", "MyBatis"] },
+            { title: "缓存/消息队列", desc: "Redis 与异步处理架构", tags: ["Redis", "消息队列"] },
+          ].map((item) => (
+            <Link
+              key={item.title}
+              href={`/tags/${encodeURIComponent(item.tags[0])}`}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-1 hover:border-sky-300 dark:border-slate-800 dark:bg-slate-950"
+            >
+              <div className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">{item.title}</div>
+              <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{item.desc}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-8">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">精选文章</h2>
+          <Link href="/posts" className="text-sm font-medium text-sky-600 hover:text-sky-500">
+            查看全部 →
+          </Link>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2">
+          {featured.map((post) => (
+            <PostCard key={post.slug} post={post} />
+          ))}
+        </div>
+      </section>
+
+      <section className="py-12">
+        <div className="mb-6">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">最新文章</p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-3">
+          {latest.map((post) => (
+            <PostCard key={post.slug} post={post} />
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }
