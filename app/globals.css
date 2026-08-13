@@ -38,3 +38,11 @@ p {
 img {
   max-width: 100%;
 }
+
+* {
+  border-color: rgb(226 232 240 / 1);
+}
+
+.dark * {
+  border-color: rgb(51 65 85 / 1);
+}

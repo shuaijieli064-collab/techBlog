@@ -25,10 +25,9 @@ async function TagPageInner({ params }: { params: Promise<{ tag: string }> }) {
     <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">标签</p>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
-            #{decodedTag}
-          </h1>
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">标签专题</p>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">#{decodedTag}</h1>
+          <p className="mt-3 text-slate-600 dark:text-slate-300">当前标签共收录 {matchingPosts.length} 篇相关文章。</p>
         </div>
         <Link
           href="/posts"

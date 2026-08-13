@@ -305,3 +305,57 @@ export function getAllTags() {
 export function getPostsByTag(tag: string) {
   return posts.filter((post) => post.tags.includes(tag));
 }
+
+export function getSortedPosts() {
+  return [...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+export function getAllCategories() {
+  return Array.from(new Set(posts.map((post) => post.category))).sort();
+}
+
+export function getAdjacentPosts(slug: string) {
+  const sorted = getSortedPosts();
+  const index = sorted.findIndex((post) => post.slug === slug);
+
+  if (index === -1) {
+    return { prev: null, next: null };
+  }
+
+  return {
+    prev: sorted[index + 1] ?? null,
+    next: sorted[index - 1] ?? null,
+  };
+}
+
+export function getRelatedPosts(slug: string, limit = 3) {
+  const current = getPostBySlug(slug);
+  if (!current) {
+    return [];
+  }
+
+  return posts
+    .filter((post) => post.slug !== slug)
+    .map((post) => {
+      const sharedTags = post.tags.filter((tag) => current.tags.includes(tag)).length;
+      return { post, sharedTags };
+    })
+    .filter((item) => item.sharedTags > 0)
+    .sort(
+      (a, b) =>
+        b.sharedTags - a.sharedTags ||
+        new Date(b.post.date).getTime() - new Date(a.post.date).getTime()
+    )
+    .slice(0, limit)
+    .map((item) => item.post);
+}
+
+export function getTagStats() {
+  const counts = new Map<string, number>();
+  posts.forEach((post) => {
+    post.tags.forEach((tag) => counts.set(tag, (counts.get(tag) ?? 0) + 1));
+  });
+  return Array.from(counts.entries())
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+}

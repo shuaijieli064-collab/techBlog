@@ -4,7 +4,7 @@ import type { Post } from "@/lib/posts";
 
 export function PostCard({ post }: { post: Post }) {
   return (
-    <article className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950">
+    <article className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950">
       <div className="mb-4 flex items-center justify-between gap-3 text-xs font-medium uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
         <span>{post.category}</span>
         <span>{post.readTime}</span>
@@ -42,6 +42,13 @@ export function PostCard({ post }: { post: Post }) {
           })}
         </time>
       </div>
+
+      <Link
+        href={`/posts/${post.slug}`}
+        className="mt-5 inline-flex text-sm font-medium text-sky-600 transition hover:text-sky-500 dark:text-sky-400"
+      >
+        继续阅读 →
+      </Link>
     </article>
   );
 }

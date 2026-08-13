@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 
 import { SiteHeader } from "@/components/SiteHeader";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,17 +17,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "林晨的博客 | 技术成长记录",
+    default: siteConfig.title,
     template: "%s | 林晨的博客",
   },
-  description: "记录软件工程学习、项目实践和成长复盘的个人技术博客。",
-  keywords: ["技术博客", "前端开发", "软件工程", "算法学习", "个人网站"],
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  alternates: {
+    canonical: "/",
+    types: {
+      "application/rss+xml": `${siteConfig.url}/feed.xml`,
+    },
+  },
   openGraph: {
-    title: "林晨的博客",
-    description: "记录学生阶段的技术学习与项目成长。",
+    title: siteConfig.name,
+    description: siteConfig.description,
     type: "website",
     locale: "zh_CN",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
   },
 };
 
@@ -40,11 +55,25 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <footer className="border-t border-slate-200 bg-white/80 dark:border-slate-800 dark:bg-slate-950/80">
             <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-6 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 dark:text-slate-300">
               <p>© 2026 林晨的博客</p>
-              <div className="flex items-center gap-4">
-                <Link href="/notes" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">学习笔记</Link>
-                <Link href="/posts" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">文章</Link>
-                <Link href="/archive" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">归档</Link>
-                <Link href="/about" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">关于</Link>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link href="/notes" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">
+                  学习笔记
+                </Link>
+                <Link href="/posts" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">
+                  文章
+                </Link>
+                <Link href="/archive" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">
+                  归档
+                </Link>
+                <Link href="/tags" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">
+                  标签
+                </Link>
+                <Link href="/about" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">
+                  关于
+                </Link>
+                <Link href="/feed.xml" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">
+                  RSS
+                </Link>
               </div>
             </div>
           </footer>

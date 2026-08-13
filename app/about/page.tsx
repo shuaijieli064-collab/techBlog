@@ -35,6 +35,13 @@ export default function AboutPage() {
             <div className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">持续输出与成长</div>
           </div>
         </div>
+
+        <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+          <div className="text-sm text-slate-500 dark:text-slate-400">联系与协作（可扩展）</div>
+          <div className="mt-2 text-slate-700 dark:text-slate-200">
+            邮箱：hello@example.com · GitHub：shuaijieli064-collab · 欢迎交流学习与项目实践。
+          </div>
+        </div>
       </div>
     </main>
   );
