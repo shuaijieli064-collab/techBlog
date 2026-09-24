@@ -7,6 +7,14 @@ export default function Home() {
   const featured = posts.filter((post) => post.featured).slice(0, 2);
   const latest = posts.slice(0, 3);
 
+  const totalPosts = posts.length;
+  const learningGroups = [
+    { title: "Java 基础", desc: "对象、集合、异常与并发", tags: ["Java", "Java 基础"] },
+    { title: "Java 后端", desc: "Spring Boot 与服务设计", tags: ["Spring Boot", "后端框架"] },
+    { title: "数据库", desc: "MySQL、MyBatis 与事务", tags: ["MySQL", "MyBatis"] },
+    { title: "缓存/消息队列", desc: "Redis 与异步处理架构", tags: ["Redis", "消息队列", "架构设计"] },
+  ];
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
       <section className="grid gap-8 py-12 lg:grid-cols-[1.3fr_0.7fr] lg:items-center lg:py-16">
@@ -38,21 +46,18 @@ export default function Home() {
         </div>
 
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
-          <div className="text-sm font-medium uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-            近期状态
-          </div>
-          <div className="mt-6 space-y-5">
+          <div className="grid grid-cols-3 gap-3 text-sm font-medium uppercase tracking-[0.2em] text-sky-600 dark:text-slate-400">
             <div>
-              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">12+</div>
-              <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">已发布技术文章</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">{totalPosts}+</div>
+              <div>已发布技术文章</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">4</div>
-              <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">持续关注的学习方向</div>
+              <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">{learningGroups.length}</div>
+              <div>学习方向</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-slate-900 dark:text-slate-50">1</div>
-              <div className="mt-1 text-sm text-slate-600 dark:text-slate-300">稳定的写作和成长节奏</div>
+              <div>稳定的写作节奏</div>
             </div>
           </div>
         </div>
@@ -67,12 +72,7 @@ export default function Home() {
         </div>
 
         <div className="grid gap-5 md:grid-cols-4">
-          {[
-            { title: "Java 基础", desc: "对象、集合、异常与并发", tags: ["Java", "Java 基础"] },
-            { title: "Java 后端", desc: "Spring Boot 与服务设计", tags: ["Spring Boot", "后端框架"] },
-            { title: "数据库", desc: "MySQL、MyBatis 与事务", tags: ["MySQL", "MyBatis"] },
-            { title: "缓存/消息队列", desc: "Redis 与异步处理架构", tags: ["Redis", "消息队列"] },
-          ].map((item) => (
+          {learningGroups.map((item) => (
             <Link
               key={item.title}
               href={`/tags/${encodeURIComponent(item.tags[0])}`}

@@ -2,9 +2,15 @@ import Link from "next/link";
 
 const navItems = [
   { href: "/", label: "首页" },
-  { href: "/notes", label: "学习笔记" },
-  { href: "/posts", label: "文章" },
-  { href: "/archive", label: "归档" },
+  { href: "/dashboard", label: "工作台" },
+  { href: "/knowledge", label: "知识库" },
+  { href: "/posts", label: "博客" },
+  { href: "/projects", label: "项目" },
+  { href: "/learning", label: "学习" },
+  { href: "/growth", label: "成长" },
+  { href: "/tools", label: "工具" },
+  { href: "/ai/models", label: "AI 模型" },
+  { href: "/ai/prompts", label: "提示词库" },
   { href: "/about", label: "关于" },
 ];
 

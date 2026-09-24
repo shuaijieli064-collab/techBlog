@@ -1,0 +1,111 @@
+export type GrowthEventType = "milestone" | "post" | "project" | "learning" | "achievement";
+
+export interface GrowthEvent {
+  id: string;
+  date: string;
+  type: GrowthEventType;
+  title: string;
+  description: string;
+  tags: string[];
+}
+
+export type Skill = {
+  name: string;
+  level: number;
+  color: string;
+  category: string;
+};
+
+export const skills: Skill[] = [
+  { name: "Java", level: 80, color: "bg-sky-500", category: "语言" },
+  { name: "算法", level: 50, color: "bg-purple-500", category: "计算机基础" },
+  { name: "Spring", level: 30, color: "bg-orange-500", category: "框架" },
+  { name: "MySQL", level: 60, color: "bg-green-500", category: "数据库" },
+  { name: "Git", level: 70, color: "bg-blue-500", category: "工程" },
+  { name: "AI 工具", level: 80, color: "bg-emerald-500", category: "工具" },
+  { name: "数据结构", level: 65, color: "bg-indigo-500", category: "计算机基础" },
+  { name: "前端", level: 55, color: "bg-pink-500", category: "语言" },
+];
+
+export const growthEvents: GrowthEvent[] = [
+  {
+    id: "1",
+    date: "2026-09-20",
+    type: "milestone",
+    title: "个人工作台上线",
+    description: "完成 Developer Workspace 核心页面：Dashboard、项目中心、学习中心、AI Center。",
+    tags: ["里程碑", "全栈"],
+  },
+  {
+    id: "2",
+    date: "2026-09-15",
+    type: "post",
+    title: "发布《HashMap 源码分析》",
+    description: "整理 Java 集合框架底层实现，深入理解红黑树与扩容机制。",
+    tags: ["博客", "Java"],
+  },
+  {
+    id: "3",
+    date: "2026-09-10",
+    type: "project",
+    title: "学习助手项目 v1.0",
+    description: "完成项目第一个可用版本，支持学习计划管理和进度追踪。",
+    tags: ["项目", "Spring Boot"],
+  },
+  {
+    id: "4",
+    date: "2026-09-01",
+    type: "learning",
+    title: "完成数据结构课程",
+    description: "系统学习线性表、树、图、排序与查找，配套刷题 80+。",
+    tags: ["学习", "数据结构"],
+  },
+  {
+    id: "5",
+    date: "2026-08-25",
+    type: "achievement",
+    title: "连续学习 30 天",
+    description: "保持每日学习打卡，累计学习时长超过 60 小时。",
+    tags: ["成就", "坚持"],
+  },
+  {
+    id: "6",
+    date: "2026-08-18",
+    type: "post",
+    title: "发布《第一次做网站的复盘》",
+    description: "记录从零搭建个人网站的完整过程与踩坑总结。",
+    tags: ["博客", "复盘"],
+  },
+  {
+    id: "7",
+    date: "2026-08-10",
+    type: "learning",
+    title: "开始算法专项训练",
+    description: "建立 LeetCode 刷题节奏，覆盖数组、哈希、双指针等专题。",
+    tags: ["学习", "算法"],
+  },
+  {
+    id: "8",
+    date: "2026-08-01",
+    type: "milestone",
+    title: "技术博客启动",
+    description: "确立博客定位：记录软件工程学习、项目实践与成长复盘。",
+    tags: ["里程碑", "博客"],
+  },
+];
+
+export const typeLabels: Record<GrowthEventType, string> = {
+  milestone: "里程碑",
+  post: "文章",
+  project: "项目",
+  learning: "学习",
+  achievement: "成就",
+};
+
+export const typeColors: Record<GrowthEventType, { bg: string; text: string; dot: string }> = {
+  milestone: { bg: "bg-sky-50 dark:bg-sky-900/30", text: "text-sky-600 dark:text-sky-400", dot: "bg-sky-500" },
+  post: { bg: "bg-purple-50 dark:bg-purple-900/30", text: "text-purple-600 dark:text-purple-400", dot: "bg-purple-500" },
+  project: { bg: "bg-orange-50 dark:bg-orange-900/30", text: "text-orange-600 dark:text-orange-400", dot: "bg-orange-500" },
+  learning: { bg: "bg-green-50 dark:bg-green-900/30", text: "text-green-600 dark:text-green-400", dot: "bg-green-500" },
+  achievement: { bg: "bg-yellow-50 dark:bg-yellow-900/30", text: "text-yellow-600 dark:text-yellow-400", dot: "bg-yellow-500" },
+};

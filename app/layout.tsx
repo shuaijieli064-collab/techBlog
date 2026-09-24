@@ -41,9 +41,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-6 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 dark:text-slate-300">
               <p>© 2026 林晨的博客</p>
               <div className="flex items-center gap-4">
-                <Link href="/notes" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">学习笔记</Link>
-                <Link href="/posts" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">文章</Link>
-                <Link href="/archive" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">归档</Link>
+                <Link href="/dashboard" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">工作台</Link>
+                <Link href="/knowledge" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">知识库</Link>
+                <Link href="/posts" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">博客</Link>
+                <Link href="/projects" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">项目</Link>
+                <Link href="/learning" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">学习</Link>
+                <Link href="/growth" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">成长</Link>
+                <Link href="/profile" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">个人主页</Link>
+                <Link href="/ai/models" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">AI 模型</Link>
                 <Link href="/about" className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">关于</Link>
               </div>
             </div>
