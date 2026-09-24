@@ -1,7 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { BookOpen, Folder, Brain, ArrowRight, Zap, Target, TrendingUp } from "lucide-react";
-import { posts } from "@/lib/posts";
+
+import { DailyTasks } from "@/components/DailyTasks";
+import { getPublishedPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "工作台",
@@ -17,12 +19,6 @@ const skills = [
   { name: "AI", level: 80, color: "bg-emerald-500" },
 ];
 
-const todayTasks = [
-  { id: 1, title: "复习 HashMap 源码分析", tag: "Java", done: false },
-  { id: 2, title: "完成算法题 - 两数之和", tag: "算法", done: true },
-  { id: 3, title: "更新学习助手项目 TODO", tag: "项目", done: false },
-];
-
 const quickActions = [
   { label: "写博客", href: "/posts", icon: BookOpen, color: "text-sky-600" },
   { label: "项目", href: "/projects", icon: Folder, color: "text-purple-600" },
@@ -31,9 +27,9 @@ const quickActions = [
 ];
 
 export default function DashboardPage() {
+  const posts = getPublishedPosts();
   const totalPosts = posts.length;
   const latest = posts.slice(0, 3);
-  const completedTasks = todayTasks.filter((t) => t.done).length;
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -66,8 +62,8 @@ export default function DashboardPage() {
                   <Target size={20} className="text-purple-600 dark:text-purple-400" />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-slate-900 dark:text-slate-50">{completedTasks}/{todayTasks.length}</div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400">今日任务</div>
+                  <div className="text-2xl font-bold text-slate-900 dark:text-slate-50">3/3</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400">今日任务（可编辑）</div>
                 </div>
               </div>
             </div>
@@ -84,27 +80,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">今日任务</h2>
-              <span className="text-xs text-slate-500 dark:text-slate-400">{completedTasks}/{todayTasks.length} 完成</span>
-            </div>
-            <div className="space-y-3">
-              {todayTasks.map((task) => (
-                <div key={task.id} className="flex items-center gap-3 rounded-xl border border-slate-100 p-3 dark:border-slate-800">
-                  <div className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${task.done ? 'border-sky-500 bg-sky-500' : 'border-slate-300 dark:border-slate-600'}`}>
-                    {task.done && <span className="text-[10px] text-white font-bold">✓</span>}
-                  </div>
-                  <span className={`flex-1 text-sm ${task.done ? 'text-slate-400 line-through' : 'text-slate-700 dark:text-slate-200'}`}>
-                    {task.title}
-                  </span>
-                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-400">
-                    {task.tag}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <DailyTasks />
 
           <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
             <div className="flex items-center justify-between mb-4">

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { GitBranch, Mail, MapPin, BookOpen, Folder, ArrowRight, ExternalLink } from "lucide-react";
-import { posts } from "@/lib/posts";
+import { getPublishedPosts } from "@/lib/posts";
 import { skills } from "@/lib/growth";
 
 export const metadata: Metadata = {
@@ -16,6 +16,7 @@ const projects = [
 ];
 
 export default function ProfilePage() {
+  const posts = getPublishedPosts();
   const latestPosts = posts.slice(0, 3);
 
   return (

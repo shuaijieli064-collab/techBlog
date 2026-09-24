@@ -6,9 +6,16 @@ export function PostCard({ post }: { post: Post }) {
   return (
     <article className="group relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950">
       <div className="mb-4 flex items-center justify-between gap-3 text-xs font-medium uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-        <span className="rounded-full bg-sky-50 px-2.5 py-1 text-sky-600 dark:bg-sky-900/30 dark:text-sky-300">
-          {post.category}
-        </span>
+        <div className="flex items-center gap-2">
+          {post.featured && (
+            <span className="rounded-full bg-amber-100 px-2.5 py-1 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
+              置顶
+            </span>
+          )}
+          <span className="rounded-full bg-sky-50 px-2.5 py-1 text-sky-600 dark:bg-sky-900/30 dark:text-sky-300">
+            {post.category}
+          </span>
+        </div>
         <div className="flex items-center gap-1.5">
           <Clock size={12} className="text-slate-400" />
           <span>{post.readTime}</span>

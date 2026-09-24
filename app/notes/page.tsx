@@ -1,12 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { posts } from "@/lib/posts";
+import { getPublishedPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "笔记地图",
   description: "按技术栈整理的 Java 与后端知识地图。",
 };
+
+const posts = getPublishedPosts();
 
 const noteGroups = [
   {

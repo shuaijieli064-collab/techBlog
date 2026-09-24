@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { posts } from "@/lib/posts";
+import { getPublishedPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "文章归档",
@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function ArchivePage() {
+  const posts = getPublishedPosts();
   const groupedPosts = posts.reduce<Record<string, typeof posts>>((acc, post) => {
     const year = new Date(post.date).getFullYear().toString();
     if (!acc[year]) {

@@ -30,33 +30,40 @@ npm run lint    # ESLint 检查
 | 路由 | 说明 |
 |------|------|
 | `/` | 首页：精选文章、学习地图、统计 |
-| `/dashboard` | 个人工作台：统计、今日任务、技能画像、AI 推荐 |
-| `/posts`, `/posts/[slug]` | 博客列表与详情 |
-| `/knowledge` | 知识库入口（笔记 / 面试题 / 命令） |
-| `/projects` | 项目中心 |
-| `/learning` | 学习中心：路线图 + 算法练习 |
-| `/growth` | 成长中心：技能画像 + 成长时间线 |
+| `/dashboard` | 个人工作台：统计、今日任务（可编辑持久化）、技能画像、AI 推荐 |
+| `/posts`, `/posts/[slug]` | 博客列表（搜索/筛选/置顶）与详情（TOC/高亮/点赞阅读量） |
+| `/knowledge` | 知识库入口 + AI 生成博客草稿（本地模板） |
+| `/projects` | 项目中心（TODO 可勾选持久化） |
+| `/learning` | 学习中心：路线图 + 算法练习（掌握状态可切换） |
+| `/growth` | 成长中心：技能画像（可调）+ 时间线（类型筛选） |
 | `/profile` | 个人主页 |
-| `/tools` | 开发者工具（JSON / Base64 / 时间戳 / 正则 / UUID） |
+| `/tools` | 开发者工具（JSON/Base64/时间戳/正则/UUID/URL/JWT/颜色/哈希/Markdown/SQL/Cron/HTML） |
 | `/functions` | 函数速查 |
+| `/ai` | AI 中心入口 |
 | `/ai/models` | AI 模型中心 |
-| `/ai/prompts` | 提示词库 |
+| `/ai/agents` | AI Agents 角色卡片 |
+| `/ai/prompts` | 提示词库（搜索/复制/收藏/本地新建） |
 | `/archive`, `/notes`, `/tags/[tag]` | 归档与标签 |
+| `/rss.xml` | RSS 订阅 |
 
 ## 目录结构
 
 ```
 app/                  # App Router 页面
-components/           # 共享组件（SiteHeader、PostCard、CodeBlock 等）
+components/           # 共享组件（SiteHeader、PostCard、CodeBlock、交互卡片等）
 lib/                  # 静态数据与工具函数
-  posts.ts            # 博客文章数据
+  posts.ts            # 博客文章数据（含 draft/status）
   functions.ts        # 函数速查数据
   growth.ts           # 技能与成长时间线数据
+  prompts.ts          # 提示词种子数据
+supabase/schema.sql   # 后端表结构 + RLS（待接入）
+.env.example          # 环境变量模板（密钥不进仓库）
+plans/                # 分析、架构与路线图
 ```
 
 ## 数据说明
 
-MVP 阶段所有内容均为静态数据（`lib/*.ts`），无 API Key、无服务端密钥。AI Center 仅做展示与记录，真实密钥接入时应使用 Supabase 加密存储，前端绝不直接暴露敏感信息。
+MVP 内容以静态数据（`lib/*.ts`）为主；点赞/阅读量、任务、学习进度、提示词收藏等交互状态保存在浏览器 localStorage。无 API Key 进前端。真实密钥接入时使用 Supabase 服务端/Edge Function，前端绝不直接暴露敏感信息。参考 `supabase/schema.sql` 与 `.env.example`。
 
 ## 部署（Cloudflare Pages）
 

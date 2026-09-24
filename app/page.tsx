@@ -1,9 +1,10 @@
 import Link from "next/link";
 
 import { PostCard } from "@/components/PostCard";
-import { posts } from "@/lib/posts";
+import { getPublishedPosts } from "@/lib/posts";
 
 export default function Home() {
+  const posts = getPublishedPosts();
   const featured = posts.filter((post) => post.featured).slice(0, 2);
   const latest = posts.slice(0, 3);
 

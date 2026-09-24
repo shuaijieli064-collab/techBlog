@@ -1,4 +1,6 @@
+import Link from "next/link";
 import type { Metadata } from "next";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "AI 模型中心",
@@ -23,6 +25,14 @@ export default function AiModelsPage() {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mb-4">
+        <Link
+          href="/ai"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
+        >
+          <ArrowLeft size={14} /> 返回 AI 中心
+        </Link>
+      </div>
       <div className="mb-10">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">AI Center</p>
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">AI 模型中心</h1>

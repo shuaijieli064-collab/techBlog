@@ -1,9 +1,9 @@
-import { posts } from "@/lib/posts";
+import { getPublishedPosts } from "@/lib/posts";
 
 const BASE_URL = "https://example.com";
 
 export function GET() {
-  const items = posts
+  const items = getPublishedPosts()
     .map((post) => {
       const url = `${BASE_URL}/posts/${post.slug}`;
       return `    <item>

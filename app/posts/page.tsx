@@ -1,12 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { PostCard } from "@/components/PostCard";
-import { posts } from "@/lib/posts";
+import { PostsExplorer } from "@/components/PostsExplorer";
 
 export const metadata: Metadata = {
   title: "文章列表",
-  description: "学习笔记、项目复盘与成长记录的全部技术文章。",
+  description: "学习笔记、项目复盘与成长记录的全部技术文章，支持搜索与分类筛选。",
 };
 
 export default function PostsPage() {
@@ -29,11 +28,7 @@ export default function PostsPage() {
         </Link>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-2">
-        {posts.map((post) => (
-          <PostCard key={post.slug} post={post} />
-        ))}
-      </div>
+      <PostsExplorer />
     </main>
   );
 }

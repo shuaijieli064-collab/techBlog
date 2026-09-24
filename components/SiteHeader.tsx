@@ -15,8 +15,7 @@ const navItems = [
   { href: "/learning", label: "学习" },
   { href: "/growth", label: "成长" },
   { href: "/tools", label: "工具" },
-  { href: "/ai/models", label: "AI 模型" },
-  { href: "/ai/prompts", label: "提示词库" },
+  { href: "/ai", label: "AI 中心" },
   { href: "/about", label: "关于" },
 ];
 

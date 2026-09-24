@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { NotebookPen, GraduationCap, Terminal, FileQuestion, Archive, FunctionSquare } from "lucide-react";
 
+import { AiBlogDraft } from "@/components/AiBlogDraft";
+
 export const metadata: Metadata = {
   title: "知识库",
   description: "个人知识库入口：技术笔记、学习笔记、面试题与常用命令。",
@@ -82,6 +84,8 @@ export default function KnowledgePage() {
           </Link>
         ))}
       </div>
+
+      <AiBlogDraft />
     </main>
   );
 }

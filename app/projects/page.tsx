@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { GitBranch, Calendar, CheckCircle2, Circle } from "lucide-react";
+import { GitBranch, Calendar } from "lucide-react";
+
+import { ProjectTodos } from "@/components/ProjectTodos";
 
 export const metadata: Metadata = {
   title: "项目中心",
@@ -80,7 +82,6 @@ export default function ProjectsPage() {
       <div className="space-y-8">
         {projects.map((project) => {
           const status = statusMap[project.status];
-          const completedTodos = project.todos.filter((t) => t.done).length;
 
           return (
             <article
@@ -136,24 +137,7 @@ export default function ProjectsPage() {
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">TODO</h3>
-                  <span className="text-xs text-slate-400">{completedTodos}/{project.todos.length}</span>
-                </div>
-                <div className="space-y-2">
-                  {project.todos.map((todo, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      {todo.done ? (
-                        <CheckCircle2 size={16} className="text-sky-500" />
-                      ) : (
-                        <Circle size={16} className="text-slate-300 dark:text-slate-600" />
-                      )}
-                      <span className={`text-sm ${todo.done ? 'text-slate-400 line-through' : 'text-slate-700 dark:text-slate-200'}`}>
-                        {todo.text}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                <ProjectTodos projectId={project.id} defaultTodos={project.todos} />
               </div>
             </article>
           );

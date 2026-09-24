@@ -1,3 +1,9 @@
+export type PostSection = {
+  heading?: string;
+  paragraphs: string[];
+  code?: { language: string; content: string };
+};
+
 export type Post = {
   slug: string;
   title: string;
@@ -8,10 +14,8 @@ export type Post = {
   readTime: string;
   author: string;
   featured?: boolean;
-  sections: Array<{
-    heading?: string;
-    paragraphs: string[];
-  }>;
+  status?: "draft" | "published";
+  sections: PostSection[];
 };
 
 export const posts: Post[] = [
@@ -41,7 +45,19 @@ export const posts: Post[] = [
           "我最重视的是页面结构和内容层次。首页不需要特别复杂，但必须让访问者一眼知道你是谁、写什么、你过去做过什么。",
           "我把导航、文章列表、归档和关于页分开设计，分别承担不同的职责。这样站点不仅更易读，也方便后续持续更新。",
           "此外，Tailwind 让我把 CSS 处理得更快，样式可以直接建立在组件层面，而不需要反复切页面。对当时的我来说，这是一个非常高效的体验。"
-        ]
+        ],
+        code: {
+          language: "tsx",
+          content: `// app/page.tsx — 最小页面示例
+export default function HomePage() {
+  return (
+    <main className="mx-auto max-w-3xl px-4 py-16">
+      <h1 className="text-4xl font-bold">你好，Next.js</h1>
+      <p className="mt-4 text-slate-600">第一个可访问的页面。</p>
+    </main>
+  );
+}`,
+        },
       },
       {
         heading: "这次项目带给我的收获",
@@ -292,16 +308,53 @@ export const posts: Post[] = [
   }
 ];
 
+export function isPublished(post: Post) {
+  return post.status !== "draft";
+}
+
+export function getPublishedPosts() {
+  return posts
+    .filter(isPublished)
+    .slice()
+    .sort((a, b) => {
+      if (Boolean(a.featured) !== Boolean(b.featured)) return a.featured ? -1 : 1;
+      return b.date.localeCompare(a.date);
+    });
+}
+
+export function getAllCategories() {
+  return Array.from(new Set(getPublishedPosts().map((post) => post.category))).sort();
+}
+
 export function getPostBySlug(slug: string) {
-  return posts.find((post) => post.slug === slug);
+  const post = posts.find((p) => p.slug === slug);
+  if (!post || !isPublished(post)) return undefined;
+  return post;
 }
 
 export function getAllTags() {
   const tagSet = new Set<string>();
-  posts.forEach((post) => post.tags.forEach((tag) => tagSet.add(tag)));
+  getPublishedPosts().forEach((post) => post.tags.forEach((tag) => tagSet.add(tag)));
   return Array.from(tagSet).sort();
 }
 
 export function getPostsByTag(tag: string) {
-  return posts.filter((post) => post.tags.includes(tag));
+  return getPublishedPosts().filter((post) => post.tags.includes(tag));
+}
+
+export function searchPosts(list: Post[], query: string) {
+  const q = query.trim().toLowerCase();
+  if (!q) return list;
+  return list.filter((post) => {
+    const haystack = [
+      post.title,
+      post.excerpt,
+      post.category,
+      ...post.tags,
+      ...post.sections.flatMap((s) => [s.heading ?? "", ...s.paragraphs]),
+    ]
+      .join("\n")
+      .toLowerCase();
+    return haystack.includes(q);
+  });
 }
