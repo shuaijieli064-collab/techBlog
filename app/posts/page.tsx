@@ -1,7 +1,13 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import { PostCard } from "@/components/PostCard";
 import { posts } from "@/lib/posts";
+
+export const metadata: Metadata = {
+  title: "文章列表",
+  description: "学习笔记、项目复盘与成长记录的全部技术文章。",
+};
 
 export default function PostsPage() {
   return (

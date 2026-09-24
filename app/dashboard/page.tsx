@@ -1,6 +1,12 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { BookOpen, Folder, Brain, ArrowRight, Zap, Target, TrendingUp } from "lucide-react";
 import { posts } from "@/lib/posts";
+
+export const metadata: Metadata = {
+  title: "工作台",
+  description: "个人开发者工作台：统计、今日任务、技能画像与 AI 推荐。",
+};
 
 const skills = [
   { name: "Java", level: 80, color: "bg-sky-500" },

@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { GitBranch, Calendar, CheckCircle2, Circle } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "项目中心",
+  description: "个人项目与开源实践，记录从想法到实现的完整过程。",
+};
 
 const projects = [
   {

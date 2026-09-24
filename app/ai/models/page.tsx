@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "AI 模型中心",
+  description: "记录和管理使用的 AI 模型、用量与费用概览。",
+};
+
 const aiModels = [
   { name: "GPT-4o", provider: "OpenAI", monthlyLimit: 1000, currentUsage: 234, monthlyCost: 45.50, status: "active", notes: "最强大的模型，适合复杂任务" },
   { name: "Claude 3.5 Sonnet", provider: "Anthropic", monthlyLimit: 800, currentUsage: 189, monthlyCost: 38.20, status: "active", notes: "写作和代码生成的最佳选择" },

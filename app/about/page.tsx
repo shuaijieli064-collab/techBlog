@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "关于我",
+  description: "我是林晨，一名软件工程学生，关注前端开发、算法与工程实践。",
+};
+
 export default function AboutPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">

@@ -60,10 +60,35 @@ MVP 阶段所有内容均为静态数据（`lib/*.ts`），无 API Key、无服�
 
 ## 部署（Cloudflare Pages）
 
+纯 Next.js SSR 需配合 [OpenNext](https://opennext.js.org/cloudflare) 适配器：
+
+```bash
+npm install --save-dev @opennextjs/cloudflare
+# 按 OpenNext 文档配置 open-next.config.ts 后：
+npx opennextjs-cloudflare build && npx opennextjs-cloudflare deploy
+```
+
+或部署到 Vercel / Node 服务器：`npm run build && npm run start`。
+
 1. 推送仓库到 GitHub
-2. Cloudflare Dashboard → Pages → Connect to Git
-3. 构建命令：`npm run build`，输出目录：`.next`（或按平台指引配置 OpenNext / 静态导出）
-4. 将 `sitemap.ts` / `robots.ts` 中的 `example.com` 替换为真实域名
+2. 将 `sitemap.ts` / `robots.ts` / `layout.tsx` / `rss.xml/route.ts` 中的 `example.com` 替换为真实域名
+
+### 本地验证
+
+```bash
+npm run lint && npm run typecheck && npm run build
+npm run start   # 验证 /rss.xml、暗色模式、移动端菜单
+```
+
+## 功能特性
+
+- 工作台 / 知识库 / 项目 / 学习 / 成长 / 个人主页
+- AI 模型中心与提示词库
+- 开发者工具（浏览器端，数据不上传）
+- 暗色模式（跟随系统 + 手动切换，localStorage 持久化）
+- 移动端汉堡菜单与高亮当前路由
+- SEO：各页 metadata、sitemap、robots、RSS（`/rss.xml`）
+- 全局 loading / error 边界
 
 ## License
 

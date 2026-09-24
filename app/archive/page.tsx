@@ -1,6 +1,12 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import { posts } from "@/lib/posts";
+
+export const metadata: Metadata = {
+  title: "文章归档",
+  description: "按年份归档的全部文章时间线。",
+};
 
 export default function ArchivePage() {
   const groupedPosts = posts.reduce<Record<string, typeof posts>>((acc, post) => {

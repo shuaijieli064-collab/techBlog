@@ -1,5 +1,11 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Code, Bug, Layers, Database, GitBranch, Star } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "提示词库",
+  description: "收集和管理各类场景下的高效提示词，支持分类浏览。",
+};
 
 const promptsCategories = [
   { name: "Java 开发", count: 45, icon: Code, color: "text-sky-600", bgBg: "bg-sky-50 dark:bg-sky-900/30" },

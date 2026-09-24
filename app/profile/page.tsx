@@ -1,7 +1,13 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { GitBranch, Mail, MapPin, BookOpen, Folder, ArrowRight, ExternalLink } from "lucide-react";
 import { posts } from "@/lib/posts";
 import { skills } from "@/lib/growth";
+
+export const metadata: Metadata = {
+  title: "个人主页",
+  description: "林晨的个人主页：技能概览、精选项目与最新文章。",
+};
 
 const projects = [
   { name: "学习助手", description: "学习计划管理与进度追踪", href: "/projects", stars: 12 },

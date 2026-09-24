@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { CheckCircle2, Circle, Code, Database, Server, Globe } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "学习中心",
+  description: "系统化学习路线与算法练习追踪，记录每一步成长。",
+};
 
 const roadmap = [
   {

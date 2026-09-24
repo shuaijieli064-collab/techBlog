@@ -1,6 +1,12 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { TrendingUp, Calendar, Award, ArrowRight } from "lucide-react";
 import { skills, growthEvents, typeLabels, typeColors } from "@/lib/growth";
+
+export const metadata: Metadata = {
+  title: "成长中心",
+  description: "技能画像与成长时间线，记录每一步里程碑。",
+};
 
 export default function GrowthPage() {
   const totalEvents = growthEvents.length;

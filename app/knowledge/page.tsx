@@ -1,4 +1,56 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+import { NotebookPen, GraduationCap, Terminal, FileQuestion, Archive, FunctionSquare } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "知识库",
+  description: "个人知识库入口：技术笔记、学习笔记、面试题与常用命令。",
+};
+
+const sections = [
+  {
+    title: "技术笔记",
+    icon: NotebookPen,
+    desc: "记录技术点、实践过程和心得体会。",
+    href: "/notes",
+    linkLabel: "进入笔记地图",
+  },
+  {
+    title: "学习笔记",
+    icon: GraduationCap,
+    desc: "系统化学习路线和知识体系记录。",
+    href: "/learning",
+    linkLabel: "进入学习中心",
+  },
+  {
+    title: "面试题库",
+    icon: FileQuestion,
+    desc: "常见面试题目和答案收集，按主题整理。",
+    href: "/posts",
+    linkLabel: "浏览相关文章",
+  },
+  {
+    title: "常用命令",
+    icon: Terminal,
+    desc: "日常开发常用的 shell 命令和技巧。",
+    href: "/functions",
+    linkLabel: "打开函数速查",
+  },
+  {
+    title: "文章归档",
+    icon: Archive,
+    desc: "按时间线回看全部发布内容。",
+    href: "/archive",
+    linkLabel: "查看归档",
+  },
+  {
+    title: "函数速查",
+    icon: FunctionSquare,
+    desc: "Java 等语言常用函数与 API 速查表。",
+    href: "/functions",
+    linkLabel: "打开速查表",
+  },
+];
 
 export default function KnowledgePage() {
   return (
@@ -7,27 +59,28 @@ export default function KnowledgePage() {
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">Knowledge Base</p>
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">个人知识库</h1>
         <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-          个人知识库入口。
+          把零散知识整理成可检索的结构：笔记、面试题、命令与归档统一入口。
         </p>
       </div>
-      <div className="grid gap-8">
-        <div>
-          <h2 className="text-xl font-medium text-slate-900 dark:text-slate-50">技术笔记</h2>
-          <p>记录技术点、实践过程和心得体会。<br/>点击 <Link href="/posts" className="text-sm text-sky-600 hover:text-sky-500">查看相关博客</Link>。</p>
-        </div>
-        <div>
-          <h2 className="text-xl font-medium text-slate-900 dark:text-slate-50">学习笔记</h2>
-          <p>系统化学习路线和知识体系记录。</p>
-          <Link href="/learning" className="text-sm text-sky-600 hover:text-sky-500">进入学习中心</Link>
-        </div>
-        <div>
-          <h2 className="text-xl font-medium text-slate-900 dark:text-slate-50">面试题库</h2>
-          <p>常见面试题目和答案收集。</p>
-        </div>
-        <div>
-          <h2 className="text-xl font-medium text-slate-900 dark:text-slate-50">常用命令</h2>
-          <p>日常开发常用的 shell 命令和技巧。</p>
-        </div>
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {sections.map((section) => (
+          <Link
+            key={section.title}
+            href={section.href}
+            className="group rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-950 dark:hover:border-sky-700"
+          >
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 dark:bg-sky-900/30">
+              <section.icon size={20} className="text-sky-600 dark:text-sky-400" />
+            </div>
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50 group-hover:text-sky-600 dark:group-hover:text-sky-400">
+              {section.title}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{section.desc}</p>
+            <span className="mt-4 inline-block text-sm font-medium text-sky-600 dark:text-sky-400">
+              {section.linkLabel} →
+            </span>
+          </Link>
+        ))}
       </div>
     </main>
   );
