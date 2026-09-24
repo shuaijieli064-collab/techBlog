@@ -35,7 +35,7 @@ export function PostsExplorer() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="搜索标题、标签或正文…"
-            className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+            className="input-base rounded-2xl py-3 pl-11 pr-4"
             aria-label="搜索文章"
           />
         </div>
@@ -76,10 +76,12 @@ export function PostsExplorer() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 py-20 text-center dark:border-slate-700">
-          <Inbox size={40} className="mb-4 text-slate-400" />
-          <p className="text-lg font-medium text-slate-700 dark:text-slate-200">没有匹配的文章</p>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white/50 py-20 text-center dark:border-slate-700 dark:bg-slate-950/40">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-900">
+            <Inbox size={22} className="text-slate-400" />
+          </div>
+          <p className="text-base font-semibold text-slate-700 dark:text-slate-200">没有匹配的文章</p>
+          <p className="mt-1.5 max-w-sm text-sm leading-6 text-slate-500 dark:text-slate-400">
             换个关键词，或点击「全部」清除筛选。
           </p>
           <button
@@ -88,7 +90,7 @@ export function PostsExplorer() {
               setQuery("");
               setCategory(null);
             }}
-            className="mt-5 rounded-full bg-sky-600 px-5 py-2 text-sm font-medium text-white hover:bg-sky-500"
+            className="btn-primary mt-5 px-5 py-2"
           >
             重置筛选
           </button>

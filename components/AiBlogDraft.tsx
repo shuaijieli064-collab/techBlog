@@ -110,13 +110,13 @@ ${template.prompt}
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           placeholder="博客主题，如：HashMap 扩容机制"
-          className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          className="input-base"
           aria-label="博客主题"
         />
         <select
           value={templateId}
           onChange={(e) => setTemplateId(e.target.value)}
-          className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          className="input-base"
           aria-label="模板类型"
         >
           {templates.map((t) => (
@@ -128,7 +128,7 @@ ${template.prompt}
         <button
           type="button"
           onClick={generate}
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-sky-500"
+          className="btn-primary rounded-xl px-5 py-2.5"
         >
           <Sparkles size={15} /> 生成草稿
         </button>

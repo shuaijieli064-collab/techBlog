@@ -1,6 +1,5 @@
 import { getPublishedPosts } from "@/lib/posts";
-
-const BASE_URL = "https://example.com";
+import { BASE_URL } from "@/lib/site";
 
 export function GET() {
   const items = getPublishedPosts()

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Copy, Check, ChevronRight } from "lucide-react";
 
+import { PageHeader } from "@/components/PageHeader";
+
 function JsonFormatter() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
@@ -25,13 +27,17 @@ function JsonFormatter() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="粘贴 JSON 数据..."
-        className="w-full h-40 rounded-xl border border-slate-200 bg-white p-4 font-mono text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        className="input-base h-40 font-mono"
       />
-      <button onClick={format} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500">
+      <button onClick={format} className="btn-primary rounded-xl px-4 py-2">
         格式化
       </button>
       {error && <p className="text-sm text-red-500">{error}</p>}
-      {output && <pre className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm text-slate-700 overflow-auto dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">{output}</pre>}
+      {output && (
+        <pre className="w-full overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+          {output}
+        </pre>
+      )}
     </div>
   );
 }
@@ -56,14 +62,41 @@ function Base64Tool() {
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        <button onClick={() => setMode("encode")} className={`rounded-lg px-3 py-1.5 text-sm ${mode === "encode" ? "bg-sky-600 text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"}`}>编码</button>
-        <button onClick={() => setMode("decode")} className={`rounded-lg px-3 py-1.5 text-sm ${mode === "decode" ? "bg-sky-600 text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"}`}>解码</button>
+        <button
+          onClick={() => setMode("encode")}
+          className={`rounded-lg px-3 py-1.5 text-sm ${
+            mode === "encode"
+              ? "bg-sky-600 text-white"
+              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+          }`}
+        >
+          编码
+        </button>
+        <button
+          onClick={() => setMode("decode")}
+          className={`rounded-lg px-3 py-1.5 text-sm ${
+            mode === "decode"
+              ? "bg-sky-600 text-white"
+              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+          }`}
+        >
+          解码
+        </button>
       </div>
-      <textarea value={input} onChange={(e) => setInput(e.target.value)} placeholder="输入内容..." className="w-full h-32 rounded-xl border border-slate-200 bg-white p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" />
-      <button onClick={convert} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500">转换</button>
+      <textarea
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="输入内容..."
+        className="input-base h-32 font-mono"
+      />
+      <button onClick={convert} className="btn-primary rounded-xl px-4 py-2">
+        转换
+      </button>
       {output && (
         <div className="relative">
-          <pre className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm overflow-auto dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">{output}</pre>
+          <pre className="w-full overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+            {output}
+          </pre>
           <CopyButton text={output} />
         </div>
       )}
@@ -90,22 +123,38 @@ function TimestampConverter() {
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm text-slate-500 dark:text-slate-400 mb-1">时间戳 → 日期</label>
+        <label className="mb-1 block text-sm text-slate-500 dark:text-slate-400">时间戳 → 日期</label>
         <div className="flex gap-2">
-          <input value={timestamp} onChange={(e) => setTimestamp(e.target.value)} placeholder="1693000000" className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" />
-          <button onClick={toHuman} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500">转换</button>
+          <input
+            value={timestamp}
+            onChange={(e) => setTimestamp(e.target.value)}
+            placeholder="1693000000"
+            className="input-base flex-1 font-mono"
+          />
+          <button onClick={toHuman} className="btn-primary rounded-xl px-4 py-2">
+            转换
+          </button>
         </div>
       </div>
       <div>
-        <label className="block text-sm text-slate-500 dark:text-slate-400 mb-1">日期 → 时间戳</label>
+        <label className="mb-1 block text-sm text-slate-500 dark:text-slate-400">日期 → 时间戳</label>
         <div className="flex gap-2">
-          <input type="datetime-local" value={dateStr} onChange={(e) => setDateStr(e.target.value)} className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" />
-          <button onClick={toTimestamp} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500">转换</button>
+          <input
+            type="datetime-local"
+            value={dateStr}
+            onChange={(e) => setDateStr(e.target.value)}
+            className="input-base flex-1"
+          />
+          <button onClick={toTimestamp} className="btn-primary rounded-xl px-4 py-2">
+            转换
+          </button>
         </div>
       </div>
       {result && (
         <div className="relative">
-          <pre className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">{result}</pre>
+          <pre className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+            {result}
+          </pre>
           <CopyButton text={result} />
         </div>
       )}
@@ -132,17 +181,37 @@ function RegexTester() {
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        <input value={pattern} onChange={(e) => setPattern(e.target.value)} placeholder="正则表达式" className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" />
-        <input value={flags} onChange={(e) => setFlags(e.target.value)} placeholder="g" className="w-16 rounded-xl border border-slate-200 bg-white px-4 py-2 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" />
-        <button onClick={test} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500">测试</button>
+        <input
+          value={pattern}
+          onChange={(e) => setPattern(e.target.value)}
+          placeholder="正则表达式"
+          className="input-base flex-1 font-mono"
+        />
+        <input
+          value={flags}
+          onChange={(e) => setFlags(e.target.value)}
+          placeholder="g"
+          className="input-base w-16 font-mono"
+        />
+        <button onClick={test} className="btn-primary rounded-xl px-4 py-2">
+          测试
+        </button>
       </div>
-      <textarea value={testStr} onChange={(e) => setTestStr(e.target.value)} placeholder="测试字符串..." className="w-full h-24 rounded-xl border border-slate-200 bg-white p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" />
+      <textarea
+        value={testStr}
+        onChange={(e) => setTestStr(e.target.value)}
+        placeholder="测试字符串..."
+        className="input-base h-24 font-mono"
+      />
       {matches.length > 0 && (
         <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900">
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">匹配结果 ({matches.length})</p>
+          <p className="mb-2 text-sm text-slate-500 dark:text-slate-400">匹配结果 ({matches.length})</p>
           <div className="flex flex-wrap gap-2">
             {matches.map((m, i) => (
-              <span key={i} className="rounded-lg bg-sky-100 px-2 py-1 font-mono text-xs text-sky-700 dark:bg-sky-900/30 dark:text-sky-300">
+              <span
+                key={i}
+                className="rounded-lg bg-sky-100 px-2 py-1 font-mono text-xs text-sky-700 dark:bg-sky-900/30 dark:text-sky-300"
+              >
                 {m}
               </span>
             ))}
@@ -163,11 +232,15 @@ function UuidGenerator() {
 
   return (
     <div className="space-y-4">
-      <button onClick={generate} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500">生成 UUID</button>
+      <button onClick={generate} className="btn-primary rounded-xl px-4 py-2">
+        生成 UUID
+      </button>
       <div className="space-y-2">
         {uuids.map((uuid, i) => (
           <div key={i} className="relative">
-            <code className="block w-full rounded-xl border border-slate-200 bg-slate-50 p-3 font-mono text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">{uuid}</code>
+            <code className="block w-full rounded-xl border border-slate-200 bg-slate-50 p-3 font-mono text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+              {uuid}
+            </code>
             <CopyButton text={uuid} />
           </div>
         ))}
@@ -192,18 +265,38 @@ function UrlTool() {
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        <button onClick={() => setMode("encode")} className={`rounded-lg px-3 py-1.5 text-sm ${mode === "encode" ? "bg-sky-600 text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"}`}>编码</button>
-        <button onClick={() => setMode("decode")} className={`rounded-lg px-3 py-1.5 text-sm ${mode === "decode" ? "bg-sky-600 text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"}`}>解码</button>
+        <button
+          onClick={() => setMode("encode")}
+          className={`rounded-lg px-3 py-1.5 text-sm ${
+            mode === "encode"
+              ? "bg-sky-600 text-white"
+              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+          }`}
+        >
+          编码
+        </button>
+        <button
+          onClick={() => setMode("decode")}
+          className={`rounded-lg px-3 py-1.5 text-sm ${
+            mode === "decode"
+              ? "bg-sky-600 text-white"
+              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+          }`}
+        >
+          解码
+        </button>
       </div>
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder={mode === "encode" ? "要编码的文本或 URL 片段…" : "粘贴 %E4%B8%AD%E6%96%87 这类编码…"}
-        className="w-full h-32 rounded-xl border border-slate-200 bg-white p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        className="input-base h-32 font-mono"
       />
       {output && (
         <div className="relative">
-          <pre className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm overflow-auto dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">{output}</pre>
+          <pre className="w-full overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+            {output}
+          </pre>
           <CopyButton text={output} />
         </div>
       )}
@@ -251,7 +344,7 @@ function JwtDecoder() {
         value={token}
         onChange={(e) => setToken(e.target.value)}
         placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.…"
-        className="w-full h-28 rounded-xl border border-slate-200 bg-white p-4 font-mono text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        className="input-base h-28 font-mono text-xs"
       />
       {error && <p className="text-sm text-amber-600 dark:text-amber-400">{error}</p>}
       {header && (
@@ -259,14 +352,18 @@ function JwtDecoder() {
           <div>
             <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">Header</p>
             <div className="relative">
-              <pre className="rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs overflow-auto dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">{header}</pre>
+              <pre className="overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+                {header}
+              </pre>
               <CopyButton text={header} />
             </div>
           </div>
           <div>
             <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">Payload</p>
             <div className="relative">
-              <pre className="rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs overflow-auto dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">{payload}</pre>
+              <pre className="overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+                {payload}
+              </pre>
               <CopyButton text={payload} />
             </div>
           </div>
@@ -281,25 +378,29 @@ function ColorTool() {
 
   const normalize = (value: string) => {
     let v = value.trim().replace(/^#/, "");
-    if (v.length === 3) v = v.split("").map((c) => c + c).join("");
+    if (v.length === 3)
+      v = v
+        .split("")
+        .map((c) => c + c)
+        .join("");
     if (!/^[0-9a-fA-F]{6}$/.test(v)) return null;
     return `#${v.toLowerCase()}`;
   };
 
   const valid = normalize(hex);
   const rgb = valid
-    ? [
-        parseInt(valid.slice(1, 3), 16),
-        parseInt(valid.slice(3, 5), 16),
-        parseInt(valid.slice(5, 7), 16),
-      ]
+    ? [parseInt(valid.slice(1, 3), 16), parseInt(valid.slice(3, 5), 16), parseInt(valid.slice(5, 7), 16)]
     : null;
 
   const toHsl = (r: number, g: number, b: number) => {
-    const rn = r / 255, gn = g / 255, bn = b / 255;
-    const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+    const rn = r / 255,
+      gn = g / 255,
+      bn = b / 255;
+    const max = Math.max(rn, gn, bn),
+      min = Math.min(rn, gn, bn);
     const l = (max + min) / 2;
-    let h = 0, s = 0;
+    let h = 0,
+      s = 0;
     if (max !== min) {
       const d = max - min;
       s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -324,7 +425,7 @@ function ColorTool() {
           value={hex}
           onChange={(e) => setHex(e.target.value)}
           placeholder="#0ea5e9"
-          className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2.5 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          className="input-base flex-1 font-mono"
         />
       </div>
       <div
@@ -338,15 +439,20 @@ function ColorTool() {
             { label: "RGB", value: `rgb(${rgb.join(", ")})` },
             { label: "HSL", value: toHsl(rgb[0], rgb[1], rgb[2]) },
           ].map((row) => (
-            <div key={row.label} className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900">
+            <div
+              key={row.label}
+              className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900"
+            >
               <div className="text-xs text-slate-500">{row.label}</div>
-              <div className="mt-1 font-mono text-xs text-slate-800 dark:text-slate-200 break-all">{row.value}</div>
+              <div className="mt-1 break-all font-mono text-xs text-slate-800 dark:text-slate-200">{row.value}</div>
               <CopyButton text={row.value} />
             </div>
           ))}
         </div>
       )}
-      {!valid && hex.trim() && <p className="text-sm text-red-500">请输入合法的 HEX 颜色，如 #0ea5e9</p>}
+      {!valid && hex.trim() && (
+        <p className="text-sm text-red-500">请输入合法的 HEX 颜色，如 #0ea5e9</p>
+      )}
     </div>
   );
 }
@@ -393,9 +499,9 @@ function HashTool() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="输入要哈希的文本…"
-        className="w-full h-28 rounded-xl border border-slate-200 bg-white p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        className="input-base h-28 font-mono"
       />
-      <button onClick={run} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500">
+      <button onClick={run} className="btn-primary rounded-xl px-4 py-2">
         计算哈希
       </button>
       {error && <p className="text-sm text-red-500">{error}</p>}
@@ -404,7 +510,9 @@ function HashTool() {
           <div key={label} className="relative">
             <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-900">
               <span className="text-xs font-semibold text-slate-500">{label}</span>
-              <code className="ml-2 flex-1 truncate font-mono text-xs text-slate-700 dark:text-slate-300">{value}</code>
+              <code className="ml-2 flex-1 truncate font-mono text-xs text-slate-700 dark:text-slate-300">
+                {value}
+              </code>
             </div>
             <CopyButton text={value} />
           </div>
@@ -422,7 +530,10 @@ function inlineMarkdown(src: string): string {
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+    .replace(
+      /\[([^\]]+)\]\(([^)\s]+)\)/g,
+      '<a href="$2" target="_blank" rel="noreferrer">$1</a>',
+    );
 }
 
 function renderMarkdown(src: string): string {
@@ -446,7 +557,9 @@ function renderMarkdown(src: string): string {
         inCode = true;
         codeBuf = [];
       } else {
-        html.push(`<pre class="md-pre"><code>${codeBuf.join("\n").replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre>`);
+        html.push(
+          `<pre class="md-pre"><code>${codeBuf.join("\n").replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre>`,
+        );
         inCode = false;
       }
       continue;
@@ -465,7 +578,7 @@ function renderMarkdown(src: string): string {
     const li = line.match(/^\s*[-*]\s+(.*)$/);
     if (li) {
       if (!listOpen) {
-        html.push("<ul class=\"md-ul\">");
+        html.push('<ul class="md-ul">');
         listOpen = true;
       }
       html.push(`<li>${inlineMarkdown(li[1])}</li>`);
@@ -479,24 +592,30 @@ function renderMarkdown(src: string): string {
     html.push(`<p>${inlineMarkdown(line)}</p>`);
   }
   if (inCode) {
-    html.push(`<pre class="md-pre"><code>${codeBuf.join("\n").replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre>`);
+    html.push(
+      `<pre class="md-pre"><code>${codeBuf.join("\n").replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre>`,
+    );
   }
   closeList();
   return html.join("\n");
 }
 
 function MarkdownTool() {
-  const [input, setInput] = useState("# 标题\n\n**粗体** 与 *斜体*，`行内代码`。\n\n- 列表项一\n- 列表项二\n\n```ts\nconst a = 1;\n```\n");
+  const [input, setInput] = useState(
+    "# 标题\n\n**粗体** 与 *斜体*，`行内代码`。\n\n- 列表项一\n- 列表项二\n\n```ts\nconst a = 1;\n```\n",
+  );
   const html = renderMarkdown(input);
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-slate-500 dark:text-slate-400">支持标题、粗斜体、行内代码、列表、链接与代码块（本地渲染，已转义 HTML）。</p>
+      <p className="text-sm text-slate-500 dark:text-slate-400">
+        支持标题、粗斜体、行内代码、列表、链接与代码块（本地渲染，已转义 HTML）。
+      </p>
       <div className="grid gap-4 md:grid-cols-2">
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="w-full h-64 rounded-xl border border-slate-200 bg-white p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          className="input-base h-64 font-mono"
           aria-label="Markdown 源码"
         />
         <div
@@ -531,9 +650,30 @@ function SqlFormatter() {
     }
     try {
       const keywords = [
-        "SELECT", "FROM", "WHERE", "LEFT JOIN", "RIGHT JOIN", "INNER JOIN", "JOIN",
-        "GROUP BY", "ORDER BY", "HAVING", "LIMIT", "OFFSET", "INSERT INTO", "VALUES",
-        "UPDATE", "SET", "DELETE", "UNION ALL", "UNION", "ON", "AND", "OR", "AS", "DISTINCT",
+        "SELECT",
+        "FROM",
+        "WHERE",
+        "LEFT JOIN",
+        "RIGHT JOIN",
+        "INNER JOIN",
+        "JOIN",
+        "GROUP BY",
+        "ORDER BY",
+        "HAVING",
+        "LIMIT",
+        "OFFSET",
+        "INSERT INTO",
+        "VALUES",
+        "UPDATE",
+        "SET",
+        "DELETE",
+        "UNION ALL",
+        "UNION",
+        "ON",
+        "AND",
+        "OR",
+        "AS",
+        "DISTINCT",
       ];
       let sql = input.replace(/\s+/g, " ").trim();
       keywords.forEach((k) => {
@@ -543,7 +683,10 @@ function SqlFormatter() {
       sql = sql
         .replace(/\bSELECT\b/gi, "SELECT")
         .replace(/,\s*/g, ",\n  ")
-        .replace(/\n(SELECT|FROM|WHERE|LEFT JOIN|RIGHT JOIN|INNER JOIN|JOIN|GROUP BY|ORDER BY|HAVING|LIMIT|OFFSET|INSERT INTO|VALUES|UPDATE|SET|DELETE|UNION)/g, "\n$1")
+        .replace(
+          /\n(SELECT|FROM|WHERE|LEFT JOIN|RIGHT JOIN|INNER JOIN|JOIN|GROUP BY|ORDER BY|HAVING|LIMIT|OFFSET|INSERT INTO|VALUES|UPDATE|SET|DELETE|UNION)/g,
+          "\n$1",
+        )
         .trim();
       setOutput(sql);
       setError("");
@@ -559,15 +702,17 @@ function SqlFormatter() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="select id,name from users where age>18 order by name"
-        className="w-full h-36 rounded-xl border border-slate-200 bg-white p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        className="input-base h-36 font-mono"
       />
-      <button onClick={format} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500">
+      <button onClick={format} className="btn-primary rounded-xl px-4 py-2">
         格式化
       </button>
       {error && <p className="text-sm text-red-500">{error}</p>}
       {output && (
         <div className="relative">
-          <pre className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm whitespace-pre-wrap overflow-auto dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">{output}</pre>
+          <pre className="w-full overflow-auto whitespace-pre-wrap rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+            {output}
+          </pre>
           <CopyButton text={output} />
         </div>
       )}
@@ -582,7 +727,7 @@ function CronTool() {
   const fields = [
     { label: "分", min: 0, max: 59 },
     { label: "时", min: 0, max: 23 },
-    { label: "日", min: 1, max: 31 },
+    { label: "日", min: 0, max: 31 },
     { label: "月", min: 1, max: 12 },
     { label: "周", min: 0, max: 7 },
   ];
@@ -590,10 +735,13 @@ function CronTool() {
   const parts = expr.trim().split(/\s+/);
   const valid = parts.length === 5;
 
-  const describeField = (value: string, field: { label: string; min: number; max: number }, index: number) => {
+  const describeField = (
+    value: string,
+    field: { label: string; min: number; max: number },
+    index: number,
+  ) => {
     if (!valid) return "";
     if (value === "*") return `每${field.label}`;
-    if (/^\*$/.test(value)) return `每${field.label}`;
     const range = value.match(/^(\d+)-(\d+)$/);
     if (range) return `${range[1]}-${range[2]} ${field.label}`;
     if (value.includes("/")) {
@@ -638,11 +786,17 @@ function CronTool() {
         <input
           value={expr}
           onChange={(e) => setExpr(e.target.value)}
-          className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          className="input-base flex-1 font-mono"
           aria-label="Cron 表达式"
         />
       </div>
-      <div className={`rounded-xl border p-4 text-sm ${error ? "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300" : "border-slate-200 bg-slate-50 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"}`}>
+      <div
+        className={`rounded-xl border p-4 text-sm ${
+          error
+            ? "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300"
+            : "border-slate-200 bg-slate-50 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+        }`}
+      >
         {error || summary}
       </div>
       <div className="flex flex-wrap gap-2">
@@ -661,7 +815,9 @@ function CronTool() {
         {fields.map((f) => (
           <div key={f.label} className="rounded-lg bg-slate-50 py-2 dark:bg-slate-900">
             <div className="font-semibold text-slate-700 dark:text-slate-300">{f.label}</div>
-            <div>{f.min}-{f.max}</div>
+            <div>
+              {f.min}-{f.max}
+            </div>
           </div>
         ))}
       </div>
@@ -674,7 +830,22 @@ function HtmlFormatter() {
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
 
-  const voidTags = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
+  const voidTags = new Set([
+    "area",
+    "base",
+    "br",
+    "col",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr",
+  ]);
 
   const format = () => {
     if (!input.trim()) {
@@ -683,7 +854,10 @@ function HtmlFormatter() {
       return;
     }
     try {
-      const tokens = input.replace(/>\s*</g, "><").split(/(?=<)|(?<=>)/g).filter(Boolean);
+      const tokens = input
+        .replace(/>\s*</g, "><")
+        .split(/(?=<)|(?<=>)/g)
+        .filter(Boolean);
       let depth = 0;
       const lines: string[] = [];
       for (const raw of tokens) {
@@ -718,15 +892,17 @@ function HtmlFormatter() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="<div><p>hello</p><br></div>"
-        className="w-full h-36 rounded-xl border border-slate-200 bg-white p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        className="input-base h-36 font-mono"
       />
-      <button onClick={format} className="rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500">
+      <button onClick={format} className="btn-primary rounded-xl px-4 py-2">
         格式化
       </button>
       {error && <p className="text-sm text-red-500">{error}</p>}
       {output && (
         <div className="relative">
-          <pre className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm whitespace-pre-wrap overflow-auto dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">{output}</pre>
+          <pre className="w-full overflow-auto whitespace-pre-wrap rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+            {output}
+          </pre>
           <CopyButton text={output} />
         </div>
       )}
@@ -742,7 +918,10 @@ function CopyButton({ text }: { text: string }) {
     setTimeout(() => setCopied(false), 2000);
   };
   return (
-    <button onClick={copy} className="absolute top-2 right-2 rounded-lg bg-white p-1.5 shadow-sm hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700">
+    <button
+      onClick={copy}
+      className="absolute right-2 top-2 rounded-lg bg-white p-1.5 shadow-sm hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700"
+    >
       {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} className="text-slate-400" />}
     </button>
   );
@@ -769,34 +948,32 @@ export default function ToolsPage() {
   const ActiveTool = tools.find((t) => t.id === active)?.component || JsonFormatter;
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mb-10">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">Tools</p>
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">开发者工具</h1>
-        <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-          浏览器端运行，数据不会上传到服务器。
-        </p>
-      </div>
+    <main className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow="Tools"
+        title="开发者工具"
+        description="浏览器端运行，数据不会上传到服务器。"
+      />
 
       <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
-        <nav className="space-y-1">
+        <nav className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2 lg:mx-0 lg:block lg:space-y-1 lg:overflow-visible lg:px-0 lg:pb-0">
           {tools.map((tool) => (
             <button
               key={tool.id}
               onClick={() => setActive(tool.id)}
-              className={`flex w-full items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+              className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-medium transition-colors lg:w-full lg:rounded-xl ${
                 active === tool.id
-                  ? "bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
-                  : "text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-900"
+                  ? "bg-sky-50 text-sky-600 dark:bg-sky-900/40 dark:text-sky-400"
+                  : "bg-white text-slate-600 hover:bg-slate-50 dark:bg-slate-950 dark:text-slate-400 dark:hover:bg-slate-900 lg:bg-transparent dark:lg:bg-transparent"
               }`}
             >
               {tool.name}
-              {active === tool.id && <ChevronRight size={14} className="ml-auto" />}
+              {active === tool.id && <ChevronRight size={14} className="ml-auto hidden lg:block" />}
             </button>
           ))}
         </nav>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
+        <div className="card p-6">
           <ActiveTool />
         </div>
       </div>

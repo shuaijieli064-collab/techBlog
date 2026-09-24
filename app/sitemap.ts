@@ -1,13 +1,15 @@
 import type { MetadataRoute } from "next";
 import { getPublishedPosts } from "@/lib/posts";
-
-const BASE_URL = "https://example.com";
+import { projects } from "@/lib/projects";
+import { BASE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     { url: BASE_URL, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 1 },
     { url: `${BASE_URL}/dashboard`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.9 },
     { url: `${BASE_URL}/posts`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.9 },
+    { url: `${BASE_URL}/notes`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.7 },
+    { url: `${BASE_URL}/archive`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.6 },
     { url: `${BASE_URL}/knowledge`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.7 },
     { url: `${BASE_URL}/projects`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
     { url: `${BASE_URL}/learning`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
@@ -29,5 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...postPages];
+  const projectPages = projects.map((project) => ({
+    url: `${BASE_URL}/projects/${project.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...postPages, ...projectPages];
 }

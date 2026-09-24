@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Sparkles } from "lucide-react";
 
 type Task = { id: number; title: string; tag: string; done: boolean };
 
@@ -10,11 +11,19 @@ const defaultTasks: Task[] = [
   { id: 3, title: "更新学习助手项目 TODO", tag: "项目", done: false },
 ];
 
+const aiPlan: Task[] = [
+  { id: 1, title: "精读 ConcurrentHashMap 源码（1h）", tag: "Java", done: false },
+  { id: 2, title: "刷 2 道双指针算法题（45m）", tag: "算法", done: false },
+  { id: 3, title: "推进「开发者工作台」Supabase 接入方案（1h）", tag: "项目", done: false },
+  { id: 4, title: "整理今日学习记录到时间线（15m）", tag: "学习", done: false },
+];
+
 const STORAGE_KEY = "dashboard:tasks:v1";
 
 export function DailyTasks() {
   const [tasks, setTasks] = useState<Task[]>(defaultTasks);
   const [draft, setDraft] = useState("");
+  const [planned, setPlanned] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -55,16 +64,36 @@ export function DailyTasks() {
     persist(tasks.filter((t) => t.id !== id));
   };
 
+  const planToday = () => {
+    persist(aiPlan.map((t) => ({ ...t })));
+    setPlanned(true);
+  };
+
   const completed = tasks.filter((t) => t.done).length;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-950">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="card p-6">
+      <div className="mb-4 flex items-center justify-between gap-2">
         <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">今日任务</h2>
-        <span className="text-xs text-slate-500 dark:text-slate-400">
-          {completed}/{tasks.length} 完成
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-slate-500 dark:text-slate-400">
+            {completed}/{tasks.length} 完成
+          </span>
+          <button
+            type="button"
+            onClick={planToday}
+            className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-sky-500 to-purple-500 px-3 py-1 text-xs font-medium text-white shadow-sm hover:from-sky-400 hover:to-purple-400"
+            title="根据学习路线与项目进度生成今日计划（本地模板）"
+          >
+            <Sparkles size={12} /> AI 规划今天
+          </button>
+        </div>
       </div>
+      {planned && (
+        <p className="mb-3 rounded-lg bg-sky-50 px-3 py-2 text-xs text-sky-700 dark:bg-sky-950/50 dark:text-sky-300">
+          已按学习路线 + 项目进度生成今日计划，可继续增删。
+        </p>
+      )}
 
       <div className="mb-4 flex gap-2">
         <input
@@ -74,13 +103,13 @@ export function DailyTasks() {
             if (e.key === "Enter") add();
           }}
           placeholder="添加任务，回车确认…"
-          className="flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+          className="input-base flex-1"
           aria-label="新任务"
         />
         <button
           type="button"
           onClick={add}
-          className="rounded-xl bg-sky-600 px-3 py-2 text-sm font-medium text-white hover:bg-sky-500"
+          className="rounded-xl bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-500"
         >
           添加
         </button>

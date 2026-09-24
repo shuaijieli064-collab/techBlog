@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { NotebookPen, GraduationCap, Terminal, FileQuestion, Archive, FunctionSquare } from "lucide-react";
 
+import { PageHeader } from "@/components/PageHeader";
 import { AiBlogDraft } from "@/components/AiBlogDraft";
 
 export const metadata: Metadata = {
@@ -56,25 +57,20 @@ const sections = [
 
 export default function KnowledgePage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mb-10">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">Knowledge Base</p>
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">个人知识库</h1>
-        <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-          把零散知识整理成可检索的结构：笔记、面试题、命令与归档统一入口。
-        </p>
-      </div>
+    <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <PageHeader
+        eyebrow="Knowledge Base"
+        title="个人知识库"
+        description="把零散知识整理成可检索的结构：笔记、面试题、命令与归档统一入口。"
+      />
+
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {sections.map((section) => (
-          <Link
-            key={section.title}
-            href={section.href}
-            className="group rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-950 dark:hover:border-sky-700"
-          >
+          <Link key={section.title} href={section.href} className="card card-hover group p-6">
             <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 dark:bg-sky-900/30">
               <section.icon size={20} className="text-sky-600 dark:text-sky-400" />
             </div>
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50 group-hover:text-sky-600 dark:group-hover:text-sky-400">
+            <h2 className="text-lg font-semibold text-slate-900 group-hover:text-sky-600 dark:text-slate-50 dark:group-hover:text-sky-400">
               {section.title}
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{section.desc}</p>

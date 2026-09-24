@@ -109,3 +109,47 @@ export const typeColors: Record<GrowthEventType, { bg: string; text: string; dot
   learning: { bg: "bg-green-50 dark:bg-green-900/30", text: "text-green-600 dark:text-green-400", dot: "bg-green-500" },
   achievement: { bg: "bg-yellow-50 dark:bg-yellow-900/30", text: "text-yellow-600 dark:text-yellow-400", dot: "bg-yellow-500" },
 };
+
+export type StudyRecord = {
+  id: string;
+  date: string;
+  title: string;
+  description: string;
+  hours: number;
+  topic: string;
+};
+
+export const seedStudyRecords: StudyRecord[] = [
+  {
+    id: "sr-1",
+    date: "2026-09-22",
+    title: "ConcurrentHashMap 源码",
+    description: "分段锁 → CAS + synchronized，理解 size 计算与扩容协同。",
+    hours: 1.5,
+    topic: "Java",
+  },
+  {
+    id: "sr-2",
+    date: "2026-09-21",
+    title: "LeetCode 两数之和 / 三数之和",
+    description: "哈希与双指针对比，整理时间复杂度笔记。",
+    hours: 1,
+    topic: "算法",
+  },
+  {
+    id: "sr-3",
+    date: "2026-09-19",
+    title: "Spring Boot 自动配置",
+    description: "梳理 @EnableAutoConfiguration 与 starter 加载链路。",
+    hours: 2,
+    topic: "后端",
+  },
+  {
+    id: "sr-4",
+    date: "2026-09-18",
+    title: "MySQL 索引与执行计划",
+    description: "EXPLAIN 关键列解读，回表与覆盖索引场景复盘。",
+    hours: 1.5,
+    topic: "数据库",
+  },
+];

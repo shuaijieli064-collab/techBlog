@@ -5,6 +5,7 @@
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;
+  --ring: #0ea5e9;
 }
 
 @theme inline {
@@ -23,10 +24,11 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: rgba(14, 165, 233, 0.3);
+  background: rgba(14, 165, 233, 0.28);
 }
 
 a {
@@ -39,4 +41,78 @@ p {
 
 img {
   max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@layer utilities {
+  .card {
+    @apply rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none;
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-[0_8px_24px_-12px_rgba(14,165,233,0.35)] dark:hover:border-sky-700;
+  }
+
+  .section-title {
+    @apply text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-slate-50;
+  }
+
+  .page-eyebrow {
+    @apply mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-sky-600 dark:text-sky-400;
+  }
+
+  .page-title {
+    @apply text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-slate-50;
+  }
+
+  .page-desc {
+    @apply mt-3 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 dark:text-slate-300;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sky-500;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-600 dark:hover:text-sky-400;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400;
+  }
+
+  .input-base {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-400 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500;
+  }
+}
+
+/* Soft page fade-in for route changes */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main {
+  animation: page-in 0.28s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
 }
