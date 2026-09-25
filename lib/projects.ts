@@ -22,23 +22,23 @@ export const statusMap: Record<
 > = {
   planning: {
     label: "Planning",
-    color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
+    color: "border border-hair bg-background text-print",
   },
   developing: {
     label: "Developing",
-    color: "bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400",
+    color: "border border-hair bg-background text-print",
   },
   testing: {
     label: "Testing",
-    color: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
+    color: "border border-hair bg-background text-print",
   },
   completed: {
     label: "Completed",
-    color: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+    color: "border border-hair bg-background text-print",
   },
   archived: {
     label: "Archived",
-    color: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400",
+    color: "border border-hair bg-background text-print",
   },
 };
 

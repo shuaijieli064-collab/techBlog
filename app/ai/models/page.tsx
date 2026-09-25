@@ -28,13 +28,13 @@ export default function AiModelsPage() {
       <div className="mb-4">
         <Link
           href="/ai"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-wire hover:opacity-80"
         >
           <ArrowLeft size={14} /> 返回 AI 中心
         </Link>
       </div>
       <div className="mb-10">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">AI Center</p>
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-wire">AI Center</p>
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">AI 模型中心</h1>
         <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
           记录和管理使用的AI模型，API Key 均通过 Supabase 加密存储，前端绝不直接暴露敏感信息。
@@ -46,14 +46,14 @@ export default function AiModelsPage() {
           return (
             <article
               key={model.name}
-              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-slate-800 dark:bg-slate-950"
+              className="card card-hover p-6"
             >
               <div className="flex flex-col md:flex-row mb-4">
                 <div className="flex-1">
                   <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">{model.name}</h2>
                   <p className="text-sm text-slate-500 dark:text-slate-400">{model.provider}</p>
                   <div className="mt-2">
-                    <span className="text-xs text-sky-500">状态：</span>
+                    <span className="text-xs text-wire">状态：</span>
                     <span className={`font-medium ${model.status === "active" ? "text-green-600" : "text-red-600"}`}>{model.status}</span>
                   </div>
                   <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">{model.notes}</p>
@@ -83,14 +83,14 @@ export default function AiModelsPage() {
         })}
       </div>
 
-      <div className="mt-8 p-6 rounded-2xl border border-sky-500/20 bg-sky-50/50 dark:border-sky-800/20 dark:bg-sky-950/50">
+      <div className="mt-8 rounded-[4px] border border-wire/30 bg-wire/[0.05] p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="font-medium text-slate-900 dark:text-slate-50">月度概览</h2>
-          <span className="text-xl font-bold text-sky-600">${totalMonthlyCost.toFixed(2)}</span>
+          <span className="text-xl font-bold text-wire">${totalMonthlyCost.toFixed(2)}</span>
         </div>
         <div className="grid grid-cols-3">
           <div>
-            <p className="text-2xl font-bold text-sky-600">{activeModels}</p>
+            <p className="text-2xl font-bold text-wire">{activeModels}</p>
             <p className="text-xs text-slate-500">激活模型</p>
           </div>
           <div>
@@ -98,7 +98,7 @@ export default function AiModelsPage() {
             <p className="text-xs text-slate-400">总使用量</p>
           </div>
           <div>
-            <p className="text-2xl text-sky-600">{usageRate}%</p>
+            <p className="text-2xl text-wire">{usageRate}%</p>
             <p className="text-xs text-slate-400">使用率</p>
           </div>
         </div>

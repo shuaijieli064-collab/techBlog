@@ -35,7 +35,7 @@ export function PostsExplorer() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="搜索标题、标签或正文…"
-            className="input-base rounded-2xl py-3 pl-11 pr-4"
+            className="input-base pl-11!"
             aria-label="搜索文章"
           />
         </div>
@@ -46,8 +46,8 @@ export function PostsExplorer() {
             onClick={() => setCategory(null)}
             className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
               category === null
-                ? "border-sky-600 bg-sky-600 text-white"
-                : "border-slate-200 bg-white text-slate-600 hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+                ? "border-wire bg-wire text-white"
+                : "border-hair bg-panel text-print hover:border-wire hover:text-wire"
             }`}
           >
             全部
@@ -63,8 +63,8 @@ export function PostsExplorer() {
                 onClick={() => setCategory(active ? null : cat)}
                 className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                   active
-                    ? "border-sky-600 bg-sky-600 text-white"
-                    : "border-slate-200 bg-white text-slate-600 hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+                    ? "border-wire bg-wire text-white"
+                    : "border-hair bg-panel text-print hover:border-wire hover:text-wire"
                 }`}
               >
                 {cat}
@@ -76,8 +76,8 @@ export function PostsExplorer() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white/50 py-20 text-center dark:border-slate-700 dark:bg-slate-950/40">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-900">
+        <div className="flex flex-col items-center justify-center rounded-[4px] border border-dashed border-hair bg-panel/50 py-20 text-center">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-[4px] border border-hair bg-background">
             <Inbox size={22} className="text-slate-400" />
           </div>
           <p className="text-base font-semibold text-slate-700 dark:text-slate-200">没有匹配的文章</p>

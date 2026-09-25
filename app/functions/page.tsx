@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SearchInput from "@/components/FunctionSearchInput";
 import FunctionGrid from "@/components/FunctionGrid";
+import { getFunctionsByCategory } from "@/lib/functions";
 
 export const metadata = {
   title: "函数速查 | 林晨的博客",
@@ -33,7 +34,9 @@ export default function FunctionsPage() {
 }
 
 function FunctionCategories() {
-  const categories = ["集合", "字符串", "数组", "时间", "数学", "排序", "查找", "异常", "多线程"];
+  const categories = ["集合", "字符串", "数组", "时间", "数学", "排序", "查找", "异常", "多线程"].filter(
+    (category) => getFunctionsByCategory(category).length > 0,
+  );
 
   return (
     <div className="space-y-16">
@@ -45,7 +48,7 @@ function FunctionCategories() {
             </h2>
             <Link
               href={`/functions?category=${category}`}
-              className="text-sm font-medium text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
+              className="text-sm font-medium text-wire hover:opacity-80"
             >
               查看全部 →
             </Link>

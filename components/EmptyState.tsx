@@ -10,12 +10,13 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white/50 py-16 text-center dark:border-slate-700 dark:bg-slate-950/40">
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-900">
-        <Inbox size={22} className="text-slate-400" />
+    <div className="flex flex-col items-center justify-center rounded-[4px] border border-dashed border-hair bg-panel/40 px-6 py-16 text-center">
+      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-[4px] border border-hair">
+        <Inbox size={18} className="text-muted" />
       </div>
-      <p className="text-base font-semibold text-slate-700 dark:text-slate-200">{title}</p>
-      <p className="mt-1.5 max-w-sm text-sm leading-6 text-slate-500 dark:text-slate-400">{description}</p>
+      <p className="font-mono text-[11px] tracking-[0.14em] text-muted">NO DATA</p>
+      <p className="mt-2 text-base font-semibold text-foreground">{title}</p>
+      <p className="mt-1.5 max-w-sm text-sm leading-6 text-print">{description}</p>
       {action && <div className="mt-5">{action}</div>}
     </div>
   );

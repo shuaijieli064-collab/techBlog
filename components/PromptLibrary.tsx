@@ -122,7 +122,7 @@ export function PromptLibrary() {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-40 animate-pulse rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-900" />
+          <div key={i} className="h-40 animate-pulse rounded-[4px] border border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-900" />
         ))}
       </div>
     );
@@ -139,14 +139,14 @@ export function PromptLibrary() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="搜索提示词标题或内容…"
-              className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+              className="w-full input-base pl-11!"
               aria-label="搜索提示词"
             />
           </div>
           <button
             type="button"
             onClick={() => setCreating((v) => !v)}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-sky-600 px-5 py-3 text-sm font-medium text-white hover:bg-sky-500"
+            className="btn-primary px-5 py-3"
           >
             {creating ? <X size={16} /> : <Plus size={16} />}
             {creating ? "取消" : "新建提示词"}
@@ -173,7 +173,7 @@ export function PromptLibrary() {
               onClick={() => setCategory(cat)}
               className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                 category === cat
-                  ? "border-sky-600 bg-sky-600 text-white"
+                  ? "border-wire bg-wire text-white"
                   : "border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
               }`}
             >
@@ -184,19 +184,19 @@ export function PromptLibrary() {
       </div>
 
       {creating && (
-        <div className="rounded-2xl border border-sky-200 bg-sky-50/50 p-5 dark:border-sky-900/50 dark:bg-sky-950/40">
+        <div className="rounded-[4px] border border-wire/30 bg-wire/[0.05] p-5">
           <h3 className="mb-4 text-sm font-semibold text-slate-900 dark:text-slate-100">新建本地提示词</h3>
           <div className="space-y-3">
             <input
               value={draft.title}
               onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))}
               placeholder="标题，如：Code Review 清单"
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+              className="input-base"
             />
             <select
               value={draft.category}
               onChange={(e) => setDraft((d) => ({ ...d, category: e.target.value }))}
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+              className="input-base"
             >
               {promptCategories.map((c) => (
                 <option key={c} value={c}>
@@ -209,13 +209,13 @@ export function PromptLibrary() {
               onChange={(e) => setDraft((d) => ({ ...d, content: e.target.value }))}
               placeholder="提示词正文…"
               rows={5}
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+              className="input-base font-mono"
             />
             <button
               type="button"
               onClick={createPrompt}
               disabled={!draft.title.trim() || !draft.content.trim()}
-              className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn-primary gap-2 px-4 py-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Save size={14} /> 保存到本地
             </button>
@@ -224,7 +224,7 @@ export function PromptLibrary() {
       )}
 
       {filtered.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-slate-300 py-16 text-center dark:border-slate-700">
+        <div className="rounded-[4px] border border-dashed border-hair py-16 text-center">
           <p className="font-medium text-slate-700 dark:text-slate-200">没有匹配的提示词</p>
           <p className="mt-1 text-sm text-slate-500">换个关键词，或新建一条本地提示词。</p>
         </div>
@@ -238,7 +238,7 @@ export function PromptLibrary() {
             return (
               <article
                 key={prompt.id}
-                className="flex flex-col rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-sky-200 dark:border-slate-800 dark:bg-slate-950"
+                className="flex flex-col card card-hover p-4"
               >
                 <div className="mb-2 flex items-start justify-between gap-2">
                   <div className="min-w-0">
@@ -256,7 +256,7 @@ export function PromptLibrary() {
                     type="button"
                     onClick={() => toggleFav(prompt.id)}
                     aria-label={fav ? "取消收藏" : "收藏"}
-                    className="shrink-0 rounded-lg p-1.5 hover:bg-slate-50 dark:hover:bg-slate-900"
+                    className="shrink-0 rounded-[4px] p-1.5 hover:bg-slate-50 dark:hover:bg-slate-900"
                   >
                     <Star size={16} className={fav ? "fill-amber-400 text-amber-400" : "text-slate-400"} />
                   </button>
@@ -267,12 +267,12 @@ export function PromptLibrary() {
                 </p>
 
                 <div className="mt-auto flex items-center justify-between pt-3">
-                  <span className="text-xs text-sky-500">{uses} 次使用</span>
+                  <span className="text-xs text-wire">{uses} 次使用</span>
                   <div className="flex items-center gap-1.5">
                     <button
                       type="button"
                       onClick={() => setExpandedId(open ? null : prompt.id)}
-                      className="rounded-lg px-2 py-1 text-xs text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900"
+                      className="rounded-[4px] px-2 py-1 text-xs text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900"
                     >
                       {open ? "收起" : "展开"}
                     </button>
@@ -280,7 +280,7 @@ export function PromptLibrary() {
                       <button
                         type="button"
                         onClick={() => removeCustom(prompt.id)}
-                        className="rounded-lg px-2 py-1 text-xs text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                        className="rounded-[4px] px-2 py-1 text-xs text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40"
                       >
                         删除
                       </button>
@@ -288,7 +288,7 @@ export function PromptLibrary() {
                     <button
                       type="button"
                       onClick={() => copy(prompt)}
-                      className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-sky-100 hover:text-sky-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-sky-900/40"
+                      className="inline-flex items-center gap-1 rounded-[3px] border border-hair bg-transparent px-2.5 py-1 text-xs font-medium text-print hover:border-wire hover:text-wire"
                     >
                       {copiedId === prompt.id ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
                       {copiedId === prompt.id ? "已复制" : "复制"}

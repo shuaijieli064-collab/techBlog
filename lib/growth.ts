@@ -17,14 +17,14 @@ export type Skill = {
 };
 
 export const skills: Skill[] = [
-  { name: "Java", level: 80, color: "bg-sky-500", category: "语言" },
-  { name: "算法", level: 50, color: "bg-purple-500", category: "计算机基础" },
-  { name: "Spring", level: 30, color: "bg-orange-500", category: "框架" },
-  { name: "MySQL", level: 60, color: "bg-green-500", category: "数据库" },
-  { name: "Git", level: 70, color: "bg-blue-500", category: "工程" },
-  { name: "AI 工具", level: 80, color: "bg-emerald-500", category: "工具" },
-  { name: "数据结构", level: 65, color: "bg-indigo-500", category: "计算机基础" },
-  { name: "前端", level: 55, color: "bg-pink-500", category: "语言" },
+  { name: "Java", level: 80, color: "bg-wire", category: "语言" },
+  { name: "算法", level: 50, color: "bg-wire", category: "计算机基础" },
+  { name: "Spring", level: 30, color: "bg-wire", category: "框架" },
+  { name: "MySQL", level: 60, color: "bg-wire", category: "数据库" },
+  { name: "Git", level: 70, color: "bg-wire", category: "工程" },
+  { name: "AI 工具", level: 80, color: "bg-wire", category: "工具" },
+  { name: "数据结构", level: 65, color: "bg-wire", category: "计算机基础" },
+  { name: "前端", level: 55, color: "bg-wire", category: "语言" },
 ];
 
 export const growthEvents: GrowthEvent[] = [
@@ -103,11 +103,11 @@ export const typeLabels: Record<GrowthEventType, string> = {
 };
 
 export const typeColors: Record<GrowthEventType, { bg: string; text: string; dot: string }> = {
-  milestone: { bg: "bg-sky-50 dark:bg-sky-900/30", text: "text-sky-600 dark:text-sky-400", dot: "bg-sky-500" },
-  post: { bg: "bg-purple-50 dark:bg-purple-900/30", text: "text-purple-600 dark:text-purple-400", dot: "bg-purple-500" },
-  project: { bg: "bg-orange-50 dark:bg-orange-900/30", text: "text-orange-600 dark:text-orange-400", dot: "bg-orange-500" },
-  learning: { bg: "bg-green-50 dark:bg-green-900/30", text: "text-green-600 dark:text-green-400", dot: "bg-green-500" },
-  achievement: { bg: "bg-yellow-50 dark:bg-yellow-900/30", text: "text-yellow-600 dark:text-yellow-400", dot: "bg-yellow-500" },
+  milestone: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
+  post: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
+  project: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
+  learning: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
+  achievement: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
 };
 
 export type StudyRecord = {

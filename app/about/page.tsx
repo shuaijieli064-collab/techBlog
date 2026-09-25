@@ -30,7 +30,7 @@ export default function AboutPage() {
             { label: "当前阶段", value: "大二在读" },
             { label: "目标", value: "持续输出与成长" },
           ].map((item) => (
-            <div key={item.label} className="rounded-2xl bg-slate-50 p-5 dark:bg-slate-900">
+            <div key={item.label} className="rounded-[4px] bg-background p-5">
               <div className="text-sm text-slate-500 dark:text-slate-400">{item.label}</div>
               <div className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">{item.value}</div>
             </div>

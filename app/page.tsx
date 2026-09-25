@@ -1,6 +1,8 @@
 import Link from "next/link";
 
 import { PostCard } from "@/components/PostCard";
+import { SectionRule } from "@/components/SectionRule";
+import { notes } from "@/lib/notes";
 import { getPublishedPosts } from "@/lib/posts";
 
 export default function Home() {
@@ -12,7 +14,6 @@ export default function Home() {
   ].slice(0, 2);
   const latest = posts.slice(0, 3);
 
-  const totalPosts = posts.length;
   const learningGroups = [
     { title: "Java 基础", desc: "对象、集合、异常与并发", tags: ["Java", "Java 基础"] },
     { title: "Java 后端", desc: "Spring Boot 与服务设计", tags: ["Spring Boot", "后端框架"] },
@@ -20,30 +21,26 @@ export default function Home() {
     { title: "缓存/消息队列", desc: "Redis 与异步处理架构", tags: ["Redis", "消息队列", "架构设计"] },
   ];
 
+  const titleBlock = [
+    { label: "作者", value: "林晨" },
+    { label: "身份", value: "软件工程 · 大二" },
+    { label: "文章", value: `${String(posts.length).padStart(2, "0")} 篇` },
+    { label: "笔记", value: `${String(notes.length).padStart(2, "0")} 篇` },
+    { label: "方向", value: `${String(learningGroups.length).padStart(2, "0")} 个` },
+  ];
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/70 px-6 py-12 shadow-sm sm:px-10 sm:py-16 dark:border-slate-800 dark:bg-slate-950/60">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.18),transparent_45%)]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(to_right,rgba(148,163,184,0.15)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.15)_1px,transparent_1px)] [background-size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]"
-        />
-        <div className="relative grid gap-10 lg:grid-cols-[1.3fr_0.7fr] lg:items-center">
+      <section className="reg-ticks card relative px-6 py-12 sm:px-10 sm:py-16">
+        <span aria-hidden className="reg-ticks-b pointer-events-none absolute inset-0" />
+        <div className="relative grid gap-10 lg:grid-cols-[1.5fr_0.9fr] lg:items-center">
           <div>
-            <p className="mb-4 inline-flex items-center rounded-full border border-sky-200/70 bg-sky-50/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 dark:border-sky-900/60 dark:bg-sky-950/50 dark:text-sky-300">
-              Software Engineering Student
-            </p>
-            <h1 className="max-w-2xl text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-slate-50">
-              记录代码、学习与
-              <span className="bg-gradient-to-r from-sky-600 to-cyan-500 bg-clip-text text-transparent">
-                成长
-              </span>
+            <h1 className="max-w-2xl text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl">
+              记录代码、学习与成长
+              <br />
               的技术博客
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">
+            <p className="mt-5 max-w-xl text-lg leading-8 text-print">
               我是林晨，一名软件工程大二学生。这里记录我的前端实践、算法学习、项目复盘和成长观察，持续记录每一次进步。
             </p>
 
@@ -51,50 +48,49 @@ export default function Home() {
               <Link href="/posts" className="btn-primary">
                 阅读文章
               </Link>
-              <Link href="/about" className="btn-secondary">
-                关于我
+              <Link href="/dashboard" className="btn-secondary">
+                打开工作台
               </Link>
               <Link
-                href="/dashboard"
-                className="inline-flex items-center gap-1.5 px-2 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400"
+                href="/about"
+                className="px-2 py-2.5 font-mono text-sm text-print transition-colors hover:text-wire"
               >
-                打开工作台
-                <span aria-hidden>→</span>
+                关于我
               </Link>
             </div>
           </div>
 
-          <div className="card p-6">
-            <div className="grid grid-cols-3 gap-3 text-sm">
-              {[
-                { value: `${totalPosts}+`, label: "已发布文章" },
-                { value: String(learningGroups.length), label: "学习方向" },
-                { value: "1", label: "稳定写作节奏" },
-              ].map((stat) => (
-                <div key={stat.label} className="rounded-2xl bg-slate-50 px-2 py-4 text-center dark:bg-slate-900">
-                  <div className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
-                    {stat.value}
-                  </div>
-                  <div className="mt-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
-                    {stat.label}
-                  </div>
+          <div>
+            <div className="mb-1.5 flex items-baseline justify-between font-mono text-[11px] tracking-[0.1em] text-muted">
+              <span>TITLE BLOCK</span>
+              <span>2026</span>
+            </div>
+            <dl className="divide-y divide-hair border border-hair bg-panel/60 font-mono text-xs">
+              {titleBlock.map((row) => (
+                <div key={row.label} className="flex items-center justify-between px-4 py-2.5">
+                  <dt className="tracking-[0.1em] text-muted">{row.label}</dt>
+                  <dd className="text-foreground">{row.value}</dd>
                 </div>
               ))}
-            </div>
+              <div className="flex items-center justify-between px-4 py-2.5">
+                <dt className="tracking-[0.1em] text-muted">状态</dt>
+                <dd className="flex items-center gap-1.5 text-signal">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-signal" aria-hidden />
+                  持续更新
+                </dd>
+              </div>
+            </dl>
           </div>
         </div>
       </section>
 
       <section className="py-10">
-        <div className="mb-5 flex items-center justify-between">
-          <h2 className="section-title">学习笔记地图</h2>
-          <Link
-            href="/notes"
-            className="text-sm font-medium text-sky-600 transition-colors hover:text-sky-500 dark:text-sky-400"
-          >
-            查看笔记地图 →
-          </Link>
-        </div>
+        <SectionRule
+          title="学习笔记地图"
+          meta={`${String(notes.length).padStart(2, "0")} NOTES`}
+          href="/notes"
+          metaLabel="查看笔记地图"
+        />
 
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {learningGroups.map((item) => (
@@ -103,27 +99,27 @@ export default function Home() {
               href={`/tags/${encodeURIComponent(item.tags[0])}`}
               className="card card-hover p-5"
             >
-              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-sky-600 dark:text-sky-400">
+              <div className="text-sm font-bold tracking-tight text-foreground">
                 {item.title}
               </div>
-              <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{item.desc}</p>
+              <p className="mt-2 text-sm leading-6 text-print">{item.desc}</p>
+              <div className="mt-3 font-mono text-[11px] text-muted">
+                {item.tags.map((tag) => `#${tag}`).join(" ")}
+              </div>
             </Link>
           ))}
         </div>
       </section>
 
       <section className="py-6">
-        <div className="mb-5 flex items-center justify-between">
-          <h2 className="section-title">精选文章</h2>
-          <Link
-            href="/posts"
-            className="text-sm font-medium text-sky-600 transition-colors hover:text-sky-500 dark:text-sky-400"
-          >
-            查看全部 →
-          </Link>
-        </div>
+        <SectionRule
+          title="精选文章"
+          meta={`${String(posts.length).padStart(2, "0")} POSTS`}
+          href="/posts"
+          metaLabel="查看全部"
+        />
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-2">
           {featured.map((post) => (
             <PostCard key={post.slug} post={post} />
           ))}
@@ -131,11 +127,14 @@ export default function Home() {
       </section>
 
       <section className="py-10">
-        <div className="mb-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400">最新文章</p>
-        </div>
+        <SectionRule
+          title="最新文章"
+          meta="LATEST"
+          href="/archive"
+          metaLabel="查看归档"
+        />
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3">
           {latest.map((post) => (
             <PostCard key={post.slug} post={post} />
           ))}

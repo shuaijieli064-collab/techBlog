@@ -77,11 +77,11 @@ export function ProjectTodos({ projectId, defaultTodos }: { projectId: string; d
             key={`${projectId}-${todo.text}`}
             type="button"
             onClick={() => toggle(i)}
-            className="flex w-full items-center gap-2.5 rounded-lg px-1 py-0.5 text-left transition-colors hover:bg-slate-50 dark:hover:bg-slate-900"
+            className="flex w-full items-center gap-2.5 rounded-[4px] px-1 py-0.5 text-left transition-colors hover:bg-slate-50 dark:hover:bg-slate-900"
             aria-pressed={todo.done}
           >
             {todo.done ? (
-              <CheckCircle2 size={16} className="text-sky-500" />
+              <CheckCircle2 size={16} className="text-wire" />
             ) : (
               <Circle size={16} className="text-slate-300 dark:text-slate-600" />
             )}

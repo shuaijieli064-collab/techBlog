@@ -1,10 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { BookOpen, Folder, Brain, ArrowRight, Zap, Target, TrendingUp, Sparkles } from "lucide-react";
+import { BookOpen, Folder, Brain, Zap, Sparkles } from "lucide-react";
 
 import { DailyTasks } from "@/components/DailyTasks";
 import { GitHubActivity } from "@/components/GitHubActivity";
 import { ProjectProgressSummary } from "@/components/ProjectList";
+import { SectionRule } from "@/components/SectionRule";
 import { getPublishedPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
@@ -13,43 +14,25 @@ export const metadata: Metadata = {
 };
 
 const skills = [
-  { name: "Java", level: 80, color: "bg-sky-500" },
-  { name: "算法", level: 50, color: "bg-purple-500" },
-  { name: "Spring", level: 30, color: "bg-orange-500" },
-  { name: "MySQL", level: 60, color: "bg-green-500" },
-  { name: "Git", level: 70, color: "bg-blue-500" },
-  { name: "AI", level: 80, color: "bg-emerald-500" },
+  { name: "Java", level: 80 },
+  { name: "算法", level: 50 },
+  { name: "Spring", level: 30 },
+  { name: "MySQL", level: 60 },
+  { name: "Git", level: 70 },
+  { name: "AI", level: 80 },
 ];
 
 const quickActions = [
-  { label: "写博客", href: "/posts", icon: BookOpen, color: "text-sky-600", bg: "bg-sky-50 dark:bg-sky-900/30" },
-  { label: "项目", href: "/projects", icon: Folder, color: "text-purple-600", bg: "bg-purple-50 dark:bg-purple-900/30" },
-  { label: "学习", href: "/learning", icon: Brain, color: "text-orange-600", bg: "bg-orange-50 dark:bg-orange-900/30" },
-  { label: "工具", href: "/tools", icon: Zap, color: "text-green-600", bg: "bg-green-50 dark:bg-green-900/30" },
+  { label: "写博客", href: "/posts", icon: BookOpen },
+  { label: "项目", href: "/projects", icon: Folder },
+  { label: "学习", href: "/learning", icon: Brain },
+  { label: "工具", href: "/tools", icon: Zap },
 ];
 
 const statCards = [
-  {
-    icon: BookOpen,
-    bg: "bg-sky-50 dark:bg-sky-900/30",
-    color: "text-sky-600 dark:text-sky-400",
-    label: "已发布文章",
-    valueKey: "posts" as const,
-  },
-  {
-    icon: Target,
-    bg: "bg-purple-50 dark:bg-purple-900/30",
-    color: "text-purple-600 dark:text-purple-400",
-    label: "今日任务（可编辑）",
-    valueKey: "tasks" as const,
-  },
-  {
-    icon: TrendingUp,
-    bg: "bg-orange-50 dark:bg-orange-900/30",
-    color: "text-orange-600 dark:text-orange-400",
-    label: "连续学习天数",
-    valueKey: "streak" as const,
-  },
+  { code: "POSTS", label: "已发布文章", valueKey: "posts" as const, suffix: "篇" },
+  { code: "TASKS", label: "今日任务", valueKey: "tasks" as const, suffix: "" },
+  { code: "STREAK", label: "连续学习天数", valueKey: "streak" as const, suffix: "天" },
 ];
 
 export default function DashboardPage() {
@@ -57,7 +40,7 @@ export default function DashboardPage() {
   const totalPosts = posts.length;
   const latest = posts.slice(0, 3);
   const values: Record<(typeof statCards)[number]["valueKey"], string | number> = {
-    posts: totalPosts,
+    posts: String(totalPosts).padStart(2, "0"),
     tasks: "3/3",
     streak: 12,
   };
@@ -65,10 +48,10 @@ export default function DashboardPage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <section className="mb-8">
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          {new Date().toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric", weekday: "long" })}
+        <p className="font-mono text-xs text-muted">
+          ~/dashboard · {new Date().toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric", weekday: "long" })}
         </p>
-        <h1 className="mt-1 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-slate-50">
+        <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           早上好，Developer
         </h1>
       </section>
@@ -78,17 +61,20 @@ export default function DashboardPage() {
           <div className="grid gap-4 sm:grid-cols-3">
             {statCards.map((stat) => (
               <div key={stat.label} className="card p-5">
-                <div className="flex items-center gap-3">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${stat.bg}`}>
-                    <stat.icon size={20} className={stat.color} />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-                      {values[stat.valueKey]}
-                    </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400">{stat.label}</div>
-                  </div>
+                <div className="flex items-baseline justify-between">
+                  <span className="font-mono text-[11px] tracking-[0.14em] text-muted">
+                    {stat.code}
+                  </span>
                 </div>
+                <div className="mt-2 flex items-baseline gap-1.5">
+                  <span className="font-mono text-3xl font-bold text-foreground">
+                    {values[stat.valueKey]}
+                  </span>
+                  {stat.suffix && (
+                    <span className="font-mono text-xs text-print">{stat.suffix}</span>
+                  )}
+                </div>
+                <div className="mt-1 text-xs text-print">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -96,35 +82,29 @@ export default function DashboardPage() {
           <DailyTasks />
 
           <div className="card p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">最近文章</h2>
-              <Link
-                href="/posts"
-                className="flex items-center gap-1 text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
-              >
-                查看全部 <ArrowRight size={14} />
-              </Link>
-            </div>
+            <SectionRule
+              title="最近文章"
+              meta="RECENT"
+              href="/posts"
+              metaLabel="查看全部"
+            />
             <div className="space-y-3">
               {latest.map((post) => (
                 <Link
                   key={post.slug}
                   href={`/posts/${post.slug}`}
-                  className="flex items-center justify-between rounded-xl border border-slate-100 p-4 transition-colors hover:border-sky-200 hover:bg-sky-50/50 dark:border-slate-800 dark:hover:border-sky-800 dark:hover:bg-sky-950/30"
+                  className="flex items-center justify-between rounded-[4px] border border-hair p-4 transition-colors hover:border-wire"
                 >
                   <div className="min-w-0 flex-1">
-                    <div className="mb-1 text-xs font-medium text-sky-600">{post.category}</div>
-                    <div className="truncate text-sm font-medium text-slate-900 dark:text-slate-50">
+                    <div className="mb-1 font-mono text-[11px] text-wire">{post.category}</div>
+                    <div className="truncate text-sm font-medium text-foreground">
                       {post.title}
                     </div>
-                    <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{post.readTime}</div>
+                    <div className="mt-1 font-mono text-[11px] text-muted">{post.readTime}</div>
                   </div>
                   <div className="ml-4 flex flex-wrap gap-1">
                     {post.tags.slice(0, 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] text-slate-500 dark:bg-slate-800 dark:text-slate-400"
-                      >
+                      <span key={tag} className="chip">
                         #{tag}
                       </span>
                     ))}
@@ -137,35 +117,35 @@ export default function DashboardPage() {
 
         <div className="space-y-6">
           <div className="card p-6">
-            <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-slate-50">快捷操作</h2>
+            <SectionRule title="快捷操作" meta="QUICK" />
             <div className="grid grid-cols-2 gap-3">
               {quickActions.map((action) => (
                 <Link
                   key={action.label}
                   href={action.href}
-                  className="flex flex-col items-center gap-2 rounded-xl border border-slate-100 p-4 transition-colors hover:border-sky-200 hover:bg-sky-50/50 dark:border-slate-800 dark:hover:border-sky-800"
+                  className="flex flex-col items-center gap-2 rounded-[4px] border border-hair p-4 transition-colors hover:border-wire"
                 >
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${action.bg}`}>
-                    <action.icon size={20} className={action.color} />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-hair text-wire">
+                    <action.icon size={17} />
                   </div>
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{action.label}</span>
+                  <span className="text-sm font-medium text-foreground">{action.label}</span>
                 </Link>
               ))}
             </div>
           </div>
 
           <div className="card p-6">
-            <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-slate-50">技能画像</h2>
+            <SectionRule title="技能画像" meta={`${skills.length} SKILLS`} />
             <div className="space-y-4">
               {skills.map((skill) => (
                 <div key={skill.name}>
-                  <div className="mb-1 flex justify-between">
-                    <span className="text-sm text-slate-700 dark:text-slate-300">{skill.name}</span>
-                    <span className="text-xs text-slate-500 dark:text-slate-400">{skill.level}%</span>
+                  <div className="mb-1.5 flex justify-between font-mono text-xs">
+                    <span className="text-print">{skill.name}</span>
+                    <span className="text-muted">{skill.level}%</span>
                   </div>
-                  <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800">
+                  <div className="h-1.5 rounded-[2px] bg-hair/50">
                     <div
-                      className={`h-full rounded-full ${skill.color} transition-all duration-500`}
+                      className="h-full rounded-[2px] bg-wire transition-all duration-500"
                       style={{ width: `${skill.level}%` }}
                     />
                   </div>
@@ -175,31 +155,24 @@ export default function DashboardPage() {
           </div>
 
           <div className="card p-6">
-            <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-slate-50">AI 助手</h2>
+            <SectionRule title="AI 助手" meta="LOCAL" />
             <div className="space-y-3">
-              <div className="rounded-xl bg-gradient-to-r from-sky-50 to-purple-50 p-4 dark:from-sky-950/30 dark:to-purple-950/30">
-                <p className="text-sm text-slate-700 dark:text-slate-300">
-                  昨天学习了 <span className="font-medium text-sky-600 dark:text-sky-400">HashMap</span>，今天建议学习{" "}
-                  <span className="font-medium text-purple-600 dark:text-purple-400">ConcurrentHashMap</span>
-                </p>
+              <div className="rounded-[4px] border border-hair bg-background/70 p-4 font-mono text-[13px] leading-6 text-print">
+                <span className="mr-1.5 text-signal">{"❯"}</span>
+                昨天学习了 <span className="text-wire">HashMap</span>，今天建议{" "}
+                <span className="text-wire">ConcurrentHashMap</span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                在「今日任务」卡片点 <span className="font-medium text-sky-600 dark:text-sky-400">AI 规划今天</span>
+              <p className="text-xs leading-5 text-print">
+                在「今日任务」卡片点 <span className="font-mono text-wire">AI 规划今天</span>
                 ，按学习路线与项目进度生成任务。
               </p>
               <div className="grid gap-2">
-                <Link
-                  href="/learning"
-                  className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-600 dark:bg-sky-600 dark:hover:bg-sky-500"
-                >
-                  <Brain size={16} />
+                <Link href="/learning" className="btn-primary w-full">
+                  <Brain size={15} />
                   继续学习
                 </Link>
-                <Link
-                  href="/ai"
-                  className="flex items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:text-slate-300"
-                >
-                  <Sparkles size={16} />
+                <Link href="/ai" className="btn-secondary w-full">
+                  <Sparkles size={15} />
                   打开 AI 中心
                 </Link>
               </div>

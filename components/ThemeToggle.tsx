@@ -38,7 +38,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={dark ? "切换到浅色模式" : "切换到深色模式"}
-      className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:text-sky-400"
+      className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-hair bg-panel text-print transition-colors hover:border-wire hover:text-wire"
     >
       <Sun size={16} className={dark ? "hidden" : "block"} />
       <Moon size={16} className={dark ? "block" : "hidden"} />

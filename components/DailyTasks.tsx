@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
 
+import { SectionRule } from "@/components/SectionRule";
+
 type Task = { id: number; title: string; tag: string; done: boolean };
 
 const defaultTasks: Task[] = [
@@ -73,25 +75,23 @@ export function DailyTasks() {
 
   return (
     <div className="card p-6">
-      <div className="mb-4 flex items-center justify-between gap-2">
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">今日任务</h2>
-        <div className="flex items-center gap-3">
-          <span className="text-xs text-slate-500 dark:text-slate-400">
-            {completed}/{tasks.length} 完成
-          </span>
-          <button
-            type="button"
-            onClick={planToday}
-            className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-sky-500 to-purple-500 px-3 py-1 text-xs font-medium text-white shadow-sm hover:from-sky-400 hover:to-purple-400"
-            title="根据学习路线与项目进度生成今日计划（本地模板）"
-          >
-            <Sparkles size={12} /> AI 规划今天
-          </button>
-        </div>
+      <SectionRule
+        title="今日任务"
+        meta={`${String(completed).padStart(2, "0")}/${String(tasks.length).padStart(2, "0")} DONE`}
+      />
+      <div className="mb-4 flex justify-end">
+        <button
+          type="button"
+          onClick={planToday}
+          className="inline-flex items-center gap-1.5 rounded-[4px] border border-wire/50 px-2.5 py-1 font-mono text-[11px] text-wire transition-colors hover:bg-wire/10"
+          title="根据学习路线与项目进度生成今日计划（本地模板）"
+        >
+          <Sparkles size={12} /> AI 规划今天
+        </button>
       </div>
       {planned && (
-        <p className="mb-3 rounded-lg bg-sky-50 px-3 py-2 text-xs text-sky-700 dark:bg-sky-950/50 dark:text-sky-300">
-          已按学习路线 + 项目进度生成今日计划，可继续增删。
+        <p className="mb-3 rounded-[4px] border border-hair bg-background/70 px-3 py-2 font-mono text-[11px] text-print">
+          {"//"} 已按学习路线 + 项目进度生成今日计划，可继续增删。
         </p>
       )}
 
@@ -106,52 +106,50 @@ export function DailyTasks() {
           className="input-base flex-1"
           aria-label="新任务"
         />
-        <button
-          type="button"
-          onClick={add}
-          className="rounded-xl bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-500"
-        >
+        <button type="button" onClick={add} className="btn-primary px-4">
           添加
         </button>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {tasks.length === 0 && (
-          <p className="text-sm text-slate-500">暂无任务，添加一条开始今天。</p>
+          <p className="font-mono text-xs text-muted">{"//"} 暂无任务，添加一条开始今天。</p>
         )}
         {tasks.map((task) => (
           <div
             key={task.id}
-            className="group flex items-center gap-3 rounded-xl border border-slate-100 p-3 dark:border-slate-800"
+            className="group flex items-center gap-3 rounded-[4px] border border-hair p-3 transition-colors hover:border-wire/60"
           >
             <button
               type="button"
               onClick={() => toggle(task.id)}
               aria-pressed={task.done}
-              className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
-                task.done ? "border-sky-500 bg-sky-500" : "border-slate-300 dark:border-slate-600"
+              className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[2px] border ${
+                task.done ? "border-wire bg-wire text-white" : "border-hair"
               }`}
               aria-label={task.done ? "标记未完成" : "标记完成"}
             >
-              {task.done && <span className="text-[10px] font-bold text-white">✓</span>}
+              {task.done && (
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
+                  <path d="M4 12l5 5L20 6" />
+                </svg>
+              )}
             </button>
             <span
               className={`flex-1 text-sm ${
-                task.done ? "text-slate-400 line-through" : "text-slate-700 dark:text-slate-200"
+                task.done ? "text-muted line-through" : "text-foreground"
               }`}
             >
               {task.title}
             </span>
-            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600 dark:bg-slate-800 dark:text-slate-400">
-              {task.tag}
-            </span>
+            <span className="chip">{task.tag}</span>
             <button
               type="button"
               onClick={() => remove(task.id)}
-              className="opacity-0 transition-opacity group-hover:opacity-100 text-xs text-rose-500 hover:text-rose-600"
+              className="font-mono text-xs text-muted opacity-0 transition-opacity hover:text-signal group-hover:opacity-100 focus-visible:opacity-100"
               aria-label="删除任务"
             >
-              删除
+              ×
             </button>
           </div>
         ))}

@@ -45,16 +45,16 @@ export default async function NoteDetailPage({
       <div className="mb-6">
         <Link
           href="/notes"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-wire hover:opacity-80"
         >
           <ArrowLeft size={14} /> 返回笔记地图
         </Link>
       </div>
 
-      <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950 sm:p-10">
+      <article className="card p-6 sm:p-10">
         <header className="mb-8 border-b border-slate-100 pb-6 dark:border-slate-800">
           <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-            <span className="rounded-full bg-sky-50 px-2.5 py-1 font-medium text-sky-600 dark:bg-sky-900/30 dark:text-sky-400">
+            <span className="rounded-full bg-wire/10 px-2.5 py-1 font-medium text-wire">
               {note.group}
             </span>
             <span className="flex items-center gap-1">
@@ -96,7 +96,7 @@ export default async function NoteDetailPage({
                     <Link
                       key={post.slug}
                       href={`/posts/${post.slug}`}
-                      className="block rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                      className="block rounded-[4px] border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
                     >
                       {post.title}
                     </Link>

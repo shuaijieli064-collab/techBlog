@@ -31,10 +31,10 @@ export function PostToc({ items }: { items: Item[] }) {
   return (
     <nav
       aria-label="文章目录"
-      className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-950"
+      className="card p-5"
     >
       <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-slate-50">
-        <List size={16} className="text-sky-600" />
+        <List size={16} className="text-wire" />
         目录
       </div>
       <ul className="space-y-1.5">
@@ -42,10 +42,10 @@ export function PostToc({ items }: { items: Item[] }) {
           <li key={item.id}>
             <a
               href={`#${item.id}`}
-              className={`block rounded-lg px-2 py-1.5 text-sm transition-colors ${
+              className={`block rounded-[4px] px-2 py-1.5 text-sm transition-colors ${
                 activeId === item.id
-                  ? "bg-sky-50 font-medium text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-sky-600 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-sky-400"
+                  ? "bg-wire/10 font-medium text-wire"
+                  : "text-print hover:bg-background hover:text-wire"
               }`}
             >
               {item.label}

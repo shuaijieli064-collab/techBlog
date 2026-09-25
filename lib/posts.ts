@@ -312,6 +312,20 @@ export function isPublished(post: Post) {
   return post.status !== "draft";
 }
 
+export function postToMarkdown(post: Post): string {
+  return post.sections
+    .map((section) => {
+      const parts: string[] = [];
+      if (section.heading) parts.push(`## ${section.heading}`);
+      section.paragraphs.forEach((paragraph) => parts.push(paragraph));
+      if (section.code) {
+        parts.push(`\`\`\`${section.code.language}\n${section.code.content}\n\`\`\``);
+      }
+      return parts.join("\n\n");
+    })
+    .join("\n\n");
+}
+
 export function getPublishedPosts() {
   return posts
     .filter(isPublished)

@@ -127,9 +127,9 @@ export default function CodeBlock({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-slate-900 dark:border-slate-700">
+    <div className="relative overflow-hidden rounded-[4px] border border-hair bg-slate-900">
       <div className="flex items-center gap-2 border-b border-slate-700 bg-slate-800 px-4 py-2">
-        <span className="flex h-2 w-2 rounded-full bg-sky-500/80" />
+        <span className="flex h-2 w-2 rounded-full bg-wire/80" />
         <span className="flex h-2 w-2 rounded-full bg-amber-500/80" />
         <span className="flex h-2 w-2 rounded-full bg-emerald-500/80" />
         <span className="ml-2 text-xs font-medium text-slate-300">{language}</span>

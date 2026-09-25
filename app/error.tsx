@@ -26,13 +26,13 @@ export default function Error({
           <button
             type="button"
             onClick={reset}
-            className="rounded-full bg-sky-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-500"
+            className="btn-primary px-5 py-3"
           >
             重试
           </button>
           <Link
             href="/"
-            className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+            className="btn-secondary px-5 py-3"
           >
             返回首页
           </Link>

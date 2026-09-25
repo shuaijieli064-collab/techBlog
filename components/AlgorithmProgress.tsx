@@ -68,7 +68,7 @@ export function AlgorithmProgress() {
         return (
           <div
             key={algo.name}
-            className="rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:shadow-md dark:border-slate-800 dark:bg-slate-950"
+            className="card card-hover p-5"
           >
             <div className="mb-3 flex items-center justify-between">
               <h3 className="font-medium text-slate-900 dark:text-slate-50">{algo.name}</h3>
@@ -76,9 +76,9 @@ export function AlgorithmProgress() {
                 {algo.mastered}/{algo.count}
               </span>
             </div>
-            <div className="mb-3 h-2 rounded-full bg-slate-100 dark:bg-slate-800">
+            <div className="mb-3 h-2 rounded-full bg-hair">
               <div
-                className="h-full rounded-full bg-purple-500 transition-all duration-500"
+                className="h-full rounded-full bg-wire transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -86,7 +86,7 @@ export function AlgorithmProgress() {
               <button
                 type="button"
                 onClick={() => bump(algo.name, -1)}
-                className="flex-1 rounded-lg border border-slate-200 py-1 text-xs text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:text-slate-300"
+                className="flex-1 rounded-[4px] border border-slate-200 py-1 text-xs text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:text-slate-300"
                 aria-label={`减少 ${algo.name} 已掌握`}
               >
                 −
@@ -94,7 +94,7 @@ export function AlgorithmProgress() {
               <button
                 type="button"
                 onClick={() => bump(algo.name, 1)}
-                className="flex-1 rounded-lg border border-slate-200 py-1 text-xs text-slate-600 hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:text-slate-300"
+                className="flex-1 rounded-[4px] border border-hair py-1 text-xs text-print hover:border-wire hover:text-wire"
                 aria-label={`增加 ${algo.name} 已掌握`}
               >
                 +

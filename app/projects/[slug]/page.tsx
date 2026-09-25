@@ -40,13 +40,13 @@ export default async function ProjectDetailPage({
       <div className="mb-6">
         <Link
           href="/projects"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-wire hover:opacity-80"
         >
           <ArrowLeft size={14} /> 返回项目中心
         </Link>
       </div>
 
-      <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950 sm:p-10">
+      <article className="card p-6 sm:p-10">
         <div className="mb-4 flex flex-wrap items-center gap-3">
           <span className={`rounded-full px-3 py-1 text-xs font-medium ${status.color}`}>
             {status.label}
@@ -79,9 +79,9 @@ export default async function ProjectDetailPage({
             <span className="text-slate-500 dark:text-slate-400">进度</span>
             <span className="font-medium text-slate-700 dark:text-slate-300">{project.progress}%</span>
           </div>
-          <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800">
+          <div className="h-2 rounded-full bg-hair">
             <div
-              className="h-full rounded-full bg-sky-500 transition-all duration-500"
+              className="h-full rounded-full bg-wire transition-all duration-500"
               style={{ width: `${project.progress}%` }}
             />
           </div>
@@ -92,14 +92,14 @@ export default async function ProjectDetailPage({
             href={project.github}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:text-slate-300"
+            className="btn-secondary gap-2 px-4 py-2"
           >
             <GitBranch size={15} /> GitHub
           </a>
           {project.demo && (
             <Link
               href={project.demo}
-              className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2 text-sm font-medium text-white hover:bg-sky-500"
+              className="btn-primary gap-2 px-4 py-2"
             >
               <ExternalLink size={15} /> 在线演示
             </Link>
@@ -109,7 +109,7 @@ export default async function ProjectDetailPage({
               href={project.docs}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 dark:border-slate-700 dark:text-slate-300"
+              className="inline-flex items-center gap-2 rounded-[4px] border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 dark:border-slate-700 dark:text-slate-300"
             >
               <BookOpen size={15} /> 文档
             </a>
@@ -121,7 +121,7 @@ export default async function ProjectDetailPage({
           <ul className="space-y-2">
             {project.highlights.map((h) => (
               <li key={h} className="flex items-start gap-2 text-slate-600 dark:text-slate-300">
-                <CheckCircle2 size={16} className="mt-1 shrink-0 text-sky-500" />
+                <CheckCircle2 size={16} className="mt-1 shrink-0 text-wire" />
                 <span>{h}</span>
               </li>
             ))}
@@ -139,7 +139,7 @@ export default async function ProjectDetailPage({
             {project.todos.map((todo) => (
               <div key={todo.text} className="flex items-center gap-2.5">
                 {todo.done ? (
-                  <CheckCircle2 size={16} className="text-sky-500" />
+                  <CheckCircle2 size={16} className="text-wire" />
                 ) : (
                   <Circle size={16} className="text-slate-300 dark:text-slate-600" />
                 )}

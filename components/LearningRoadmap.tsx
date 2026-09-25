@@ -20,10 +20,10 @@ const iconByCategory: Record<string, React.ElementType> = {
 };
 
 const colorByCategory: Record<string, { color: string; bg: string }> = {
-  "Java 基础": { color: "text-sky-600", bg: "bg-sky-50 dark:bg-sky-900/30" },
-  "后端框架": { color: "text-orange-600", bg: "bg-orange-50 dark:bg-orange-900/30" },
-  数据库: { color: "text-green-600", bg: "bg-green-50 dark:bg-green-900/30" },
-  计算机基础: { color: "text-purple-600", bg: "bg-purple-50 dark:bg-purple-900/30" },
+  "Java 基础": { color: "text-wire", bg: "bg-wire/10" },
+  "后端框架": { color: "text-wire", bg: "bg-wire/10" },
+  数据库: { color: "text-wire", bg: "bg-wire/10" },
+  计算机基础: { color: "text-wire", bg: "bg-wire/10" },
 };
 
 const defaultData: RoadmapData = {
@@ -118,10 +118,10 @@ export function LearningRoadmap() {
         return (
           <div
             key={section.category}
-            className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-950"
+            className="card p-6"
           >
             <div className="mb-4 flex items-center gap-3">
-              <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${colors.bg}`}>
+              <div className={`flex h-10 w-10 items-center justify-center rounded-[4px] ${colors.bg}`}>
                 <Icon size={20} className={colors.color} />
               </div>
               <div className="flex-1">
@@ -132,7 +132,7 @@ export function LearningRoadmap() {
               </div>
               <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{progress}%</span>
             </div>
-            <div className="mb-4 h-2 rounded-full bg-slate-100 dark:bg-slate-800">
+            <div className="mb-4 h-2 rounded-full bg-hair">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${colors.color.replace("text-", "bg-")}`}
                 style={{ width: `${progress}%` }}
@@ -146,11 +146,11 @@ export function LearningRoadmap() {
                     key={item}
                     type="button"
                     onClick={() => toggle(sectionIdx, itemIdx)}
-                    className="flex w-full items-center gap-2.5 rounded-lg px-1 py-1 text-left transition-colors hover:bg-slate-50 dark:hover:bg-slate-900"
+                    className="flex w-full items-center gap-2.5 rounded-[4px] px-1 py-1 text-left transition-colors hover:bg-slate-50 dark:hover:bg-slate-900"
                     aria-pressed={done}
                   >
                     {done ? (
-                      <CheckCircle2 size={16} className="text-sky-500" />
+                      <CheckCircle2 size={16} className="text-wire" />
                     ) : (
                       <Circle size={16} className="text-slate-300 dark:text-slate-600" />
                     )}

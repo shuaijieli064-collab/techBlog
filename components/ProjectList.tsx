@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Calendar, GitBranch, ExternalLink } from "lucide-react";
 
 import { ProjectTodos } from "@/components/ProjectTodos";
+import { SectionRule } from "@/components/SectionRule";
 import { projects, statusMap } from "@/lib/projects";
 
 export function ProjectList() {
@@ -16,14 +17,14 @@ export function ProjectList() {
         return (
           <article
             key={project.id}
-            className="card p-6 transition-all hover:shadow-md sm:p-8"
+            className="card card-hover p-6 sm:p-8"
           >
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex-1">
                 <div className="mb-3 flex flex-wrap items-center gap-3">
                   <Link
                     href={`/projects/${project.id}`}
-                    className="text-2xl font-bold text-slate-900 transition-colors hover:text-sky-600 dark:text-slate-50 dark:hover:text-sky-400"
+                    className="text-2xl font-bold text-slate-900 transition-colors hover:text-wire dark:text-slate-50 dark:hover:text-wire"
                   >
                     {project.title}
                   </Link>
@@ -34,7 +35,7 @@ export function ProjectList() {
                 <p className="text-base text-slate-600 dark:text-slate-300">{project.description}</p>
                 <Link
                   href={`/projects/${project.id}`}
-                  className="mt-3 inline-block text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
+                  className="mt-3 inline-block text-sm font-medium text-wire hover:opacity-80"
                 >
                   查看详情 →
                 </Link>
@@ -48,7 +49,7 @@ export function ProjectList() {
                   href={project.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1.5 hover:text-sky-600 dark:hover:text-sky-400"
+                  className="flex items-center gap-1.5 hover:text-wire dark:hover:text-wire"
                 >
                   <GitBranch size={14} />
                   <span>GitHub</span>
@@ -56,7 +57,7 @@ export function ProjectList() {
                 {project.demo && (
                   <Link
                     href={project.demo}
-                    className="flex items-center gap-1.5 hover:text-sky-600 dark:hover:text-sky-400"
+                    className="flex items-center gap-1.5 hover:text-wire dark:hover:text-wire"
                   >
                     <ExternalLink size={14} />
                     <span>Demo</span>
@@ -72,9 +73,9 @@ export function ProjectList() {
                   {project.progress}%
                 </span>
               </div>
-              <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800">
+              <div className="h-2 rounded-full bg-hair">
                 <div
-                  className="h-full rounded-full bg-sky-500 transition-all duration-500"
+                  className="h-full rounded-full bg-wire transition-all duration-500"
                   style={{ width: `${project.progress}%` }}
                 />
               </div>
@@ -139,36 +140,28 @@ export function ProjectProgressSummary() {
 
   return (
     <div className="card p-6">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">项目进度</h2>
-        <Link
-          href="/projects"
-          className="text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
-        >
-          全部项目 →
-        </Link>
-      </div>
+      <SectionRule title="项目进度" href="/projects" metaLabel="全部项目" />
       <div className="mb-4 flex items-baseline gap-2">
-        <span className="text-3xl font-bold text-sky-600">{avg}%</span>
-        <span className="text-xs text-slate-500 dark:text-slate-400">平均完成度</span>
+        <span className="font-mono text-3xl font-bold text-foreground">{avg}%</span>
+        <span className="font-mono text-xs text-muted">AVG 完成度</span>
       </div>
       <div className="space-y-3">
         {projects.map((p) => {
           const value = progress[p.id] ?? p.progress;
           return (
             <div key={p.id}>
-              <div className="mb-1 flex justify-between text-sm">
+              <div className="mb-1.5 flex justify-between font-mono text-xs">
                 <Link
                   href={`/projects/${p.id}`}
-                  className="text-slate-700 hover:text-sky-600 dark:text-slate-300 dark:hover:text-sky-400"
+                  className="text-print transition-colors hover:text-wire"
                 >
                   {p.title}
                 </Link>
-                <span className="text-slate-500">{value}%</span>
+                <span className="text-muted">{value}%</span>
               </div>
-              <div className="h-1.5 rounded-full bg-slate-100 dark:bg-slate-800">
+              <div className="h-1.5 rounded-[2px] bg-hair/50">
                 <div
-                  className="h-full rounded-full bg-sky-500"
+                  className="h-full rounded-[2px] bg-wire"
                   style={{ width: `${value}%` }}
                 />
               </div>

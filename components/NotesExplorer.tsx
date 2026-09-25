@@ -54,7 +54,7 @@ export function NotesExplorer() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="搜索笔记标题、标签或关联文章…"
-          className="input-base rounded-2xl py-3 pl-11 pr-4"
+          className="input-base pl-11!"
           aria-label="搜索笔记"
         />
       </div>
@@ -67,7 +67,7 @@ export function NotesExplorer() {
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="rounded-full bg-sky-600 px-5 py-2 text-sm font-medium text-white hover:bg-sky-500"
+              className="btn-primary px-5 py-2"
             >
               清除搜索
             </button>
@@ -77,7 +77,7 @@ export function NotesExplorer() {
         <div className="grid gap-6 md:grid-cols-2">
           {filteredGroups.map((group) => (
             <section key={group.title} className="card p-6">
-              <div className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-sky-600">
+              <div className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-wire">
                 {group.title}
               </div>
               <p className="text-base leading-7 text-slate-600 dark:text-slate-300">
@@ -93,7 +93,7 @@ export function NotesExplorer() {
                     <Link
                       key={note.slug}
                       href={`/notes/${note.slug}`}
-                      className="block rounded-2xl border border-sky-100 bg-sky-50/60 px-4 py-3 transition-colors hover:border-sky-300 dark:border-sky-900/50 dark:bg-sky-950/40"
+                      className="block rounded-[4px] border border-wire/30 bg-wire/[0.05] px-4 py-3 transition-colors hover:border-wire"
                     >
                       <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
                         {note.title}
@@ -115,13 +115,13 @@ export function NotesExplorer() {
                     <Link
                       key={post.slug}
                       href={`/posts/${post.slug}`}
-                      className="block rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:text-sky-400"
+                      className="block rounded-[4px] border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
                     >
                       {post.title}
                     </Link>
                   ))
                 ) : (
-                  <div className="rounded-2xl border border-dashed border-slate-300 px-4 py-3 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                  <div className="rounded-[4px] border border-dashed border-hair px-4 py-3 text-sm text-muted">
                     该模块还在持续补充中
                   </div>
                 )}

@@ -121,7 +121,7 @@ export function PostEngagement({ slug, title }: { slug: string; title: string })
       <button
         type="button"
         onClick={share}
-        className="flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-600 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:text-slate-300 dark:hover:text-sky-400"
+        className="flex items-center gap-1.5 rounded-[4px] border border-hair px-3 py-1.5 text-sm text-print transition-colors hover:border-wire hover:text-wire"
       >
         {copied ? <Check size={15} className="text-green-500" /> : <Share2 size={15} />}
         <span>{copied ? "已复制链接" : "分享"}</span>

@@ -1,6 +1,8 @@
 "use client";
 
-import { GitCommit, GitPullRequest, Star, ExternalLink } from "lucide-react";
+import { GitCommit, GitPullRequest, Star } from "lucide-react";
+
+import { SectionRule } from "@/components/SectionRule";
 
 type Activity = {
   id: string;
@@ -50,47 +52,38 @@ const icon = {
 export function GitHubActivity() {
   return (
     <div className="card p-6">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">GitHub 活动</h2>
-        <span className="text-[10px] uppercase tracking-wider text-slate-400">mock</span>
-      </div>
-      <div className="space-y-3">
+      <SectionRule title="GitHub 活动" meta="MOCK" />
+      <div className="space-y-2">
         {seedActivity.map((item) => {
           const Icon = icon[item.type];
           return (
             <div
               key={item.id}
-              className="flex items-start gap-3 rounded-xl border border-slate-100 p-3 dark:border-slate-800"
+              className="flex items-start gap-3 rounded-[4px] border border-hair p-3 transition-colors hover:border-wire/60"
             >
-              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-                <Icon size={14} />
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-[3px] border border-hair text-print">
+                <Icon size={12} />
               </span>
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                  <span className="truncate font-medium text-slate-700 dark:text-slate-300">
-                    {item.repo}
-                  </span>
+                <div className="flex items-center gap-2 font-mono text-[11px] text-muted">
+                  <span className="truncate text-wire">{item.repo}</span>
                   <span>·</span>
                   <span>{item.time}</span>
                 </div>
-                <p className="mt-0.5 truncate text-sm text-slate-700 dark:text-slate-200">
-                  {item.message}
-                </p>
+                <p className="mt-0.5 truncate font-mono text-xs text-print">{item.message}</p>
               </div>
             </div>
           );
         })}
       </div>
-      <p className="mt-3 text-[11px] text-slate-400">
-        接入 GitHub API 后自动同步
-      </p>
+      <p className="mt-3 font-mono text-[11px] text-muted">{"//"} 接入 GitHub API 后自动同步</p>
       <a
         href="https://github.com"
         target="_blank"
         rel="noreferrer"
-        className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
+        className="mt-3 inline-flex font-mono text-xs text-print transition-colors hover:text-wire"
       >
-        打开 GitHub <ExternalLink size={13} />
+        [ 打开 GitHub ]
       </a>
     </div>
   );

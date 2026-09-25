@@ -3,14 +3,40 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --ring: #0ea5e9;
+  --background: #eef2f8;
+  --foreground: #0e1b2e;
+  --ring: #2563eb;
+  --panel: #ffffff;
+  --wire: #2563eb;
+  --signal: #b45309;
+  --print: #334155;
+  --muted: #64748b;
+  --hair: #c9d6ea;
+  --grid-line: rgba(37, 99, 235, 0.075);
+}
+
+.dark {
+  --background: #0a1220;
+  --foreground: #e6edf7;
+  --ring: #4d9bff;
+  --panel: #111c30;
+  --wire: #4d9bff;
+  --signal: #f5a524;
+  --print: #9fb3d1;
+  --muted: #64748b;
+  --hair: rgba(77, 155, 255, 0.18);
+  --grid-line: rgba(77, 155, 255, 0.06);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-panel: var(--panel);
+  --color-wire: var(--wire);
+  --color-signal: var(--signal);
+  --color-print: var(--print);
+  --color-muted: var(--muted);
+  --color-hair: var(--hair);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -21,14 +47,19 @@ html {
 
 body {
   min-height: 100vh;
-  background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans SC", Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
+  background-color: var(--background);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
 ::selection {
-  background: rgba(14, 165, 233, 0.28);
+  background: color-mix(in srgb, var(--wire) 30%, transparent);
 }
 
 a {
@@ -51,44 +82,196 @@ img {
 
 @layer utilities {
   .card {
-    @apply rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none;
+    border-radius: 4px;
+    border: 1px solid var(--hair);
+    background: var(--panel);
+    box-shadow: none;
   }
 
   .card-hover {
-    @apply transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-[0_8px_24px_-12px_rgba(14,165,233,0.35)] dark:hover:border-sky-700;
+    transition: border-color 0.15s ease;
+  }
+
+  .card-hover:hover {
+    border-color: var(--wire);
   }
 
   .section-title {
-    @apply text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-slate-50;
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--foreground);
   }
 
   .page-eyebrow {
-    @apply mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-sky-600 dark:text-sky-400;
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+      Consolas, monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--wire);
+  }
+
+  .page-eyebrow::before {
+    content: "[ ";
+  }
+
+  .page-eyebrow::after {
+    content: " ]";
   }
 
   .page-title {
-    @apply text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-slate-50;
+    font-size: 1.875rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--foreground);
   }
 
   .page-desc {
-    @apply mt-3 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 dark:text-slate-300;
+    margin-top: 0.75rem;
+    max-width: 42rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--print);
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sky-500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 4px;
+    background: var(--wire);
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    transition: filter 0.15s ease;
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.12);
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-600 dark:hover:text-sky-400;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--hair);
+    background: var(--panel);
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--foreground);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--wire);
+    color: var(--wire);
   }
 
   .chip {
-    @apply inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 3px;
+    border: 1px solid var(--hair);
+    background: transparent;
+    padding: 0.2rem 0.55rem;
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+      Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--print);
   }
 
   .input-base {
-    @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-400 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid var(--hair);
+    background: var(--panel);
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    color: var(--foreground);
   }
+
+  .input-base::placeholder {
+    color: var(--muted);
+  }
+
+  .input-base:focus {
+    border-color: var(--wire);
+    outline: none;
+  }
+
+  /* Inset terminal/output panel (blueprint: paper-level, not card-level) */
+  .code-panel {
+    border-radius: 4px;
+    border: 1px solid var(--hair);
+    background: var(--background);
+    padding: 1rem;
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+      Consolas, monospace;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--print);
+    overflow: auto;
+  }
+
+  /* Small mono structural label (HEADER / HEX / field names) */
+  .label-mono {
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+      Consolas, monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+}
+
+/* Blueprint frame: registration ticks at container corners */
+.reg-ticks::before,
+.reg-ticks::after {
+  content: "+";
+  position: absolute;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--wire);
+  opacity: 0.7;
+}
+
+.reg-ticks::before {
+  top: -6px;
+  left: -5px;
+}
+
+.reg-ticks::after {
+  top: -6px;
+  right: -5px;
+}
+
+.reg-ticks-b::before,
+.reg-ticks-b::after {
+  content: "+";
+  position: absolute;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--wire);
+  opacity: 0.7;
+}
+
+.reg-ticks-b::before {
+  bottom: -6px;
+  left: -5px;
+}
+
+.reg-ticks-b::after {
+  bottom: -6px;
+  right: -5px;
 }
 
 /* Soft page fade-in for route changes */

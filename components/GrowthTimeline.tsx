@@ -19,7 +19,7 @@ export function GrowthTimeline() {
             onClick={() => setActive(f)}
             className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
               active === f
-                ? "border-sky-600 bg-sky-600 text-white"
+                ? "border-wire bg-wire text-white"
                 : "border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
             }`}
           >
@@ -39,7 +39,7 @@ export function GrowthTimeline() {
               <span
                 className={`absolute -left-[41px] top-1.5 h-4 w-4 rounded-full border-2 border-white ${colors.dot} dark:border-slate-950`}
               />
-              <article className="rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:shadow-md dark:border-slate-800 dark:bg-slate-950">
+              <article className="card card-hover p-5">
                 <div className="mb-2 flex flex-wrap items-center gap-3">
                   <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${colors.bg} ${colors.text}`}>
                     {typeLabels[event.type]}

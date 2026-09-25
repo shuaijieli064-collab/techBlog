@@ -16,22 +16,22 @@ const stats = [
   {
     key: "avg",
     icon: TrendingUp,
-    bg: "bg-sky-50 dark:bg-sky-900/30",
-    color: "text-sky-600 dark:text-sky-400",
+    bg: "bg-wire/10",
+    color: "text-wire",
     label: "平均技能水平",
   },
   {
     key: "events",
     icon: Calendar,
-    bg: "bg-purple-50 dark:bg-purple-900/30",
-    color: "text-purple-600 dark:text-purple-400",
+    bg: "bg-wire/10",
+    color: "text-wire",
     label: "成长事件",
   },
   {
     key: "milestones",
     icon: Award,
-    bg: "bg-orange-50 dark:bg-orange-900/30",
-    color: "text-orange-600 dark:text-orange-400",
+    bg: "bg-wire/10",
+    color: "text-wire",
     label: "关键里程碑",
   },
 ] as const;
@@ -58,7 +58,7 @@ export default function GrowthPage() {
         {stats.map((stat) => (
           <div key={stat.key} className="card p-5">
             <div className="flex items-center gap-3">
-              <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${stat.bg}`}>
+              <div className={`flex h-10 w-10 items-center justify-center rounded-[4px] ${stat.bg}`}>
                 <stat.icon size={20} className={stat.color} />
               </div>
               <div>
@@ -75,7 +75,7 @@ export default function GrowthPage() {
           <h2 className="section-title">技能画像</h2>
           <Link
             href="/learning"
-            className="flex items-center gap-1 text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
+            className="flex items-center gap-1 text-sm font-medium text-wire hover:opacity-80"
           >
             学习路线 <ArrowRight size={14} />
           </Link>

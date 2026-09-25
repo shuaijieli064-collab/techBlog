@@ -22,7 +22,7 @@
 - ✅ 正文代码高亮接入（CodeBlock 语法着色 + 行号）
 - ✅ 草稿概念（status: draft/published，列表/详情/RSS/Sitemap 过滤）
 - ✅ 阅读量/点赞/分享（localStorage 计数）
-- 🔄 Markdown 渲染支持（`lib/markdown.ts` 解析器 + Notes 详情已接入；博客正文铺路）
+- ✅ Markdown 渲染统一（`lib/markdown.ts` 解析器 + `Markdown` 组件；Notes 与博客正文共用管线，代码块经 CodeBlock 高亮，h2/h3 带锚点供 TOC）
 - ⬜ 收藏/评论（后期）
 
 ## Phase 5 Projects ✅
@@ -67,6 +67,11 @@
 - ✅ 分组导航（博客 / AI 中心 下拉 + 移动端分组缩进）
 - ✅ 视觉走查 375/768/1280（8 页截图）：笔记表格横向滚动、首页精选补位、笔记去重复 H1、Tools 移动端横向工具条、任务列表去重复圆点、学习记录表单/删除按钮移动端适配
 - ✅ 设计系统统一：globals.css `card`/`btn-primary`/`btn-secondary`/`page-*`/`input-base` utilities、PageHeader 组件、导航 active pill、页脚 chips、首页 hero 网格渐变、focus-visible、页面淡入
+- 🔄 蓝图工作台重设计（工程蓝图/终端风，亮暗双套）：
+  - ✅ 第一轮「首页 + 全局框架」：双模式 token（ink/panel/wire/signal/print/hair + 蓝图网格底）、4px 圆角 hairline 卡片替代阴影胶囊、mono 括号导航激活态 `[/工具]`、`//` 区块规则线、首页 TITLE BLOCK 图纸标题栏、页脚状态栏（ONLINE 指示）、PostCard/EmptyState 同步
+  - ✅ 第二轮「逐页深度重排」：dashboard（SectionRule 共享组件、任务/活动/进度聚合）、tools 13 工具（code-panel 输出面板、侧栏 mono 激活态、修复 CronTool/JwtDecoder 渲染期 setState 死循环）；全站样式清扫（卡片/按钮/筛选/搜索框→token utilities、sky 强调→wire、旧色输入框→input-base、rounded-xl/lg→4px、正文管线 markdown.ts 引用/表格/inline code/链接→wire+hairline）；growth/projects/分类色统一 wire（语义色保留：状态/点赞/删除/CodeBlock 语法高亮）
+  - ✅ 逐页截图验收（暗 21 页 + 亮 3 页 + 375 移动 4 页）：全绿；修复 functions 页双层 grid 嵌套布局破损 + 隐藏空分类
+  - ⬜ 已知遗留（功能向，非视觉）：functions 页搜索框不过滤、`?category=` 链接无效果、archive 分类标签 "JAVA" 全大写中英混排待定
 
 ## Phase 13 测试 🔄 部分
 - ✅ 关键路由 smoke（20 条路由 200 + build 63 页）
@@ -110,7 +115,6 @@
 
 ## 建议下一轮
 
-- ⬜ 博客正文接入 `lib/markdown.ts`（posts/[slug] 若干内容源仍为结构化 sections）
 - ⬜ 真实域名替换（配置 NEXT_PUBLIC_SITE_URL）+ Supabase 环境变量 + Cloudflare 部署（Phase 14）
 - ⬜ 安全面 RLS 用例、（可选）Playwright 冒烟
 - ⬜ 需要你提供：真实域名、是否接 Supabase/GitHub token

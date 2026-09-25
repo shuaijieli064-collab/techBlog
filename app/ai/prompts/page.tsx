@@ -15,14 +15,14 @@ export default function AiPromptsPage() {
       <div className="mb-4">
         <Link
           href="/ai"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-wire hover:opacity-80"
         >
           <ArrowLeft size={14} /> 返回 AI 中心
         </Link>
       </div>
 
       <div className="mb-10">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">Prompt Library</p>
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-wire">Prompt Library</p>
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">提示词库</h1>
         <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
           收集和管理各类场景下的高效提示词。支持搜索、分类、一键复制、本地收藏与新建（数据仅存浏览器）。

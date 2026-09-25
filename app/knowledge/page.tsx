@@ -67,14 +67,14 @@ export default function KnowledgePage() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {sections.map((section) => (
           <Link key={section.title} href={section.href} className="card card-hover group p-6">
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-sky-50 dark:bg-sky-900/30">
-              <section.icon size={20} className="text-sky-600 dark:text-sky-400" />
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-[4px] bg-wire/10">
+              <section.icon size={20} className="text-wire" />
             </div>
-            <h2 className="text-lg font-semibold text-slate-900 group-hover:text-sky-600 dark:text-slate-50 dark:group-hover:text-sky-400">
+            <h2 className="text-lg font-semibold text-slate-900 group-hover:text-wire dark:text-slate-50 dark:group-hover:text-wire">
               {section.title}
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{section.desc}</p>
-            <span className="mt-4 inline-block text-sm font-medium text-sky-600 dark:text-sky-400">
+            <span className="mt-4 inline-block text-sm font-medium text-wire">
               {section.linkLabel} →
             </span>
           </Link>

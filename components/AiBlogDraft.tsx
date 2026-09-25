@@ -92,10 +92,10 @@ ${template.prompt}
   };
 
   return (
-    <div className="mt-8 rounded-3xl border border-sky-500/20 bg-gradient-to-br from-sky-50/70 to-purple-50/50 p-6 dark:border-sky-900/40 dark:from-sky-950/40 dark:to-purple-950/30">
+    <div className="mt-8 rounded-[4px] border border-wire/30 bg-wire/[0.05] p-6">
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm dark:bg-slate-900">
-          <Sparkles size={18} className="text-sky-600" />
+        <div className="flex h-10 w-10 items-center justify-center rounded-[4px] border border-hair bg-panel">
+          <Sparkles size={18} className="text-wire" />
         </div>
         <div>
           <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">AI 生成博客草稿</h2>
@@ -128,7 +128,7 @@ ${template.prompt}
         <button
           type="button"
           onClick={generate}
-          className="btn-primary rounded-xl px-5 py-2.5"
+          className="btn-primary px-5 py-2.5"
         >
           <Sparkles size={15} /> 生成草稿
         </button>
@@ -142,7 +142,7 @@ ${template.prompt}
               <button
                 type="button"
                 onClick={copy}
-                className="inline-flex items-center gap-1 rounded-lg bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-300"
+                className="inline-flex items-center gap-1 rounded-[4px] border border-hair bg-panel px-2.5 py-1 text-xs font-medium text-print hover:border-wire"
               >
                 {copied ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
                 {copied ? "已复制" : "复制"}
@@ -150,13 +150,13 @@ ${template.prompt}
               <button
                 type="button"
                 onClick={download}
-                className="inline-flex items-center gap-1 rounded-lg bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-300"
+                className="inline-flex items-center gap-1 rounded-[4px] border border-hair bg-panel px-2.5 py-1 text-xs font-medium text-print hover:border-wire"
               >
                 <Download size={12} /> 下载 .md
               </button>
             </div>
           </div>
-          <pre className="max-h-72 overflow-auto rounded-xl border border-slate-200 bg-white p-4 font-mono text-xs leading-6 text-slate-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300">
+          <pre className="max-h-72 overflow-auto rounded-[4px] border border-hair bg-background p-4 font-mono text-xs leading-6 text-print">
             {draft}
           </pre>
         </div>

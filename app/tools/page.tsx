@@ -29,12 +29,12 @@ function JsonFormatter() {
         placeholder="粘贴 JSON 数据..."
         className="input-base h-40 font-mono"
       />
-      <button onClick={format} className="btn-primary rounded-xl px-4 py-2">
+      <button onClick={format} className="btn-primary px-4 py-2">
         格式化
       </button>
       {error && <p className="text-sm text-red-500">{error}</p>}
       {output && (
-        <pre className="w-full overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+        <pre className="w-full overflow-auto code-panel">
           {output}
         </pre>
       )}
@@ -64,20 +64,20 @@ function Base64Tool() {
       <div className="flex gap-2">
         <button
           onClick={() => setMode("encode")}
-          className={`rounded-lg px-3 py-1.5 text-sm ${
+          className={`rounded-[4px] px-3 py-1.5 font-mono text-sm ${
             mode === "encode"
-              ? "bg-sky-600 text-white"
-              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+              ? "border border-wire bg-wire text-white"
+              : "border border-hair text-print hover:border-wire hover:text-wire"
           }`}
         >
           编码
         </button>
         <button
           onClick={() => setMode("decode")}
-          className={`rounded-lg px-3 py-1.5 text-sm ${
+          className={`rounded-[4px] px-3 py-1.5 font-mono text-sm ${
             mode === "decode"
-              ? "bg-sky-600 text-white"
-              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+              ? "border border-wire bg-wire text-white"
+              : "border border-hair text-print hover:border-wire hover:text-wire"
           }`}
         >
           解码
@@ -89,12 +89,12 @@ function Base64Tool() {
         placeholder="输入内容..."
         className="input-base h-32 font-mono"
       />
-      <button onClick={convert} className="btn-primary rounded-xl px-4 py-2">
+      <button onClick={convert} className="btn-primary px-4 py-2">
         转换
       </button>
       {output && (
         <div className="relative">
-          <pre className="w-full overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+          <pre className="w-full overflow-auto code-panel">
             {output}
           </pre>
           <CopyButton text={output} />
@@ -123,7 +123,7 @@ function TimestampConverter() {
   return (
     <div className="space-y-4">
       <div>
-        <label className="mb-1 block text-sm text-slate-500 dark:text-slate-400">时间戳 → 日期</label>
+        <label className="mb-1 block text-sm text-muted">时间戳 → 日期</label>
         <div className="flex gap-2">
           <input
             value={timestamp}
@@ -131,13 +131,13 @@ function TimestampConverter() {
             placeholder="1693000000"
             className="input-base flex-1 font-mono"
           />
-          <button onClick={toHuman} className="btn-primary rounded-xl px-4 py-2">
+          <button onClick={toHuman} className="btn-primary px-4 py-2">
             转换
           </button>
         </div>
       </div>
       <div>
-        <label className="mb-1 block text-sm text-slate-500 dark:text-slate-400">日期 → 时间戳</label>
+        <label className="mb-1 block text-sm text-muted">日期 → 时间戳</label>
         <div className="flex gap-2">
           <input
             type="datetime-local"
@@ -145,14 +145,14 @@ function TimestampConverter() {
             onChange={(e) => setDateStr(e.target.value)}
             className="input-base flex-1"
           />
-          <button onClick={toTimestamp} className="btn-primary rounded-xl px-4 py-2">
+          <button onClick={toTimestamp} className="btn-primary px-4 py-2">
             转换
           </button>
         </div>
       </div>
       {result && (
         <div className="relative">
-          <pre className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+          <pre className="w-full code-panel">
             {result}
           </pre>
           <CopyButton text={result} />
@@ -193,7 +193,7 @@ function RegexTester() {
           placeholder="g"
           className="input-base w-16 font-mono"
         />
-        <button onClick={test} className="btn-primary rounded-xl px-4 py-2">
+        <button onClick={test} className="btn-primary px-4 py-2">
           测试
         </button>
       </div>
@@ -204,13 +204,13 @@ function RegexTester() {
         className="input-base h-24 font-mono"
       />
       {matches.length > 0 && (
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900">
-          <p className="mb-2 text-sm text-slate-500 dark:text-slate-400">匹配结果 ({matches.length})</p>
+        <div className="code-panel">
+          <p className="mb-2 text-sm text-muted">匹配结果 ({matches.length})</p>
           <div className="flex flex-wrap gap-2">
             {matches.map((m, i) => (
               <span
                 key={i}
-                className="rounded-lg bg-sky-100 px-2 py-1 font-mono text-xs text-sky-700 dark:bg-sky-900/30 dark:text-sky-300"
+                className="rounded-[3px] border border-hair bg-background px-2 py-1 font-mono text-xs text-wire"
               >
                 {m}
               </span>
@@ -232,13 +232,13 @@ function UuidGenerator() {
 
   return (
     <div className="space-y-4">
-      <button onClick={generate} className="btn-primary rounded-xl px-4 py-2">
+      <button onClick={generate} className="btn-primary px-4 py-2">
         生成 UUID
       </button>
       <div className="space-y-2">
         {uuids.map((uuid, i) => (
           <div key={i} className="relative">
-            <code className="block w-full rounded-xl border border-slate-200 bg-slate-50 p-3 font-mono text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+            <code className="block w-full code-panel">
               {uuid}
             </code>
             <CopyButton text={uuid} />
@@ -267,20 +267,20 @@ function UrlTool() {
       <div className="flex gap-2">
         <button
           onClick={() => setMode("encode")}
-          className={`rounded-lg px-3 py-1.5 text-sm ${
+          className={`rounded-[4px] px-3 py-1.5 font-mono text-sm ${
             mode === "encode"
-              ? "bg-sky-600 text-white"
-              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+              ? "border border-wire bg-wire text-white"
+              : "border border-hair text-print hover:border-wire hover:text-wire"
           }`}
         >
           编码
         </button>
         <button
           onClick={() => setMode("decode")}
-          className={`rounded-lg px-3 py-1.5 text-sm ${
+          className={`rounded-[4px] px-3 py-1.5 font-mono text-sm ${
             mode === "decode"
-              ? "bg-sky-600 text-white"
-              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+              ? "border border-wire bg-wire text-white"
+              : "border border-hair text-print hover:border-wire hover:text-wire"
           }`}
         >
           解码
@@ -294,7 +294,7 @@ function UrlTool() {
       />
       {output && (
         <div className="relative">
-          <pre className="w-full overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+          <pre className="w-full overflow-auto code-panel">
             {output}
           </pre>
           <CopyButton text={output} />
@@ -313,31 +313,28 @@ function base64UrlDecode(segment: string): string {
 
 function JwtDecoder() {
   const [token, setToken] = useState("");
-  const [error, setError] = useState("");
   const parts = token.trim().split(".");
   const valid = parts.length === 3 && parts.every((p) => p.length > 0);
 
   let header = "";
   let payload = "";
+  let error = "";
   if (valid) {
     try {
       header = JSON.stringify(JSON.parse(base64UrlDecode(parts[0])), null, 2);
       payload = JSON.stringify(JSON.parse(base64UrlDecode(parts[1])), null, 2);
-      setError("");
     } catch {
-      setError("无法解码：请确认是合法的 JWT（header.payload.signature）");
+      error = "无法解码：请确认是合法的 JWT（header.payload.signature）";
       header = "";
       payload = "";
     }
   } else if (token.trim()) {
-    setError("格式不正确：JWT 应包含三段，用 . 分隔");
-  } else {
-    setError("");
+    error = "格式不正确：JWT 应包含三段，用 . 分隔";
   }
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-slate-500 dark:text-slate-400">
+      <p className="text-sm text-muted">
         仅本地 Base64URL 解码预览，不校验签名。请勿粘贴生产环境真实令牌。
       </p>
       <textarea
@@ -346,22 +343,22 @@ function JwtDecoder() {
         placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.…"
         className="input-base h-28 font-mono text-xs"
       />
-      {error && <p className="text-sm text-amber-600 dark:text-amber-400">{error}</p>}
+      {error && <p className="text-sm text-signal">{error}</p>}
       {header && (
         <div className="grid gap-4 md:grid-cols-2">
           <div>
-            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">Header</p>
+            <p className="mb-1 label-mono">Header</p>
             <div className="relative">
-              <pre className="overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+              <pre className="overflow-auto code-panel">
                 {header}
               </pre>
               <CopyButton text={header} />
             </div>
           </div>
           <div>
-            <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">Payload</p>
+            <p className="mb-1 label-mono">Payload</p>
             <div className="relative">
-              <pre className="overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+              <pre className="overflow-auto code-panel">
                 {payload}
               </pre>
               <CopyButton text={payload} />
@@ -418,7 +415,7 @@ function ColorTool() {
           type="color"
           value={valid ?? "#0ea5e9"}
           onChange={(e) => setHex(e.target.value)}
-          className="h-12 w-16 cursor-pointer rounded-xl border border-slate-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-900"
+          className="h-12 w-16 cursor-pointer rounded-[4px] border border-hair bg-panel p-1"
           aria-label="选择颜色"
         />
         <input
@@ -429,7 +426,7 @@ function ColorTool() {
         />
       </div>
       <div
-        className="h-24 rounded-xl border border-slate-200 dark:border-slate-700"
+        className="h-24 rounded-[4px] border border-hair"
         style={{ backgroundColor: valid ?? "transparent" }}
       />
       {valid && rgb && (
@@ -441,10 +438,10 @@ function ColorTool() {
           ].map((row) => (
             <div
               key={row.label}
-              className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900"
+              className="code-panel relative"
             >
-              <div className="text-xs text-slate-500">{row.label}</div>
-              <div className="mt-1 break-all font-mono text-xs text-slate-800 dark:text-slate-200">{row.value}</div>
+              <div className="label-mono">{row.label}</div>
+              <div className="mt-1 break-all font-mono text-xs text-foreground">{row.value}</div>
               <CopyButton text={row.value} />
             </div>
           ))}
@@ -501,15 +498,15 @@ function HashTool() {
         placeholder="输入要哈希的文本…"
         className="input-base h-28 font-mono"
       />
-      <button onClick={run} className="btn-primary rounded-xl px-4 py-2">
+      <button onClick={run} className="btn-primary px-4 py-2">
         计算哈希
       </button>
       {error && <p className="text-sm text-red-500">{error}</p>}
       <div className="space-y-2">
         {Object.entries(results).map(([label, value]) => (
           <div key={label} className="relative">
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-900">
-              <span className="text-xs font-semibold text-slate-500">{label}</span>
+            <div className="flex items-center justify-between rounded-[4px] border border-hair bg-background px-3 py-2">
+              <span className="label-mono">{label}</span>
               <code className="ml-2 flex-1 truncate font-mono text-xs text-slate-700 dark:text-slate-300">
                 {value}
               </code>
@@ -608,7 +605,7 @@ function MarkdownTool() {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-slate-500 dark:text-slate-400">
+      <p className="text-sm text-muted">
         支持标题、粗斜体、行内代码、列表、链接与代码块（本地渲染，已转义 HTML）。
       </p>
       <div className="grid gap-4 md:grid-cols-2">
@@ -619,7 +616,7 @@ function MarkdownTool() {
           aria-label="Markdown 源码"
         />
         <div
-          className="prose-preview h-64 overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+          className="prose-preview h-64 overflow-auto rounded-[4px] border border-hair bg-background p-4 text-sm leading-7 text-print"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       </div>
@@ -628,10 +625,10 @@ function MarkdownTool() {
         .prose-preview .md-h2 { font-size: 1.25rem; font-weight: 700; margin: 0.5rem 0 0.35rem; }
         .prose-preview .md-h3 { font-size: 1.1rem; font-weight: 600; margin: 0.4rem 0 0.3rem; }
         .prose-preview .md-ul { list-style: disc; padding-left: 1.25rem; margin: 0.4rem 0; }
-        .prose-preview .md-pre { background: #0f172a; color: #e2e8f0; padding: 0.75rem 1rem; border-radius: 0.75rem; overflow: auto; margin: 0.5rem 0; }
+        .prose-preview .md-pre { background: #0f172a; color: #e2e8f0; padding: 0.75rem 1rem; border-radius: 4px; overflow: auto; margin: 0.5rem 0; }
         .prose-preview code { font-family: ui-monospace, monospace; background: rgba(148,163,184,.2); padding: 0 .25rem; border-radius: .25rem; }
         .prose-preview .md-pre code { background: transparent; padding: 0; }
-        .prose-preview a { color: #0284c7; }
+        .prose-preview a { color: var(--wire); }
       `}</style>
     </div>
   );
@@ -704,13 +701,13 @@ function SqlFormatter() {
         placeholder="select id,name from users where age>18 order by name"
         className="input-base h-36 font-mono"
       />
-      <button onClick={format} className="btn-primary rounded-xl px-4 py-2">
+      <button onClick={format} className="btn-primary px-4 py-2">
         格式化
       </button>
       {error && <p className="text-sm text-red-500">{error}</p>}
       {output && (
         <div className="relative">
-          <pre className="w-full overflow-auto whitespace-pre-wrap rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+          <pre className="w-full overflow-auto whitespace-pre-wrap code-panel">
             {output}
           </pre>
           <CopyButton text={output} />
@@ -722,7 +719,6 @@ function SqlFormatter() {
 
 function CronTool() {
   const [expr, setExpr] = useState("0 9 * * 1-5");
-  const [error, setError] = useState("");
 
   const fields = [
     { label: "分", min: 0, max: 59 },
@@ -734,6 +730,7 @@ function CronTool() {
 
   const parts = expr.trim().split(/\s+/);
   const valid = parts.length === 5;
+  let error = "";
 
   const describeField = (
     value: string,
@@ -750,7 +747,7 @@ function CronTool() {
     }
     const n = Number(value);
     if (!Number.isFinite(n) || n < field.min || n > field.max) {
-      setError(`第 ${index + 1} 段「${field.label}」超出 ${field.min}-${field.max}`);
+      error = `第 ${index + 1} 段「${field.label}」超出 ${field.min}-${field.max}`;
       return "";
     }
     if (index === 4 && n === 0) return "周日";
@@ -764,11 +761,7 @@ function CronTool() {
   };
 
   const summary = (() => {
-    if (!valid) {
-      setError("");
-      return "Cron 需要 5 段：分 时 日 月 周";
-    }
-    setError("");
+    if (!valid) return "Cron 需要 5 段：分 时 日 月 周";
     const labels = parts.map((p, i) => describeField(p, fields[i], i));
     return labels.join(" · ");
   })();
@@ -791,10 +784,10 @@ function CronTool() {
         />
       </div>
       <div
-        className={`rounded-xl border p-4 text-sm ${
+        className={`rounded-[4px] border p-4 font-mono text-sm ${
           error
-            ? "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300"
-            : "border-slate-200 bg-slate-50 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+            ? "border-signal bg-signal/10 text-signal"
+            : "border-hair bg-background text-print"
         }`}
       >
         {error || summary}
@@ -805,16 +798,16 @@ function CronTool() {
             key={ex.expr}
             type="button"
             onClick={() => setExpr(ex.expr)}
-            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+            className="rounded-[4px] border border-hair px-3 py-1.5 font-mono text-xs text-print transition-colors hover:border-wire hover:text-wire"
           >
             {ex.expr} · {ex.desc}
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-5 gap-2 text-center text-xs text-slate-500">
+      <div className="grid grid-cols-5 gap-2 text-center label-mono">
         {fields.map((f) => (
-          <div key={f.label} className="rounded-lg bg-slate-50 py-2 dark:bg-slate-900">
-            <div className="font-semibold text-slate-700 dark:text-slate-300">{f.label}</div>
+          <div key={f.label} className="rounded-[4px] bg-background py-2">
+            <div className="font-semibold text-foreground">{f.label}</div>
             <div>
               {f.min}-{f.max}
             </div>
@@ -894,13 +887,13 @@ function HtmlFormatter() {
         placeholder="<div><p>hello</p><br></div>"
         className="input-base h-36 font-mono"
       />
-      <button onClick={format} className="btn-primary rounded-xl px-4 py-2">
+      <button onClick={format} className="btn-primary px-4 py-2">
         格式化
       </button>
       {error && <p className="text-sm text-red-500">{error}</p>}
       {output && (
         <div className="relative">
-          <pre className="w-full overflow-auto whitespace-pre-wrap rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">
+          <pre className="w-full overflow-auto whitespace-pre-wrap code-panel">
             {output}
           </pre>
           <CopyButton text={output} />
@@ -920,9 +913,9 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={copy}
-      className="absolute right-2 top-2 rounded-lg bg-white p-1.5 shadow-sm hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700"
+      className="absolute right-2 top-2 rounded-[4px] border border-hair bg-panel p-1.5 text-muted transition-colors hover:border-wire hover:text-wire"
     >
-      {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} className="text-slate-400" />}
+      {copied ? <Check size={14} className="text-wire" /> : <Copy size={14} />}
     </button>
   );
 }
@@ -961,10 +954,10 @@ export default function ToolsPage() {
             <button
               key={tool.id}
               onClick={() => setActive(tool.id)}
-              className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-medium transition-colors lg:w-full lg:rounded-xl ${
+              className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-[4px] border px-3 py-2 font-mono text-sm transition-colors lg:w-full ${
                 active === tool.id
-                  ? "bg-sky-50 text-sky-600 dark:bg-sky-900/40 dark:text-sky-400"
-                  : "bg-white text-slate-600 hover:bg-slate-50 dark:bg-slate-950 dark:text-slate-400 dark:hover:bg-slate-900 lg:bg-transparent dark:lg:bg-transparent"
+                  ? "border-wire bg-panel font-semibold text-wire"
+                  : "border-hair bg-panel text-print hover:border-wire hover:text-wire"
               }`}
             >
               {tool.name}

@@ -74,16 +74,16 @@ function NavDropdown({
 
   return (
     <div ref={rootRef} className={`relative ${className}`} onPointerEnter={() => setOpen(true)} onPointerLeave={() => setOpen(false)}>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-0.5">
         <Link
           href={item.href}
-          className={`rounded-full px-2.5 py-1 text-sm font-medium transition-colors ${
+          className={`rounded-[3px] px-2 py-1 font-mono text-[13px] transition-colors ${
             active
-              ? "bg-sky-50 text-sky-600 dark:bg-sky-900/40 dark:text-sky-400"
-              : "text-slate-600 hover:bg-slate-50 hover:text-sky-600 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-sky-400"
+              ? "bg-wire/10 text-wire"
+              : "text-print hover:bg-wire/10 hover:text-wire"
           }`}
         >
-          {item.label}
+          {active ? `[${item.label}]` : item.label}
         </Link>
         <button
           type="button"
@@ -91,23 +91,23 @@ function NavDropdown({
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
           className={`rounded p-0.5 ${
-            active ? "text-sky-600 dark:text-sky-400" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+            active ? "text-wire" : "text-muted hover:text-print"
           }`}
         >
           <ChevronDown size={13} className={`transition-transform ${open ? "rotate-180" : ""}`} />
         </button>
       </div>
       {open && item.children && (
-        <div className="absolute left-0 top-full z-40 mt-2 min-w-[10.5rem] rounded-2xl border border-slate-200/90 bg-white p-1.5 shadow-xl shadow-slate-900/5 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40">
+        <div className="absolute left-0 top-full z-40 mt-2 min-w-[10.5rem] rounded-[4px] border border-hair bg-panel p-1">
           {item.children.map((child) => (
             <Link
               key={child.href}
               href={child.href}
               onClick={() => setOpen(false)}
-              className={`block rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
+              className={`block rounded-[3px] px-3 py-2 font-mono text-[13px] transition-colors ${
                 pathname === child.href
-                  ? "bg-sky-50 text-sky-600 dark:bg-sky-900/40 dark:text-sky-400"
-                  : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+                  ? "bg-wire/10 text-wire"
+                  : "text-print hover:bg-wire/10 hover:text-wire"
               }`}
             >
               {child.label}
@@ -137,23 +137,23 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/85 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/85">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-30 border-b border-hair bg-panel/85 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-sky-600 font-bold text-white shadow-md shadow-sky-600/25">
+          <span className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-hair bg-wire font-mono text-sm font-bold text-white">
             L
           </span>
           <div className="hidden sm:block">
-            <div className="text-[15px] font-semibold tracking-tight text-slate-900 dark:text-slate-50">
+            <div className="text-[15px] font-bold tracking-tight text-foreground">
               林晨的博客
             </div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
-              Tech Journal
+            <div className="font-mono text-[10px] tracking-[0.08em] text-muted">
+              ~/dev-workspace
             </div>
           </div>
         </Link>
 
-        <nav aria-label="主导航" className="hidden items-center gap-4 lg:flex xl:gap-6">
+        <nav aria-label="主导航" className="hidden items-center gap-0.5 lg:flex xl:gap-1">
           {navItems.map((item) =>
             item.children ? (
               <NavDropdown key={item.href} item={item} pathname={pathname} />
@@ -161,13 +161,13 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-full px-2.5 py-1 text-sm font-medium transition-colors ${
+                className={`rounded-[3px] px-2 py-1 font-mono text-[13px] transition-colors ${
                   isActive(pathname, item.href)
-                    ? "bg-sky-50 text-sky-600 dark:bg-sky-900/40 dark:text-sky-400"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-sky-600 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-sky-400"
+                    ? "bg-wire/10 text-wire"
+                    : "text-print hover:bg-wire/10 hover:text-wire"
                 }`}
               >
-                {item.label}
+                {isActive(pathname, item.href) ? `[${item.label}]` : item.label}
               </Link>
             ),
           )}
@@ -177,13 +177,13 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/posts"
-            className="hidden rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-sky-600 sm:inline-flex dark:bg-sky-600 dark:hover:bg-sky-500"
+            className="hidden rounded-[4px] bg-wire px-4 py-2 font-mono text-[13px] font-semibold text-white transition-[filter] hover:brightness-110 sm:inline-flex"
           >
             阅读文章
           </Link>
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition-colors hover:border-sky-300 hover:text-sky-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 lg:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-hair bg-panel text-print transition-colors hover:border-wire hover:text-wire lg:hidden"
             aria-label={open ? "关闭菜单" : "打开菜单"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
@@ -196,7 +196,7 @@ export function SiteHeader() {
       {open && (
         <nav
           aria-label="移动导航"
-          className="border-t border-slate-200/80 bg-white/95 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95 lg:hidden"
+          className="border-t border-hair bg-panel/95 backdrop-blur-xl lg:hidden"
         >
           <div className="mx-auto grid max-w-6xl gap-1 px-4 py-4 sm:px-6">
             {navItems.map((item) => (
@@ -204,16 +204,16 @@ export function SiteHeader() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className={`block rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+                  className={`block rounded-[3px] px-4 py-2.5 font-mono text-sm transition-colors ${
                     isActive(pathname, item.href)
-                      ? "bg-sky-50 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
-                      : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-900"
+                      ? "bg-wire/10 text-wire"
+                      : "text-print hover:bg-wire/10 hover:text-wire"
                   }`}
                 >
-                  {item.label}
+                  {isActive(pathname, item.href) ? `[${item.label}]` : item.label}
                 </Link>
                 {item.children && (
-                  <div className="ml-4 grid gap-0.5 border-l border-slate-200 pl-3 dark:border-slate-700">
+                  <div className="ml-4 grid gap-0.5 border-l border-hair pl-3">
                     {item.children
                       .filter((c) => c.href !== item.href)
                       .map((child) => (
@@ -221,7 +221,7 @@ export function SiteHeader() {
                           key={child.href}
                           href={child.href}
                           onClick={() => setOpen(false)}
-                          className="rounded-lg px-3 py-2 text-sm text-slate-500 hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400"
+                          className="rounded-[3px] px-3 py-2 font-mono text-[13px] text-muted hover:text-wire"
                         >
                           {child.label}
                         </Link>
