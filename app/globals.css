@@ -58,16 +58,6 @@ body {
     "Microsoft YaHei", "Noto Sans SC", Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
   background-color: var(--background);
-  background-image:
-    radial-gradient(var(--grid-line) 1px, transparent 1.4px),
-    radial-gradient(
-      900px 460px at 50% -6%,
-      rgba(92, 225, 255, 0.07),
-      transparent 65%
-    );
-  background-size:
-    22px 22px,
-    100% 100%;
 }
 
 ::selection {
@@ -302,6 +292,145 @@ img {
   }
 }
 
+/* ---------- ambient deep-space layers (fixed, -z-10, behind content) ---------- */
+
+.glow-top {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 520px;
+  background: radial-gradient(
+    900px 460px at 50% -6%,
+    rgba(92, 225, 255, 0.07),
+    transparent 65%
+  );
+}
+
+.aurora {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.aurora-a {
+  width: 68vmax;
+  height: 68vmax;
+  left: -16vmax;
+  top: -26vmax;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(92, 225, 255, 0.075),
+    transparent 62%
+  );
+  animation: aurora-drift-a 52s ease-in-out infinite alternate;
+}
+
+.aurora-b {
+  width: 58vmax;
+  height: 58vmax;
+  right: -20vmax;
+  bottom: -22vmax;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 180, 84, 0.045),
+    transparent 60%
+  );
+  animation: aurora-drift-b 64s ease-in-out infinite alternate;
+}
+
+.bg-grid {
+  background-image: radial-gradient(var(--grid-line) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+  will-change: transform;
+}
+
+/* Perspective horizon — grid recedes to a vanishing point, flows toward viewer */
+.horizon-band {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 30vh;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to top, #000 45%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 45%, transparent 100%);
+}
+
+.horizon {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 340px;
+  transform: perspective(520px) rotateX(60deg);
+  transform-origin: 50% 100%;
+}
+
+.horizon-grid {
+  position: absolute;
+  left: -60%;
+  right: -60%;
+  top: -80%;
+  bottom: -30%;
+  background-image:
+    linear-gradient(rgba(92, 225, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 225, 255, 0.11) 1px, transparent 1px);
+  background-size:
+    72px 72px,
+    72px 72px;
+  animation: horizon-flow 2.8s linear infinite;
+  will-change: transform;
+}
+
+.horizon-glow {
+  position: absolute;
+  inset: auto 0 auto 0;
+  bottom: 116px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(92, 225, 255, 0.4),
+    transparent
+  );
+  box-shadow: 0 0 16px rgba(92, 225, 255, 0.3);
+  opacity: 0.7;
+}
+
+.spotlight {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 840px;
+  height: 840px;
+  margin: -420px 0 0 -420px;
+  background: radial-gradient(
+    circle,
+    rgba(92, 225, 255, 0.085),
+    rgba(92, 225, 255, 0.03) 34%,
+    transparent 68%
+  );
+  transform: translate3d(50vw, 44vh, 0);
+  will-change: transform;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    125% 95% at 50% 40%,
+    transparent 55%,
+    rgba(3, 6, 11, 0.5) 100%
+  );
+}
+
+@media (pointer: coarse) {
+  .spotlight {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .horizon-band {
+    height: 20vh;
+  }
+}
+
 /* ---------- motion: one boot sequence, then ambient only ---------- */
 
 @keyframes scan-drift {
@@ -325,6 +454,27 @@ img {
 @keyframes radar-rotate {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes aurora-drift-a {
+  to {
+    transform: translate3d(9vmax, 7vmax, 0) scale(1.12);
+  }
+}
+
+@keyframes aurora-drift-b {
+  to {
+    transform: translate3d(-8vmax, -6vmax, 0) scale(1.08);
+  }
+}
+
+@keyframes horizon-flow {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 72px, 0);
   }
 }
 
@@ -375,6 +525,9 @@ main {
   main,
   .scanlines,
   .status-dot,
+  .aurora-a,
+  .aurora-b,
+  .horizon-grid,
   [data-boot],
   [data-radar-sweep] {
     animation: none !important;

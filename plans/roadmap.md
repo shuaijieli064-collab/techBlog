@@ -132,6 +132,7 @@
 4. ✅ **氛围组件**：`ScrambleText`（解码动效）/ `RadarSweep`（雷达）/ `Telemetry`（遥测）；首页 hero 重写、页眉/分区线/PostCard/EmptyState 重写
 5. ✅ **修缺陷**：dashboard 375px 横向溢出（`min-w-0`）、左右列空洞重平衡、tasks 计数 3/3→1/3 与面板一致、GitHubActivity `//` 前缀与 `[ 打开 GitHub ]`
 6. ✅ **验证**：lint / typecheck / build 全绿，`npm test` 14/14，10 路由 × 桌面/移动 DOM 验证 ALL PASS，20 张截图视觉自评通过
+7. ✅ **氛围背景升级**：新 `AmbientBackground`（fixed `-z-10`，全站）——星野 canvas（120–160 星 + 流星、dpr≤2、后台暂停）+ 极光漂移（wire/signal 双色）+ 透视地平线网格（向观者流动）+ 光标聚光 + 暗角；点阵网格迁入并做滚动视差；reduced-motion 全静态、粗指针关聚光、移动端缩量；lint/typecheck/build/14 测试全绿
 
 ## 建议下一轮
 
