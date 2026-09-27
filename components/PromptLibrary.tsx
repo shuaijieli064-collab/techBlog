@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Copy, Check, Star, Plus, Search, X, Save } from "lucide-react";
 
 import { promptCategories, seedPrompts, type PromptItem } from "@/lib/prompts";
-
-const STORAGE_KEY = "prompt-library:v1";
+import { useWorkspace } from "@/lib/workspace/client";
 
 type LocalState = {
   favorites: string[];
@@ -13,32 +12,21 @@ type LocalState = {
   useCounts: Record<string, number>;
 };
 
-function loadState(): LocalState {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { favorites: [], custom: [], useCounts: {} };
-    const parsed = JSON.parse(raw) as Partial<LocalState>;
-    return {
-      favorites: Array.isArray(parsed.favorites) ? parsed.favorites : [],
-      custom: Array.isArray(parsed.custom) ? parsed.custom : [],
-      useCounts: parsed.useCounts && typeof parsed.useCounts === "object" ? parsed.useCounts : {},
-    };
-  } catch {
-    return { favorites: [], custom: [], useCounts: {} };
-  }
-}
+const emptyState: LocalState = { favorites: [], custom: [], useCounts: {} };
 
-function saveState(state: LocalState) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    /* ignore */
-  }
+function normalizeState(input: LocalState): LocalState {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return emptyState;
+  return {
+    favorites: Array.isArray(input.favorites) ? input.favorites : [],
+    custom: Array.isArray(input.custom) ? input.custom : [],
+    useCounts:
+      input.useCounts && typeof input.useCounts === "object" ? input.useCounts : {},
+  };
 }
 
 export function PromptLibrary() {
-  const [mounted, setMounted] = useState(false);
-  const [state, setState] = useState<LocalState>({ favorites: [], custom: [], useCounts: {} });
+  const [rawState, setState, ready] = useWorkspace<LocalState>("prompt-library", emptyState);
+  const state = normalizeState(rawState);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("全部");
   const [showFavOnly, setShowFavOnly] = useState(false);
@@ -46,14 +34,6 @@ export function PromptLibrary() {
   const [creating, setCreating] = useState(false);
   const [draft, setDraft] = useState({ title: "", category: promptCategories[0] as string, content: "" });
   const [expandedId, setExpandedId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setState(loadState());
-      setMounted(true);
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
 
   const allPrompts = useMemo(() => [...state.custom, ...seedPrompts], [state.custom]);
 
@@ -69,7 +49,6 @@ export function PromptLibrary() {
 
   const update = (next: LocalState) => {
     setState(next);
-    saveState(next);
   };
 
   const copy = async (prompt: PromptItem) => {
@@ -118,7 +97,7 @@ export function PromptLibrary() {
     });
   };
 
-  if (!mounted) {
+  if (!ready) {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (

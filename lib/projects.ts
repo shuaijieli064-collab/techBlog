@@ -1,5 +1,15 @@
 export type ProjectStatus = "planning" | "developing" | "testing" | "completed" | "archived";
 
+export type ProjectTodosMap = Record<string, Array<{ text: string; done: boolean }>>;
+
+export function projectProgressFrom(all: ProjectTodosMap, project: Project): number {
+  const todos = all[project.id];
+  if (Array.isArray(todos) && todos.length > 0) {
+    return Math.round((todos.filter((t) => t.done).length / todos.length) * 100);
+  }
+  return project.progress;
+}
+
 export type Project = {
   id: string;
   title: string;

@@ -3,10 +3,13 @@ import type { Metadata } from "next";
 import { BookOpen, Folder, Brain, Zap, Sparkles } from "lucide-react";
 
 import { DailyTasks } from "@/components/DailyTasks";
+import { DashboardStats } from "@/components/DashboardStats";
 import { GitHubActivity } from "@/components/GitHubActivity";
 import { ProjectProgressSummary } from "@/components/ProjectList";
 import { SectionRule } from "@/components/SectionRule";
+import { SkillBars } from "@/components/SkillBars";
 import { getPublishedPosts } from "@/lib/posts";
+import { skills } from "@/lib/growth";
 import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -15,15 +18,6 @@ export const metadata: Metadata = {
   ...pageMeta("/dashboard"),
 };
 
-const skills = [
-  { name: "Java", level: 80 },
-  { name: "算法", level: 50 },
-  { name: "Spring", level: 30 },
-  { name: "MySQL", level: 60 },
-  { name: "Git", level: 70 },
-  { name: "AI", level: 80 },
-];
-
 const quickActions = [
   { label: "写博客", href: "/posts", icon: BookOpen },
   { label: "项目", href: "/projects", icon: Folder },
@@ -31,21 +25,10 @@ const quickActions = [
   { label: "工具", href: "/tools", icon: Zap },
 ];
 
-const statCards = [
-  { code: "POSTS", label: "已发布文章", valueKey: "posts" as const, suffix: "篇" },
-  { code: "TASKS", label: "今日任务", valueKey: "tasks" as const, suffix: "" },
-  { code: "STREAK", label: "连续学习天数", valueKey: "streak" as const, suffix: "天" },
-];
-
 export default function DashboardPage() {
   const posts = getPublishedPosts();
   const totalPosts = posts.length;
   const latest = posts.slice(0, 3);
-  const values: Record<(typeof statCards)[number]["valueKey"], string | number> = {
-    posts: String(totalPosts).padStart(2, "0"),
-    tasks: "1/3",
-    streak: 12,
-  };
 
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -60,26 +43,7 @@ export default function DashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="min-w-0 space-y-6 lg:col-span-2">
-          <div className="grid gap-4 sm:grid-cols-3">
-            {statCards.map((stat) => (
-              <div key={stat.label} className="card p-5">
-                <div className="flex items-baseline justify-between">
-                  <span className="font-mono text-[11px] tracking-[0.14em] text-muted">
-                    {stat.code}
-                  </span>
-                </div>
-                <div className="mt-2 flex items-baseline gap-1.5">
-                  <span className="font-mono text-3xl font-bold text-foreground">
-                    {values[stat.valueKey]}
-                  </span>
-                  {stat.suffix && (
-                    <span className="font-mono text-xs text-print">{stat.suffix}</span>
-                  )}
-                </div>
-                <div className="mt-1 text-xs text-print">{stat.label}</div>
-              </div>
-            ))}
-          </div>
+          <DashboardStats totalPosts={totalPosts} />
 
           <DailyTasks />
 
@@ -140,22 +104,7 @@ export default function DashboardPage() {
 
           <div className="card p-6">
             <SectionRule title="技能画像" meta={`${skills.length} SKILLS`} />
-            <div className="space-y-4">
-              {skills.map((skill) => (
-                <div key={skill.name}>
-                  <div className="mb-1.5 flex justify-between font-mono text-xs">
-                    <span className="text-print">{skill.name}</span>
-                    <span className="text-muted">{skill.level}%</span>
-                  </div>
-                  <div className="h-1.5 bg-hair/50">
-                    <div
-                      className="h-full bg-wire transition-all duration-500"
-                      style={{ width: `${skill.level}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <SkillBars variant="dashboard" />
           </div>
 
           <div className="card p-6">

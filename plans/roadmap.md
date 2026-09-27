@@ -11,7 +11,7 @@
 
 ## Phase 3 Dashboard 改造 ✅
 - ✅ 统计、任务、技能、快捷操作、AI 推荐
-- ✅ 任务可勾选、增删、持久化（localStorage）
+- ✅ 任务可勾选、增删、持久化（本机后端）
 - ✅ GitHub 活动卡片（mock，待 API）、「AI 规划今天」入口（本地模板）
 - ✅ 项目/学习进度聚合组件复用（ProjectProgressSummary）
 
@@ -21,20 +21,20 @@
 - ✅ 文章 TOC（从 sections 生成 + 滚动高亮）
 - ✅ 正文代码高亮接入（CodeBlock 语法着色 + 行号）
 - ✅ 草稿概念（status: draft/published，列表/详情/RSS/Sitemap 过滤）
-- ✅ 阅读量/点赞/分享（localStorage 计数）
+- ✅ 阅读量/点赞/分享（本机后端计数）
 - ✅ Markdown 渲染统一（`lib/markdown.ts` 解析器 + `Markdown` 组件；Notes 与博客正文共用管线，代码块经 CodeBlock 高亮，h2/h3 带锚点供 TOC）
 - ⬜ 收藏/评论（后期）
 
 ## Phase 5 Projects ✅
 - ✅ 列表、状态、进度、TODO
-- ✅ TODO 可勾选持久化（localStorage）
+- ✅ TODO 可勾选持久化（本机后端）
 - ✅ 项目详情页 /projects/[slug]（长描述、亮点、进度、GitHub/Demo、TODO 摘要）
 
 ## Phase 6 Learning ✅
 - ✅ 路线图、算法分类进度
-- ✅ 掌握状态可切换（localStorage）
-- ✅ 算法进度 +/− 可编辑（localStorage）
-- ✅ 学习记录 study_records 时间线（增删 + 本地持久化）
+- ✅ 掌握状态可切换（本机后端）
+- ✅ 算法进度 +/− 可编辑（本机后端）
+- ✅ 学习记录 study_records 时间线（增删 + 本机后端持久化）
 
 ## Phase 7 Knowledge ✅ 入口 + AI 草稿流 + 笔记搜索 + 笔记详情
 - ✅ 入口卡片、笔记地图
@@ -92,7 +92,7 @@
 ## 后端接入（横切，Phase 15+）
 - ✅ Supabase schema 落盘（`supabase/schema.sql`）
 - ⬜ Auth 登录/注册 + 角色
-- ⬜ lib 数据层 adapter 化（static → supabase）
+- ✅ lib 数据层 adapter 化第一步：工作台交互态 → 本机后端（node:sqlite，见下节）；static → supabase 仍 ⬜
 - ⬜ RLS 策略上线（schema 内已写策略，待连库验证）
 - ⬜ Edge Functions：AI 整理/生成博客
 - ⬜ GitHub API 只读集成（Dashboard 已有 mock 卡片）
@@ -104,7 +104,7 @@
 1. ✅ **P0** Blog：搜索、分类筛选、TOC、详情代码高亮、置顶展示、点赞/阅读量（本地）、草稿过滤
 2. ✅ **P0** AI Agents 页 + /ai 中心 + Prompt 一键复制/收藏/本地新建
 3. ✅ **P0** Tools 补全（URL/JWT/Color/Hash/Markdown/SQL/Cron/HTML）
-4. ✅ **P1** Learning/Growth/Dashboard/Projects 交互持久化（localStorage）
+4. ✅ **P1** Learning/Growth/Dashboard/Projects 交互持久化（本机后端）
 5. ✅ **P1** Knowledge AI 生成博客草稿流（本地模板）+ supabase/schema.sql + .env.example
 6. ✅ **P2** 分组导航、项目详情、学习记录时间线、笔记搜索、Dashboard GitHub/AI 规划/项目进度聚合、README/计划同步
 
@@ -133,6 +133,15 @@
 5. ✅ **修缺陷**：dashboard 375px 横向溢出（`min-w-0`）、左右列空洞重平衡、tasks 计数 3/3→1/3 与面板一致、GitHubActivity `//` 前缀与 `[ 打开 GitHub ]`
 6. ✅ **验证**：lint / typecheck / build 全绿，`npm test` 14/14，10 路由 × 桌面/移动 DOM 验证 ALL PASS，20 张截图视觉自评通过
 7. ✅ **氛围背景升级**：新 `AmbientBackground`（fixed `-z-10`，全站）——星野 canvas（120–160 星 + 流星、dpr≤2、后台暂停）+ 极光漂移（wire/signal 双色）+ 透视地平线网格（向观者流动）+ 光标聚光 + 暗角；点阵网格迁入并做滚动视差；reduced-motion 全静态、粗指针关聚光、移动端缩量；lint/typecheck/build/14 测试全绿
+
+## 本机后端 · 工作台数据层 — 已完成
+
+1. ✅ **架构**：Next Route Handlers（`GET/PUT /api/workspace/[domain]`、`POST .../[domain]` 仅 post-metrics、`POST /api/workspace/import`）+ Node 24 内置 `node:sqlite` KV 表 `workspace_state`（WAL + busy_timeout、`globalThis` HMR 缓存、256KB 域上限校验）；库文件 `data/workspace.db`（git 忽略、`WORKSPACE_DB_PATH` 可覆盖）；零新运行时依赖（仅 `@types/node` ^20→^24）
+2. ✅ **8 类状态全迁**：daily-tasks / project-todos / learning-mastered / algorithms / study-records / skill-levels / prompt-library / post-metrics（原 7 个静态 key + 动态 `post:*` 前缀）；`lib/workspace/client.ts` `useWorkspace` 模块级共享 store——同域多组件实时联动（TODO↔进度卡片↔详情页）、乐观更新 + 120ms debounce PUT、GET no-store；旧 localStorage 保留不删（回滚余地），组件不再读取
+3. ✅ **一次性迁移**：`ensureMigrated()` 首访读全部 legacy key → `POST import`（库空才接受、已初始化 409 幂等防覆盖）→ 成功后落 `workspace:migrated` 标记（网络失败不落标、可重试）；所有写路径先 await 迁移，杜绝旧数据覆盖新数据
+4. ✅ **修假数据 F1–F4**：DashboardStats（今日任务 x/y 真算、连续学习天数按 study-records 日期真算，种子改相对今日 −1/−2/−4/−5 天 + `ready` 门控防 hydration 不匹配）、技能画像三处统一读 skill-levels（dashboard 8 条 / growth 平均值 / profile，新 `SkillBars`/`GrowthStats`）、项目进度列表+详情页由 project-todos 实时推算（`projectProgressFrom`，新 `ProjectProgress`/`ProjectDetailTodos`）
+5. ✅ **测试**：Playwright 隔离（webServer `WORKSPACE_DB_PATH=data/test.db` + 每次跑前清库）；新增 `tests/00-workspace.spec.ts` 7 用例——import 200/409 幂等、GET/PUT 回环、404/400/413 校验、view/like/unlike（含幂等与下限）、dashboard 统计+任务跨刷新、TODO 联动进度+详情页同步、阅读/点赞跨刷新；`npm test` 21/21 绿（文件名 `00-` 保证清库后先于 UI 冒烟执行）
+6. ✅ **验证**：lint / typecheck / build 全绿；dev 库跨重启持久化实测（探针 PUT → 重启 dev → GET 仍在 → 清理）；用户浏览器旧 localStorage 首访已自动迁移（daily-tasks 4 条入库）
 
 ## 建议下一轮
 

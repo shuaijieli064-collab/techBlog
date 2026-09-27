@@ -38,6 +38,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# local workspace backend (SQLite)
+/data/
+
 # local logs
 dev-server.log
 dev-server.err.log

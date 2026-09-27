@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useWorkspace } from "@/lib/workspace/client";
 
-const defaults = [
+type AlgoDefault = { name: string; count: number; mastered: number };
+type AlgoStored = { name: string; mastered: number };
+
+const defaults: AlgoDefault[] = [
   { name: "数组", count: 12, mastered: 8 },
   { name: "字符串", count: 8, mastered: 5 },
   { name: "双指针", count: 5, mastered: 3 },
@@ -17,48 +20,26 @@ const defaults = [
   { name: "贪心", count: 4, mastered: 2 },
 ];
 
-const STORAGE_KEY = "learning:algorithms:v1";
+function mergeWithDefaults(stored: AlgoStored[]): AlgoDefault[] {
+  return defaults.map((item) => {
+    const hit = stored.find((p) => p && p.name === item.name);
+    if (!hit || typeof hit.mastered !== "number") return item;
+    return { ...item, mastered: Math.min(item.count, Math.max(0, hit.mastered)) };
+  });
+}
 
 export function AlgorithmProgress() {
-  const [items, setItems] = useState(defaults);
+  const [stored, setStored] = useWorkspace<AlgoStored[]>("algorithms", defaults);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        const parsed = JSON.parse(raw) as Array<{ name: string; mastered: number }>;
-        if (!Array.isArray(parsed)) return;
-        setItems((prev) =>
-          prev.map((item) => {
-            const hit = parsed.find((p) => p.name === item.name);
-            return hit ? { ...item, mastered: Math.min(item.count, Math.max(0, hit.mastered)) } : item;
-          }),
-        );
-      } catch {
-        /* ignore */
-      }
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
+  const items = Array.isArray(stored) ? mergeWithDefaults(stored) : defaults;
 
   const bump = (name: string, delta: number) => {
-    setItems((prev) => {
-      const next = prev.map((item) =>
-        item.name === name
-          ? { ...item, mastered: Math.min(item.count, Math.max(0, item.mastered + delta)) }
-          : item,
-      );
-      try {
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(next.map(({ name: n, mastered }) => ({ name: n, mastered }))),
-        );
-      } catch {
-        /* ignore */
-      }
-      return next;
-    });
+    const next = items.map((item) =>
+      item.name === name
+        ? { ...item, mastered: Math.min(item.count, Math.max(0, item.mastered + delta)) }
+        : item,
+    );
+    setStored(next.map(({ name: n, mastered }) => ({ name: n, mastered })));
   };
 
   return (

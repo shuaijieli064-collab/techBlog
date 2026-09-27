@@ -3,79 +3,34 @@
 import { useEffect, useState } from "react";
 import { Heart, Eye, Share2, Check } from "lucide-react";
 
-const viewsKey = (slug: string) => `post:views:${slug}`;
-const likesKey = (slug: string) => `post:likes:${slug}`;
-const likedKey = (slug: string) => `post:liked:${slug}`;
-
-const baseViews: Record<string, number> = {
-  "nextjs-beginner-notes": 128,
-  "data-structures-learning-routine": 96,
-  "project-retrospective-first-website": 74,
-  "weekly-learning-routine": 63,
-  "java-core-notes": 142,
-  "springboot-learning-notes": 118,
-  "mysql-mybatis-practice-notes": 87,
-  "redis-message-queue-java-notes": 105,
-};
-
-const baseLikes: Record<string, number> = {
-  "nextjs-beginner-notes": 24,
-  "data-structures-learning-routine": 18,
-  "project-retrospective-first-website": 15,
-  "weekly-learning-routine": 12,
-  "java-core-notes": 31,
-  "springboot-learning-notes": 22,
-  "mysql-mybatis-practice-notes": 16,
-  "redis-message-queue-java-notes": 20,
-};
-
-function readNumber(key: string, fallback: number): number {
-  try {
-    const raw = localStorage.getItem(key);
-    if (raw === null) return fallback;
-    const n = Number(raw);
-    return Number.isFinite(n) ? n : fallback;
-  } catch {
-    return fallback;
-  }
-}
+import { postMetric } from "@/lib/workspace/client";
+import { seedMetric } from "@/lib/postMetricsSeed";
+import type { MetricOp, PostMetric } from "@/lib/workspace/types";
 
 export function PostEngagement({ slug, title }: { slug: string; title: string }) {
-  const [views, setViews] = useState(baseViews[slug] ?? 0);
-  const [likes, setLikes] = useState(baseLikes[slug] ?? 0);
-  const [liked, setLiked] = useState(false);
+  const [metric, setMetric] = useState<PostMetric>(() => seedMetric(slug));
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const nextViews = readNumber(viewsKey(slug), baseViews[slug] ?? 0) + 1;
-      try {
-        localStorage.setItem(viewsKey(slug), String(nextViews));
-      } catch {
-        /* ignore */
-      }
-      setViews(nextViews);
-      setLikes(readNumber(likesKey(slug), baseLikes[slug] ?? 0));
-      try {
-        setLiked(localStorage.getItem(likedKey(slug)) === "1");
-      } catch {
-        setLiked(false);
-      }
-    }, 0);
-    return () => clearTimeout(timer);
+    let cancelled = false;
+    void postMetric(slug, "view").then((m) => {
+      if (!cancelled && m) setMetric(m);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [slug]);
 
   const toggleLike = () => {
-    const nextLiked = !liked;
-    const nextLikes = Math.max(0, likes + (nextLiked ? 1 : -1));
-    setLiked(nextLiked);
-    setLikes(nextLikes);
-    try {
-      localStorage.setItem(likedKey(slug), nextLiked ? "1" : "0");
-      localStorage.setItem(likesKey(slug), String(nextLikes));
-    } catch {
-      /* ignore */
-    }
+    const op: MetricOp = metric.liked ? "unlike" : "like";
+    setMetric((m) => ({
+      ...m,
+      liked: !m.liked,
+      likes: Math.max(0, m.likes + (op === "like" ? 1 : -1)),
+    }));
+    void postMetric(slug, op).then((m) => {
+      if (m) setMetric(m);
+    });
   };
 
   const share = async () => {
@@ -101,21 +56,21 @@ export function PostEngagement({ slug, title }: { slug: string; title: string })
     <div className="flex flex-wrap items-center gap-3">
       <div className="flex items-center gap-1.5 rounded-full border border-hair px-3 py-1.5 text-sm text-print">
         <Eye size={15} className="text-muted" />
-        <span>{views} 阅读</span>
+        <span>{metric.views} 阅读</span>
       </div>
 
       <button
         type="button"
         onClick={toggleLike}
-        aria-pressed={liked}
+        aria-pressed={metric.liked}
         className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors ${
-          liked
+          metric.liked
             ? "border-alert bg-alert/10 text-alert"
             : "border-hair text-print hover:border-alert hover:text-alert"
         }`}
       >
-        <Heart size={15} className={liked ? "fill-alert" : ""} />
-        <span>{likes} 点赞</span>
+        <Heart size={15} className={metric.liked ? "fill-alert" : ""} />
+        <span>{metric.likes} 点赞</span>
       </button>
 
       <button

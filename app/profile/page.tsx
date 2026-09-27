@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { GitBranch, Mail, MapPin, BookOpen, Folder, ArrowRight, ExternalLink } from "lucide-react";
 import { getPublishedPosts } from "@/lib/posts";
+import { SkillBars } from "@/components/SkillBars";
 import { skills } from "@/lib/growth";
 import { pageMeta } from "@/lib/site";
 
@@ -80,22 +81,7 @@ export default function ProfilePage() {
             成长中心 <ArrowRight size={14} />
           </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {skills.slice(0, 8).map((skill) => (
-            <div key={skill.name}>
-              <div className="mb-1.5 flex justify-between text-sm">
-                <span className="text-foreground">{skill.name}</span>
-                <span className="text-xs text-print">{skill.level}%</span>
-              </div>
-              <div className="h-2 rounded-full bg-hair">
-                <div
-                  className={`h-full rounded-full ${skill.color} transition-all duration-500`}
-                  style={{ width: `${skill.level}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+        <SkillBars variant="profile" />
       </section>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">

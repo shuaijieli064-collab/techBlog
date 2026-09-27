@@ -27,6 +27,10 @@ export const skills: Skill[] = [
   { name: "前端", level: 55, color: "bg-wire", category: "语言" },
 ];
 
+export const defaultSkillLevels: Record<string, number> = Object.fromEntries(
+  skills.map((s) => [s.name, s.level]),
+);
+
 export const growthEvents: GrowthEvent[] = [
   {
     id: "1",
@@ -119,37 +123,66 @@ export type StudyRecord = {
   topic: string;
 };
 
-export const seedStudyRecords: StudyRecord[] = [
-  {
-    id: "sr-1",
-    date: "2026-09-22",
-    title: "ConcurrentHashMap 源码",
-    description: "分段锁 → CAS + synchronized，理解 size 计算与扩容协同。",
-    hours: 1.5,
-    topic: "Java",
-  },
-  {
-    id: "sr-2",
-    date: "2026-09-21",
-    title: "LeetCode 两数之和 / 三数之和",
-    description: "哈希与双指针对比，整理时间复杂度笔记。",
-    hours: 1,
-    topic: "算法",
-  },
-  {
-    id: "sr-3",
-    date: "2026-09-19",
-    title: "Spring Boot 自动配置",
-    description: "梳理 @EnableAutoConfiguration 与 starter 加载链路。",
-    hours: 2,
-    topic: "后端",
-  },
-  {
-    id: "sr-4",
-    date: "2026-09-18",
-    title: "MySQL 索引与执行计划",
-    description: "EXPLAIN 关键列解读，回表与覆盖索引场景复盘。",
-    hours: 1.5,
-    topic: "数据库",
-  },
-];
+function localIso(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+/**
+ * Seed records dated relative to `base` so a fresh visitor sees a believable
+ * recent study chain instead of hardcoded dates that go stale immediately.
+ * Entries: -1, -2, -4, -5 days (a realistic gap on day 3).
+ */
+export function makeSeedStudyRecords(base: Date = new Date()): StudyRecord[] {
+  const template: Array<Omit<StudyRecord, "id" | "date">> = [
+    {
+      title: "ConcurrentHashMap 源码",
+      description: "分段锁 → CAS + synchronized，理解 size 计算与扩容协同。",
+      hours: 1.5,
+      topic: "Java",
+    },
+    {
+      title: "LeetCode 两数之和 / 三数之和",
+      description: "哈希与双指针对比，整理时间复杂度笔记。",
+      hours: 1,
+      topic: "算法",
+    },
+    {
+      title: "Spring Boot 自动配置",
+      description: "梳理 @EnableAutoConfiguration 与 starter 加载链路。",
+      hours: 2,
+      topic: "后端",
+    },
+    {
+      title: "MySQL 索引与执行计划",
+      description: "EXPLAIN 关键列解读，回表与覆盖索引场景复盘。",
+      hours: 1.5,
+      topic: "数据库",
+    },
+  ];
+  const offsets = [1, 2, 4, 5];
+  return template.map((item, i) => {
+    const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() - offsets[i]);
+    return { id: `sr-${i + 1}`, date: localIso(d), ...item };
+  });
+}
+
+/**
+ * Consecutive study days ending today (or yesterday when today has no record
+ * yet, so an unfinished day does not reset the streak).
+ */
+export function computeStreak(
+  records: Array<{ date: string }>,
+  today: Date = new Date(),
+): number {
+  const days = new Set(records.map((r) => r.date));
+  const cursor = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  if (!days.has(localIso(cursor))) {
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  let streak = 0;
+  while (days.has(localIso(cursor))) {
+    streak += 1;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return streak;
+}

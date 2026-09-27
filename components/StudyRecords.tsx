@@ -1,46 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { Plus, Clock, Trash2 } from "lucide-react";
 
-import { seedStudyRecords, type StudyRecord } from "@/lib/growth";
-
-const STORAGE_KEY = "learning:study-records:v1";
-
-function load(): StudyRecord[] | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as StudyRecord[];
-    return Array.isArray(parsed) ? parsed : null;
-  } catch {
-    return null;
-  }
-}
+import { makeSeedStudyRecords, type StudyRecord } from "@/lib/growth";
+import { useWorkspace } from "@/lib/workspace/client";
 
 export function StudyRecords() {
-  const [records, setRecords] = useState<StudyRecord[]>(seedStudyRecords);
+  const seeds = useMemo(() => makeSeedStudyRecords(), []);
+  const [stored, setRecords, ready] = useWorkspace<StudyRecord[]>(
+    "study-records",
+    seeds,
+  );
+  const records = Array.isArray(stored) ? stored : seeds;
   const [title, setTitle] = useState("");
   const [topic, setTopic] = useState("Java");
   const [hours, setHours] = useState("1");
   const [description, setDescription] = useState("");
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const saved = load();
-      if (saved) setRecords(saved);
-    }, 0);
-    return () => clearTimeout(t);
-  }, []);
-
-  const persist = (next: StudyRecord[]) => {
-    setRecords(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      /* ignore */
-    }
-  };
 
   const add = () => {
     const t = title.trim();
@@ -53,17 +29,27 @@ export function StudyRecords() {
       hours: Number(hours) || 0,
       topic: topic.trim() || "通用",
     };
-    persist([rec, ...records]);
+    setRecords([rec, ...records]);
     setTitle("");
     setDescription("");
     setHours("1");
   };
 
   const remove = (id: string) => {
-    persist(records.filter((r) => r.id !== id));
+    setRecords(records.filter((r) => r.id !== id));
   };
 
   const totalHours = records.reduce((s, r) => s + r.hours, 0);
+
+  if (!ready) {
+    return (
+      <div className="space-y-4" aria-busy>
+        <div className="h-8 w-48 animate-pulse border border-hair bg-panel" />
+        <div className="h-32 animate-pulse border border-hair bg-panel" />
+        <div className="h-24 animate-pulse border border-hair bg-panel" />
+      </div>
+    );
+  }
 
   return (
     <div>

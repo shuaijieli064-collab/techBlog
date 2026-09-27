@@ -1,18 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Calendar, GitBranch, ExternalLink } from "lucide-react";
 
 import { ProjectTodos } from "@/components/ProjectTodos";
 import { SectionRule } from "@/components/SectionRule";
-import { projects, statusMap } from "@/lib/projects";
+import { projects, statusMap, projectProgressFrom, type ProjectTodosMap } from "@/lib/projects";
+import { useWorkspace } from "@/lib/workspace/client";
+
+const emptyTodos: ProjectTodosMap = {};
 
 export function ProjectList() {
+  const [all] = useWorkspace<ProjectTodosMap>("project-todos", emptyTodos);
+  const stored: ProjectTodosMap =
+    all && typeof all === "object" && !Array.isArray(all) ? all : emptyTodos;
+
   return (
     <div className="space-y-8">
       {projects.map((project) => {
         const status = statusMap[project.status];
+        const progress = projectProgressFrom(stored, project);
 
         return (
           <article
@@ -70,13 +77,13 @@ export function ProjectList() {
               <div className="mb-2 flex items-center justify-between">
                 <span className="text-sm text-print">进度</span>
                 <span className="text-sm font-medium text-foreground">
-                  {project.progress}%
+                  {progress}%
                 </span>
               </div>
               <div className="h-2 rounded-full bg-hair">
                 <div
                   className="h-full rounded-full bg-wire transition-all duration-500"
-                  style={{ width: `${project.progress}%` }}
+                  style={{ width: `${progress}%` }}
                 />
               </div>
             </div>
@@ -106,36 +113,12 @@ export function ProjectList() {
 }
 
 export function ProjectProgressSummary() {
-  const [progress, setProgress] = useState(
-    Object.fromEntries(projects.map((p) => [p.id, p.progress])),
-  );
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      try {
-        const raw = localStorage.getItem("projects:todos:v1");
-        if (!raw) return;
-        const all = JSON.parse(raw) as Record<string, Array<{ done: boolean }>>;
-        setProgress((prev) => {
-          const next = { ...prev };
-          for (const p of projects) {
-            const todos = all[p.id];
-            if (Array.isArray(todos) && todos.length > 0) {
-              const done = todos.filter((t) => t.done).length;
-              next[p.id] = Math.round((done / todos.length) * 100);
-            }
-          }
-          return next;
-        });
-      } catch {
-        /* ignore */
-      }
-    }, 0);
-    return () => clearTimeout(t);
-  }, []);
+  const [rawAll] = useWorkspace<ProjectTodosMap>("project-todos", emptyTodos);
+  const all: ProjectTodosMap =
+    rawAll && typeof rawAll === "object" && !Array.isArray(rawAll) ? rawAll : emptyTodos;
 
   const avg = Math.round(
-    projects.reduce((s, p) => s + (progress[p.id] ?? p.progress), 0) / projects.length,
+    projects.reduce((s, p) => s + projectProgressFrom(all, p), 0) / projects.length,
   );
 
   return (
@@ -147,7 +130,7 @@ export function ProjectProgressSummary() {
       </div>
       <div className="space-y-3">
         {projects.map((p) => {
-          const value = progress[p.id] ?? p.progress;
+          const value = projectProgressFrom(all, p);
           return (
             <div key={p.id}>
               <div className="mb-1.5 flex justify-between font-mono text-xs">

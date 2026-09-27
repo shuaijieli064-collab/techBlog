@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Sparkles } from "lucide-react";
 
 import { SectionRule } from "@/components/SectionRule";
+import { useWorkspace } from "@/lib/workspace/client";
 
 type Task = { id: number; title: string; tag: string; done: boolean };
 
-const defaultTasks: Task[] = [
+export const defaultDailyTasks: Task[] = [
   { id: 1, title: "复习 HashMap 源码分析", tag: "Java", done: false },
   { id: 2, title: "完成算法题 - 两数之和", tag: "算法", done: true },
   { id: 3, title: "更新学习助手项目 TODO", tag: "项目", done: false },
@@ -20,54 +21,31 @@ const aiPlan: Task[] = [
   { id: 4, title: "整理今日学习记录到时间线（15m）", tag: "学习", done: false },
 ];
 
-const STORAGE_KEY = "dashboard:tasks:v1";
-
 export function DailyTasks() {
-  const [tasks, setTasks] = useState<Task[]>(defaultTasks);
+  const [stored, setTasks] = useWorkspace<Task[]>("daily-tasks", defaultDailyTasks);
   const [draft, setDraft] = useState("");
   const [planned, setPlanned] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        const parsed = JSON.parse(raw) as Task[];
-        if (Array.isArray(parsed)) setTasks(parsed);
-      } catch {
-        /* ignore */
-      }
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const persist = (next: Task[]) => {
-    setTasks(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      /* ignore */
-    }
-  };
+  const tasks = Array.isArray(stored) ? stored : defaultDailyTasks;
 
   const toggle = (id: number) => {
-    persist(tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+    setTasks(tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
   };
 
   const add = () => {
     const title = draft.trim();
     if (!title) return;
     const nextId = tasks.reduce((max, t) => Math.max(max, t.id), 0) + 1;
-    persist([...tasks, { id: nextId, title, tag: "自定义", done: false }]);
+    setTasks([...tasks, { id: nextId, title, tag: "自定义", done: false }]);
     setDraft("");
   };
 
   const remove = (id: number) => {
-    persist(tasks.filter((t) => t.id !== id));
+    setTasks(tasks.filter((t) => t.id !== id));
   };
 
   const planToday = () => {
-    persist(aiPlan.map((t) => ({ ...t })));
+    setTasks(aiPlan.map((t) => ({ ...t })));
     setPlanned(true);
   };
 

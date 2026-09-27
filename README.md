@@ -7,7 +7,8 @@
 - **框架**: Next.js 16 (App Router) + React 19 + TypeScript
 - **样式**: Tailwind CSS v4
 - **图标**: lucide-react
-- **部署目标**: Cloudflare Pages（静态导出友好）
+- **本机后端**: Next Route Handlers（`/api/workspace/*`）+ Node 内置 `node:sqlite`（工作台持久化，零新运行时依赖）
+- **部署目标**: Node 服务器 / Vercel（工作台 API 需 Node 运行时）；Cloudflare 需先做 D1/KV adapter
 - **后端规划**: Supabase（Auth / RLS / Storage，MVP 阶段暂未接入）
 
 ## 快速开始
@@ -23,6 +24,8 @@ npm run dev
 npm run build   # 生产构建
 npm run start   # 本地预览构建产物
 npm run lint    # ESLint 检查
+npm run typecheck  # TypeScript 检查
+npm test        # Playwright 冒烟 + 工作台持久化（自动 build + start:3100，使用独立测试库 data/test.db）
 ```
 
 ## 页面结构
@@ -50,13 +53,17 @@ npm run lint    # ESLint 检查
 
 ```
 app/                  # App Router 页面
+app/api/workspace/    # 工作台本地后端（域状态 GET/PUT/POST + 一次性导入）
 components/           # 共享组件（SiteHeader、PostCard、CodeBlock、交互卡片等）
 lib/                  # 静态数据与工具函数
   posts.ts            # 博客文章数据（含 draft/status）
   functions.ts        # 函数速查数据
-  growth.ts           # 技能、成长时间线与学习记录数据
-  projects.ts         # 项目详情数据
+  growth.ts           # 技能、成长时间线与学习记录数据（种子/连续天数计算）
+  projects.ts         # 项目详情数据 + 项目进度推算
   prompts.ts          # 提示词种子数据
+  workspace/          # 工作台域类型 + 客户端共享 store（useWorkspace）
+  server/             # node:sqlite 存储层（lib/server/db.ts）
+data/                 # 本机 SQLite 库 data/workspace.db（git 忽略）
 supabase/schema.sql   # 后端表结构 + RLS（待接入）
 .env.example          # 环境变量模板（密钥不进仓库）
 plans/                # 分析、架构与路线图
@@ -64,11 +71,13 @@ plans/                # 分析、架构与路线图
 
 ## 数据说明
 
-MVP 内容以静态数据（`lib/*.ts`）为主；点赞/阅读量、任务、学习进度、提示词收藏等交互状态保存在浏览器 localStorage。无 API Key 进前端。真实密钥接入时使用 Supabase 服务端/Edge Function，前端绝不直接暴露敏感信息。参考 `supabase/schema.sql` 与 `.env.example`。
+MVP 内容以静态数据（`lib/*.ts`）为主；交互状态（今日任务、项目 TODO、路线掌握、算法进度、学习记录、技能等级、提示词收藏、文章阅读/点赞）保存在**本机后端**：`/api/workspace/*` Route Handlers + `node:sqlite` 单文件库 `data/workspace.db`（git 忽略，可用 `WORKSPACE_DB_PATH` 覆盖路径）。首次访问时浏览器把旧 localStorage 数据一次性导入（`POST /api/workspace/import`，库已初始化则返回 409 幂等拒绝，不会覆盖新数据）。无 API Key 进前端。真实密钥接入时使用 Supabase 服务端/Edge Function，前端绝不直接暴露敏感信息。参考 `supabase/schema.sql` 与 `.env.example`。
 
 站点 URL 读取 `NEXT_PUBLIC_SITE_URL`（见 `lib/site.ts` 与 `.env.example`）；未配置时回退 `https://example.com`，部署前请替换。
 
-## 部署（Cloudflare Pages）
+## 部署（Cloudflare Pages / Node）
+
+> ⚠️ 工作台持久化依赖 Node 运行时（`node:sqlite`）。部署到 Node 服务器 / Vercel 可直接工作；部署到 Cloudflare Workers 前需把 `lib/server/db.ts` 换成 D1/KV adapter（未实现），届时博客等静态功能不受影响。
 
 纯 Next.js SSR 需配合 [OpenNext](https://opennext.js.org/cloudflare) 适配器：
 
@@ -87,7 +96,8 @@ npx opennextjs-cloudflare build && npx opennextjs-cloudflare deploy
 
 ```bash
 npm run lint && npm run typecheck && npm run build
-npm run start   # 验证 /rss.xml、暗色模式、移动端菜单
+npm run start   # 验证 /rss.xml、移动端菜单、工作台持久化
+npm test        # Playwright 21 用例（SEO 冒烟 + 交互 + 工作台后端/持久化）
 ```
 
 ## 功能特性
@@ -95,7 +105,8 @@ npm run start   # 验证 /rss.xml、暗色模式、移动端菜单
 - 工作台 / 知识库 / 项目 / 学习 / 成长 / 个人主页
 - AI 模型中心与提示词库
 - 开发者工具（浏览器端，数据不上传）
-- 暗色模式（跟随系统 + 手动切换，localStorage 持久化）
+- 深空 HUD 暗色主题 + 全站氛围背景（星野 / 极光 / 透视地平线 / 光标聚光）
+- 工作台数据本机持久化（跨刷新 / 跨重启，旧 localStorage 首访自动迁移）
 - 移动端汉堡菜单与高亮当前路由
 - SEO：各页 metadata、sitemap、robots、RSS（`/rss.xml`）
 - 全局 loading / error 边界

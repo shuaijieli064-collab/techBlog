@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { CheckCircle2, Circle, Code, Database, Server, Globe } from "lucide-react";
+
+import { useWorkspace } from "@/lib/workspace/client";
 
 type RoadmapData = {
   roadmap: Array<{
@@ -65,45 +66,28 @@ const defaultData: RoadmapData = {
   ],
 };
 
-const STORAGE_KEY = "learning:mastered:v1";
+const defaultMastered: boolean[][] = defaultData.roadmap.map((s) => s.defaults);
 
-function loadMastered(): boolean[][] | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as boolean[][];
-    if (!Array.isArray(parsed) || parsed.length !== defaultData.roadmap.length) return null;
-    return parsed;
-  } catch {
-    return null;
+function normalizeMastered(input: boolean[][]): boolean[][] {
+  if (!Array.isArray(input) || input.length !== defaultData.roadmap.length) {
+    return defaultMastered;
   }
+  return input;
 }
 
 export function LearningRoadmap() {
-  const [mastered, setMastered] = useState<boolean[][]>(
-    defaultData.roadmap.map((s) => s.defaults),
+  const [stored, setMastered] = useWorkspace<boolean[][]>(
+    "learning-mastered",
+    defaultMastered,
   );
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const saved = loadMastered();
-      if (saved) setMastered(saved);
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
+  const mastered = normalizeMastered(stored);
 
   const toggle = (sectionIdx: number, itemIdx: number) => {
-    setMastered((prev) => {
-      const next = prev.map((row, i) =>
+    setMastered(
+      mastered.map((row, i) =>
         i === sectionIdx ? row.map((v, j) => (j === itemIdx ? !v : v)) : row,
-      );
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      } catch {
-        /* ignore */
-      }
-      return next;
-    });
+      ),
+    );
   };
 
   return (

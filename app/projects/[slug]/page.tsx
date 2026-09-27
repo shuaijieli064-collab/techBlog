@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { ArrowLeft, Calendar, GitBranch, ExternalLink, BookOpen, CheckCircle2, Circle } from "lucide-react";
+import { ArrowLeft, Calendar, GitBranch, ExternalLink, BookOpen, CheckCircle2 } from "lucide-react";
 
 import { projects, getProjectById, statusMap } from "@/lib/projects";
 import { pageMeta } from "@/lib/site";
+import { ProjectDetailTodos, ProjectProgress } from "@/components/ProjectDetail";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.id }));
@@ -35,7 +36,6 @@ export default async function ProjectDetailPage({
   if (!project) notFound();
 
   const status = statusMap[project.status];
-  const completed = project.todos.filter((t) => t.done).length;
 
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
@@ -76,18 +76,7 @@ export default async function ProjectDetailPage({
           ))}
         </div>
 
-        <div className="mt-8">
-          <div className="mb-2 flex items-center justify-between text-sm">
-            <span className="text-print">进度</span>
-            <span className="font-medium text-foreground">{project.progress}%</span>
-          </div>
-          <div className="h-2 rounded-full bg-hair">
-            <div
-              className="h-full rounded-full bg-wire transition-all duration-500"
-              style={{ width: `${project.progress}%` }}
-            />
-          </div>
-        </div>
+        <ProjectProgress project={project} />
 
         <div className="mt-6 flex flex-wrap gap-3">
           <a
@@ -130,35 +119,7 @@ export default async function ProjectDetailPage({
           </ul>
         </section>
 
-        <section className="mt-10">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-semibold font-display text-foreground">TODO</h2>
-            <span className="text-sm text-muted">
-              {completed}/{project.todos.length}
-            </span>
-          </div>
-          <div className="space-y-2">
-            {project.todos.map((todo) => (
-              <div key={todo.text} className="flex items-center gap-2.5">
-                {todo.done ? (
-                  <CheckCircle2 size={16} className="text-wire" />
-                ) : (
-                  <Circle size={16} className="text-muted" />
-                )}
-                <span
-                  className={`text-sm ${
-                    todo.done
-                      ? "text-muted line-through"
-                      : "text-foreground"
-                  }`}
-                >
-                  {todo.text}
-                </span>
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-xs text-muted">列表页的 TODO 勾选状态会保存在本机浏览器。</p>
-        </section>
+        <ProjectDetailTodos project={project} />
       </article>
     </main>
   );

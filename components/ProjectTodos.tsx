@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { CheckCircle2, Circle } from "lucide-react";
+
+import { useWorkspace } from "@/lib/workspace/client";
 
 type Todo = { text: string; done: boolean };
 
-const STORAGE_KEY = "projects:todos:v1";
+const emptyAll: Record<string, Todo[]> = {};
 
 const defaultByProject: Record<string, Todo[]> = {
   "study-assistant": [
@@ -30,35 +31,14 @@ const defaultByProject: Record<string, Todo[]> = {
 };
 
 export function ProjectTodos({ projectId, defaultTodos }: { projectId: string; defaultTodos: Todo[] }) {
-  const [todos, setTodos] = useState<Todo[]>(defaultTodos);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        const all = JSON.parse(raw) as Record<string, Todo[]>;
-        if (all[projectId]) setTodos(all[projectId]);
-      } catch {
-        /* ignore */
-      }
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [projectId]);
+  const [rawAll, setAll] = useWorkspace<Record<string, Todo[]>>("project-todos", emptyAll);
+  const all =
+    rawAll && typeof rawAll === "object" && !Array.isArray(rawAll) ? rawAll : emptyAll;
+  const todos = Array.isArray(all[projectId]) ? all[projectId] : defaultTodos;
 
   const toggle = (index: number) => {
-    setTodos((prev) => {
-      const next = prev.map((t, i) => (i === index ? { ...t, done: !t.done } : t));
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const all = raw ? (JSON.parse(raw) as Record<string, Todo[]>) : {};
-        all[projectId] = next;
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-      } catch {
-        /* ignore */
-      }
-      return next;
-    });
+    const next = todos.map((t, i) => (i === index ? { ...t, done: !t.done } : t));
+    setAll({ ...all, [projectId]: next });
   };
 
   const completed = todos.filter((t) => t.done).length;

@@ -1,43 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { Skill } from "@/lib/growth";
 import { skills as defaultSkills } from "@/lib/growth";
+import { useWorkspace } from "@/lib/workspace/client";
 
-const STORAGE_KEY = "growth:skill-levels:v1";
+const defaultLevels: Record<string, number> = Object.fromEntries(
+  defaultSkills.map((s) => [s.name, s.level]),
+);
 
 export function SkillLevels() {
-  const [levels, setLevels] = useState<Record<string, number>>(
-    Object.fromEntries(defaultSkills.map((s) => [s.name, s.level])),
+  const [stored, setLevels] = useWorkspace<Record<string, number>>(
+    "skill-levels",
+    defaultLevels,
   );
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        const parsed = JSON.parse(raw) as Record<string, number>;
-        if (parsed && typeof parsed === "object") {
-          setLevels((prev) => ({ ...prev, ...parsed }));
-        }
-      } catch {
-        /* ignore */
-      }
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
+  const levels =
+    stored && typeof stored === "object" && !Array.isArray(stored) ? stored : defaultLevels;
 
   const update = (name: string, level: number) => {
     const clamped = Math.min(100, Math.max(0, level));
-    setLevels((prev) => {
-      const next = { ...prev, [name]: clamped };
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      } catch {
-        /* ignore */
-      }
-      return next;
-    });
+    setLevels({ ...levels, [name]: clamped });
   };
 
   return (
