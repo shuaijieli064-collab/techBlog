@@ -1,44 +1,50 @@
 @import "tailwindcss";
 
+/* Single dark theme (deep-space HUD). The dark: variant is kept as an inert
+   safety net during migration — no .dark class exists, so it never matches. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #eef2f8;
-  --foreground: #0e1b2e;
-  --ring: #2563eb;
-  --panel: #ffffff;
-  --wire: #2563eb;
-  --signal: #b45309;
-  --print: #334155;
-  --muted: #64748b;
-  --hair: #c9d6ea;
-  --grid-line: rgba(37, 99, 235, 0.075);
-}
+  /* surface ladder — depth comes from surface steps, never shadows */
+  --background: #070b12;
+  --panel: #0c111c;
+  --raise: #131a29;
 
-.dark {
-  --background: #0a1220;
-  --foreground: #e6edf7;
-  --ring: #4d9bff;
-  --panel: #111c30;
-  --wire: #4d9bff;
-  --signal: #f5a524;
-  --print: #9fb3d1;
-  --muted: #64748b;
-  --hair: rgba(77, 155, 255, 0.18);
-  --grid-line: rgba(77, 155, 255, 0.06);
+  /* ink */
+  --foreground: #dce6f5;
+  --print: #9fb0c8;
+  --muted: #64748f;
+
+  /* signal — one accent, one telemetry color, one alarm */
+  --wire: #5ce1ff;
+  --ring: #5ce1ff;
+  --signal: #ffb454;
+  --alert: #ff5c5c;
+
+  /* structure */
+  --hair: rgba(120, 190, 230, 0.16);
+  --grid-line: rgba(92, 225, 255, 0.055);
+  --glow: rgba(92, 225, 255, 0.35);
+
+  --display-family: var(--font-saira), var(--font-noto-sc), "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-panel: var(--panel);
+  --color-raise: var(--raise);
   --color-wire: var(--wire);
+  --color-ring: var(--ring);
   --color-signal: var(--signal);
+  --color-alert: var(--alert);
   --color-print: var(--print);
   --color-muted: var(--muted);
   --color-hair: var(--hair);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--display-family);
 }
 
 html {
@@ -53,13 +59,19 @@ body {
   text-rendering: optimizeLegibility;
   background-color: var(--background);
   background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 32px 32px;
+    radial-gradient(var(--grid-line) 1px, transparent 1.4px),
+    radial-gradient(
+      900px 460px at 50% -6%,
+      rgba(92, 225, 255, 0.07),
+      transparent 65%
+    );
+  background-size:
+    22px 22px,
+    100% 100%;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--wire) 30%, transparent);
+  background: rgba(92, 225, 255, 0.25);
 }
 
 a {
@@ -77,53 +89,49 @@ img {
 :focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 @layer utilities {
   .card {
-    border-radius: 4px;
+    border-radius: 0;
     border: 1px solid var(--hair);
     background: var(--panel);
     box-shadow: none;
   }
 
   .card-hover {
-    transition: border-color 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      background-color 0.15s ease;
   }
 
   .card-hover:hover {
-    border-color: var(--wire);
+    border-color: color-mix(in srgb, var(--wire) 55%, transparent);
+    background: var(--raise);
   }
 
   .section-title {
-    font-size: 1.125rem;
+    font-family: var(--display-family);
+    font-size: 1.175rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
     color: var(--foreground);
   }
 
   .page-eyebrow {
     font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
       Consolas, monospace;
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 0.14em;
     color: var(--wire);
   }
 
-  .page-eyebrow::before {
-    content: "[ ";
-  }
-
-  .page-eyebrow::after {
-    content: " ]";
-  }
-
   .page-title {
-    font-size: 1.875rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+    font-family: var(--display-family);
+    font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
     color: var(--foreground);
   }
 
@@ -140,17 +148,20 @@ img {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 4px;
+    border-radius: 0;
     background: var(--wire);
-    padding: 0.625rem 1.25rem;
+    padding: 0.625rem 1.35rem;
     font-size: 0.875rem;
     font-weight: 600;
-    color: #fff;
-    transition: filter 0.15s ease;
+    color: #04131b;
+    transition:
+      filter 0.15s ease,
+      box-shadow 0.15s ease;
   }
 
   .btn-primary:hover {
-    filter: brightness(1.12);
+    filter: brightness(1.08);
+    box-shadow: 0 0 18px -4px var(--glow);
   }
 
   .btn-secondary {
@@ -158,25 +169,29 @@ img {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 4px;
+    border-radius: 0;
     border: 1px solid var(--hair);
     background: var(--panel);
-    padding: 0.625rem 1.25rem;
+    padding: 0.625rem 1.35rem;
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--foreground);
-    transition: border-color 0.15s ease, color 0.15s ease;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease,
+      background-color 0.15s ease;
   }
 
   .btn-secondary:hover {
     border-color: var(--wire);
     color: var(--wire);
+    background: var(--raise);
   }
 
   .chip {
     display: inline-flex;
     align-items: center;
-    border-radius: 3px;
+    border-radius: 0;
     border: 1px solid var(--hair);
     background: transparent;
     padding: 0.2rem 0.55rem;
@@ -185,11 +200,17 @@ img {
     font-size: 11px;
     letter-spacing: 0.04em;
     color: var(--print);
+    transition: border-color 0.15s ease;
+  }
+
+  .chip:hover {
+    border-color: color-mix(in srgb, var(--wire) 55%, transparent);
+    color: var(--wire);
   }
 
   .input-base {
     width: 100%;
-    border-radius: 4px;
+    border-radius: 0;
     border: 1px solid var(--hair);
     background: var(--panel);
     padding: 0.625rem 0.875rem;
@@ -204,13 +225,14 @@ img {
   .input-base:focus {
     border-color: var(--wire);
     outline: none;
+    box-shadow: 0 0 14px -8px var(--glow);
   }
 
-  /* Inset terminal/output panel (blueprint: paper-level, not card-level) */
+  /* Inset terminal/output panel — deeper than paper, ink-level */
   .code-panel {
-    border-radius: 4px;
+    border-radius: 0;
     border: 1px solid var(--hair);
-    background: var(--background);
+    background: #080d15;
     padding: 1rem;
     font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
       Consolas, monospace;
@@ -220,7 +242,7 @@ img {
     overflow: auto;
   }
 
-  /* Small mono structural label (HEADER / HEX / field names) */
+  /* Small mono structural label (field names, telemetry keys) */
   .label-mono {
     font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
       Consolas, monospace;
@@ -229,49 +251,101 @@ img {
     letter-spacing: 0.1em;
     color: var(--muted);
   }
+
+  /* HUD panel: L-shaped reticle corners (top-left + bottom-right) */
+  .hud-corners {
+    position: relative;
+  }
+
+  .hud-corners::before,
+  .hud-corners::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: var(--wire);
+    border-style: solid;
+    pointer-events: none;
+    opacity: 0.75;
+    z-index: 1;
+  }
+
+  .hud-corners::before {
+    top: -1px;
+    left: -1px;
+    border-width: 2px 0 0 2px;
+  }
+
+  .hud-corners::after {
+    bottom: -1px;
+    right: -1px;
+    border-width: 0 2px 2px 0;
+  }
+
+  /* Ambient scanlines — atmosphere layer, never louder than 5% */
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(220, 230, 245, 0.05) 0px,
+      rgba(220, 230, 245, 0.05) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+    background-size:
+      100% 4px,
+      100% 100%;
+    animation: scan-drift 9s linear infinite;
+  }
+
+  .status-dot {
+    animation: dot-pulse 2.2s ease-in-out infinite;
+  }
 }
 
-/* Blueprint frame: registration ticks at container corners */
-.reg-ticks::before,
-.reg-ticks::after {
-  content: "+";
-  position: absolute;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 12px;
-  line-height: 1;
-  color: var(--wire);
-  opacity: 0.7;
+/* ---------- motion: one boot sequence, then ambient only ---------- */
+
+@keyframes scan-drift {
+  to {
+    background-position:
+      0 32px,
+      0 0;
+  }
 }
 
-.reg-ticks::before {
-  top: -6px;
-  left: -5px;
+@keyframes dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
-.reg-ticks::after {
-  top: -6px;
-  right: -5px;
+@keyframes radar-rotate {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.reg-ticks-b::before,
-.reg-ticks-b::after {
-  content: "+";
-  position: absolute;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 12px;
-  line-height: 1;
-  color: var(--wire);
-  opacity: 0.7;
+@keyframes boot-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
-.reg-ticks-b::before {
-  bottom: -6px;
-  left: -5px;
-}
-
-.reg-ticks-b::after {
-  bottom: -6px;
-  right: -5px;
+@keyframes boot-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Soft page fade-in for route changes */
@@ -290,9 +364,23 @@ main {
   animation: page-in 0.28s ease-out;
 }
 
+/* Hero boot: frame wipes in, headline scrambles, radar powers on */
+[data-boot] {
+  animation:
+    boot-wipe 0.55s cubic-bezier(0.22, 1, 0.36, 1) both,
+    boot-rise 0.45s ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  main {
-    animation: none;
+  main,
+  .scanlines,
+  .status-dot,
+  [data-boot],
+  [data-radar-sweep] {
+    animation: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   html {

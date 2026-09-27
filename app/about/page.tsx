@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "关于我",
-  description: "我是林晨，一名软件工程学生，关注前端开发、算法与工程实践。",
+  description: "我是Nox7th，一名软件工程学生，关注前端开发、算法与工程实践。",
+  ...pageMeta("/about"),
 };
 
 export default function AboutPage() {
   return (
-    <main className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
       <div className="card p-8 sm:p-10">
         <p className="page-eyebrow">关于我</p>
-        <h1 className="page-title">我是林晨，一名软件工程学生</h1>
+        <h1 className="page-title">我是Nox7th，一名软件工程学生</h1>
 
-        <div className="mt-8 space-y-6 text-base leading-8 text-slate-600 sm:text-lg dark:text-slate-300">
+        <div className="mt-8 space-y-6 text-base leading-8 text-print sm:text-lg">
           <p>
             我正在学习软件工程，关注前端开发、计算机基础和工程实践。这个博客的目标，是把我的学习心得、项目经验和复盘记录沉淀下来，形成一个长期积累的技术作品。
           </p>
@@ -30,9 +32,9 @@ export default function AboutPage() {
             { label: "当前阶段", value: "大二在读" },
             { label: "目标", value: "持续输出与成长" },
           ].map((item) => (
-            <div key={item.label} className="rounded-[4px] bg-background p-5">
-              <div className="text-sm text-slate-500 dark:text-slate-400">{item.label}</div>
-              <div className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50">{item.value}</div>
+            <div key={item.label} className="bg-background p-5">
+              <div className="text-sm text-print">{item.label}</div>
+              <div className="mt-2 text-lg font-semibold text-foreground">{item.value}</div>
             </div>
           ))}
         </div>

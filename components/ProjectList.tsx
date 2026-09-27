@@ -24,7 +24,7 @@ export function ProjectList() {
                 <div className="mb-3 flex flex-wrap items-center gap-3">
                   <Link
                     href={`/projects/${project.id}`}
-                    className="text-2xl font-bold text-slate-900 transition-colors hover:text-wire dark:text-slate-50 dark:hover:text-wire"
+                    className="font-display text-2xl font-bold text-foreground transition-colors hover:text-wire"
                   >
                     {project.title}
                   </Link>
@@ -32,15 +32,15 @@ export function ProjectList() {
                     {status.label}
                   </span>
                 </div>
-                <p className="text-base text-slate-600 dark:text-slate-300">{project.description}</p>
+                <p className="text-base text-print">{project.description}</p>
                 <Link
                   href={`/projects/${project.id}`}
                   className="mt-3 inline-block text-sm font-medium text-wire hover:opacity-80"
                 >
-                  查看详情 →
+                  查看详情
                 </Link>
               </div>
-              <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+              <div className="flex items-center gap-4 text-sm text-print">
                 <div className="flex items-center gap-1.5">
                   <Calendar size={14} />
                   <span>{project.startDate}</span>
@@ -49,7 +49,7 @@ export function ProjectList() {
                   href={project.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1.5 hover:text-wire dark:hover:text-wire"
+                  className="flex items-center gap-1.5 hover:text-wire"
                 >
                   <GitBranch size={14} />
                   <span>GitHub</span>
@@ -57,7 +57,7 @@ export function ProjectList() {
                 {project.demo && (
                   <Link
                     href={project.demo}
-                    className="flex items-center gap-1.5 hover:text-wire dark:hover:text-wire"
+                    className="flex items-center gap-1.5 hover:text-wire"
                   >
                     <ExternalLink size={14} />
                     <span>Demo</span>
@@ -68,8 +68,8 @@ export function ProjectList() {
 
             <div className="mb-6">
               <div className="mb-2 flex items-center justify-between">
-                <span className="text-sm text-slate-500 dark:text-slate-400">进度</span>
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                <span className="text-sm text-print">进度</span>
+                <span className="text-sm font-medium text-foreground">
                   {project.progress}%
                 </span>
               </div>
@@ -82,12 +82,12 @@ export function ProjectList() {
             </div>
 
             <div className="mb-6">
-              <h3 className="mb-3 text-sm font-medium text-slate-500 dark:text-slate-400">技术栈</h3>
+              <h3 className="mb-3 text-sm font-medium text-print">技术栈</h3>
               <div className="flex flex-wrap gap-2">
                 {project.tech.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+                    className="rounded-full bg-raise px-3 py-1 text-xs font-medium text-print"
                   >
                     {t}
                   </span>
@@ -159,9 +159,9 @@ export function ProjectProgressSummary() {
                 </Link>
                 <span className="text-muted">{value}%</span>
               </div>
-              <div className="h-1.5 rounded-[2px] bg-hair/50">
+              <div className="h-1.5 bg-hair/50">
                 <div
-                  className="h-full rounded-[2px] bg-wire"
+                  className="h-full bg-wire"
                   style={{ width: `${value}%` }}
                 />
               </div>

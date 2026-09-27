@@ -1,10 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
+import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "AI 模型中心",
   description: "记录和管理使用的 AI 模型、用量与费用概览。",
+  ...pageMeta("/ai/models"),
 };
 
 const aiModels = [
@@ -24,7 +26,7 @@ export default function AiModelsPage() {
   const usageRate = Math.round((totalUsage / totalLimit) * 100);
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-4">
         <Link
           href="/ai"
@@ -35,8 +37,8 @@ export default function AiModelsPage() {
       </div>
       <div className="mb-10">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-wire">AI Center</p>
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">AI 模型中心</h1>
-        <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
+        <h1 className="text-4xl font-bold font-display tracking-tight text-foreground">AI 模型中心</h1>
+        <p className="mt-4 text-lg text-print">
           记录和管理使用的AI模型，API Key 均通过 Supabase 加密存储，前端绝不直接暴露敏感信息。
         </p>
       </div>
@@ -50,31 +52,31 @@ export default function AiModelsPage() {
             >
               <div className="flex flex-col md:flex-row mb-4">
                 <div className="flex-1">
-                  <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">{model.name}</h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{model.provider}</p>
+                  <h2 className="text-xl font-bold text-foreground">{model.name}</h2>
+                  <p className="text-sm text-print">{model.provider}</p>
                   <div className="mt-2">
                     <span className="text-xs text-wire">状态：</span>
-                    <span className={`font-medium ${model.status === "active" ? "text-green-600" : "text-red-600"}`}>{model.status}</span>
+                    <span className={`font-medium ${model.status === "active" ? "text-wire" : "text-alert"}`}>{model.status}</span>
                   </div>
-                  <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">{model.notes}</p>
+                  <p className="mt-2 text-xs text-muted">{model.notes}</p>
                 </div>
                 <div className="md:ml-4">
-                  <div className="flex text-sm text-slate-500 dark:text-slate-400">
+                  <div className="flex text-sm text-print">
                     <span>月度限额：</span>
                     <span>{model.monthlyLimit}</span>
                   </div>
-                  <div className="flex text-sm text-slate-500 dark:text-slate-400 mt-2">
+                  <div className="flex text-sm text-print mt-2">
                     <span>当前使用：</span>
                     <span>{model.currentUsage}</span>
                   </div>
-                  <div className="flex text-sm text-slate-500 dark:text-slate-400 mt-2">
+                  <div className="flex text-sm text-print mt-2">
                     <span>月度费用：</span>
                     <span>${model.monthlyCost}</span>
                   </div>
                 </div>
               </div>
               <div className="mt-3 flex items-center justify-between">
-                <small className="text-xs text-slate-500 dark:text-slate-400">
+                <small className="text-xs text-print">
                   {model.status === "active" ? "已激活" : "未激活"}
                 </small>
               </div>
@@ -83,23 +85,23 @@ export default function AiModelsPage() {
         })}
       </div>
 
-      <div className="mt-8 rounded-[4px] border border-wire/30 bg-wire/[0.05] p-6">
+      <div className="mt-8 border border-wire/30 bg-wire/[0.05] p-6">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="font-medium text-slate-900 dark:text-slate-50">月度概览</h2>
+          <h2 className="font-medium font-display text-foreground">月度概览</h2>
           <span className="text-xl font-bold text-wire">${totalMonthlyCost.toFixed(2)}</span>
         </div>
         <div className="grid grid-cols-3">
           <div>
             <p className="text-2xl font-bold text-wire">{activeModels}</p>
-            <p className="text-xs text-slate-500">激活模型</p>
+            <p className="text-xs text-print">激活模型</p>
           </div>
           <div>
-            <p className="text-2xl text-slate-500">{totalUsage}/{totalLimit}</p>
-            <p className="text-xs text-slate-400">总使用量</p>
+            <p className="text-2xl text-print">{totalUsage}/{totalLimit}</p>
+            <p className="text-xs text-muted">总使用量</p>
           </div>
           <div>
             <p className="text-2xl text-wire">{usageRate}%</p>
-            <p className="text-xs text-slate-400">使用率</p>
+            <p className="text-xs text-muted">使用率</p>
           </div>
         </div>
       </div>

@@ -1,10 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Bot, ArrowLeft, Code2, PenLine, Bug, Telescope, ShieldCheck, Languages } from "lucide-react";
+import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "AI Agents",
   description: "常用 AI 智能体角色、能力边界与典型使用场景。",
+  ...pageMeta("/ai/agents"),
 };
 
 const agents = [
@@ -78,7 +80,7 @@ const agents = [
 
 export default function AiAgentsPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-4">
         <Link
           href="/ai"
@@ -90,10 +92,10 @@ export default function AiAgentsPage() {
 
       <div className="mb-10">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-wire">Agents</p>
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+        <h1 className="text-4xl font-bold font-display tracking-tight text-foreground">
           AI Agents
         </h1>
-        <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
+        <p className="mt-4 max-w-2xl text-lg leading-8 text-print">
           围绕日常工作流组织的智能体角色卡片：先选场景，再选模型，提示词在提示词库中配套维护。
         </p>
       </div>
@@ -105,14 +107,14 @@ export default function AiAgentsPage() {
             className="group card card-hover p-6"
           >
             <div className="mb-4 flex items-start justify-between gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-[4px] bg-wire/10">
+              <div className="flex h-11 w-11 items-center justify-center bg-wire/10">
                 <agent.icon size={22} className={agent.color} />
               </div>
               <span
                 className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                   agent.status === "ready"
-                    ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
-                    : "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                    ? "bg-wire/10 text-wire"
+                    : "bg-signal/10 text-signal"
                 }`}
               >
                 {agent.status === "ready" ? "可用" : "Beta"}
@@ -120,12 +122,12 @@ export default function AiAgentsPage() {
             </div>
 
             <div className="mb-1 flex items-center gap-2">
-              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">{agent.name}</h2>
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+              <h2 className="text-lg font-semibold text-foreground">{agent.name}</h2>
+              <span className="rounded-full bg-raise px-2 py-0.5 text-[11px] font-medium text-print">
                 {agent.role}
               </span>
             </div>
-            <p className="text-sm leading-6 text-slate-600 dark:text-slate-300">{agent.desc}</p>
+            <p className="text-sm leading-6 text-print">{agent.desc}</p>
 
             <div className="mt-4 flex flex-wrap gap-1.5">
               {agent.strengths.map((s) => (
@@ -138,15 +140,15 @@ export default function AiAgentsPage() {
               ))}
             </div>
 
-            <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
-              <span className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+            <div className="mt-5 flex items-center justify-between border-t border-hair pt-4">
+              <span className="flex items-center gap-1.5 text-xs text-print">
                 <Bot size={12} /> {agent.model}
               </span>
               <Link
                 href="/ai/prompts"
                 className="text-xs font-medium text-wire hover:opacity-80"
               >
-                配套提示词 →
+                配套提示词
               </Link>
             </div>
           </article>

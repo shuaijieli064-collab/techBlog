@@ -83,14 +83,14 @@ export function DailyTasks() {
         <button
           type="button"
           onClick={planToday}
-          className="inline-flex items-center gap-1.5 rounded-[4px] border border-wire/50 px-2.5 py-1 font-mono text-[11px] text-wire transition-colors hover:bg-wire/10"
+          className="inline-flex items-center gap-1.5 border border-wire/50 px-2.5 py-1 font-mono text-[11px] text-wire transition-colors hover:bg-wire/10"
           title="根据学习路线与项目进度生成今日计划（本地模板）"
         >
           <Sparkles size={12} /> AI 规划今天
         </button>
       </div>
       {planned && (
-        <p className="mb-3 rounded-[4px] border border-hair bg-background/70 px-3 py-2 font-mono text-[11px] text-print">
+        <p className="mb-3 border border-hair bg-background/70 px-3 py-2 font-mono text-[11px] text-print">
           {"//"} 已按学习路线 + 项目进度生成今日计划，可继续增删。
         </p>
       )}
@@ -118,14 +118,14 @@ export function DailyTasks() {
         {tasks.map((task) => (
           <div
             key={task.id}
-            className="group flex items-center gap-3 rounded-[4px] border border-hair p-3 transition-colors hover:border-wire/60"
+            className="group flex items-center gap-3 border border-hair p-3 transition-colors hover:border-wire/60"
           >
             <button
               type="button"
               onClick={() => toggle(task.id)}
               aria-pressed={task.done}
-              className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[2px] border ${
-                task.done ? "border-wire bg-wire text-white" : "border-hair"
+              className={`flex h-4 w-4 shrink-0 items-center justify-center border ${
+                task.done ? "border-wire bg-wire text-[#04131b]" : "border-hair"
               }`}
               aria-label={task.done ? "标记未完成" : "标记完成"}
             >

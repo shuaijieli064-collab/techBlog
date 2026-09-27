@@ -51,8 +51,8 @@ export function SkillLevels() {
           >
             <div className="mb-3 flex items-center justify-between">
               <div>
-                <div className="font-medium text-slate-900 dark:text-slate-50">{skill.name}</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400">{skill.category}</div>
+                <div className="font-display font-medium text-foreground">{skill.name}</div>
+                <div className="text-xs text-print">{skill.category}</div>
               </div>
               <span className="text-lg font-bold text-wire">{level}%</span>
             </div>
@@ -66,7 +66,7 @@ export function SkillLevels() {
               <button
                 type="button"
                 onClick={() => update(skill.name, level - 5)}
-                className="flex-1 rounded-[4px] border border-slate-200 py-1 text-xs text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:text-slate-300"
+                className="flex-1 border border-hair py-1 text-xs text-print"
                 aria-label={`降低 ${skill.name}`}
               >
                 −5%
@@ -74,7 +74,7 @@ export function SkillLevels() {
               <button
                 type="button"
                 onClick={() => update(skill.name, level + 5)}
-                className="flex-1 rounded-[4px] border border-hair py-1 text-xs text-print hover:border-wire hover:text-wire"
+                className="flex-1 border border-hair py-1 text-xs text-print hover:border-wire hover:text-wire"
                 aria-label={`提高 ${skill.name}`}
               >
                 +5%

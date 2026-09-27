@@ -1,5 +1,3 @@
-"use client";
-
 import { GitCommit, GitPullRequest, Star } from "lucide-react";
 
 import { SectionRule } from "@/components/SectionRule";
@@ -59,9 +57,9 @@ export function GitHubActivity() {
           return (
             <div
               key={item.id}
-              className="flex items-start gap-3 rounded-[4px] border border-hair p-3 transition-colors hover:border-wire/60"
+              className="flex items-start gap-3 border border-hair p-3 transition-colors hover:border-wire/60"
             >
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-[3px] border border-hair text-print">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border border-hair text-print">
                 <Icon size={12} />
               </span>
               <div className="min-w-0 flex-1">
@@ -76,14 +74,14 @@ export function GitHubActivity() {
           );
         })}
       </div>
-      <p className="mt-3 font-mono text-[11px] text-muted">{"//"} 接入 GitHub API 后自动同步</p>
+      <p className="mt-3 font-mono text-[11px] text-muted">接入 GitHub API 后自动同步</p>
       <a
         href="https://github.com"
         target="_blank"
         rel="noreferrer"
         className="mt-3 inline-flex font-mono text-xs text-print transition-colors hover:text-wire"
       >
-        [ 打开 GitHub ]
+        打开 GitHub
       </a>
     </div>
   );

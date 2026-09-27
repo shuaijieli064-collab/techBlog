@@ -6,10 +6,12 @@ import { PageHeader } from "@/components/PageHeader";
 import { GrowthTimeline } from "@/components/GrowthTimeline";
 import { SkillLevels } from "@/components/SkillLevels";
 import { growthEvents, skills } from "@/lib/growth";
+import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "成长中心",
   description: "技能画像与成长时间线，记录每一步里程碑。",
+  ...pageMeta("/growth"),
 };
 
 const stats = [
@@ -47,7 +49,7 @@ export default function GrowthPage() {
   };
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <PageHeader
         eyebrow="Growth"
         title="成长中心"
@@ -58,12 +60,12 @@ export default function GrowthPage() {
         {stats.map((stat) => (
           <div key={stat.key} className="card p-5">
             <div className="flex items-center gap-3">
-              <div className={`flex h-10 w-10 items-center justify-center rounded-[4px] ${stat.bg}`}>
+              <div className={`flex h-10 w-10 items-center justify-center ${stat.bg}`}>
                 <stat.icon size={20} className={stat.color} />
               </div>
               <div>
-                <div className="text-2xl font-bold text-slate-900 dark:text-slate-50">{values[stat.key]}</div>
-                <div className="text-xs text-slate-500 dark:text-slate-400">{stat.label}</div>
+                <div className="text-2xl font-bold text-foreground">{values[stat.key]}</div>
+                <div className="text-xs text-print">{stat.label}</div>
               </div>
             </div>
           </div>

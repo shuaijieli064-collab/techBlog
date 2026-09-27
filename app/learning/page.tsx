@@ -4,15 +4,17 @@ import { PageHeader } from "@/components/PageHeader";
 import { AlgorithmProgress } from "@/components/AlgorithmProgress";
 import { LearningRoadmap } from "@/components/LearningRoadmap";
 import { StudyRecords } from "@/components/StudyRecords";
+import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "学习中心",
   description: "系统化学习路线与算法练习追踪，记录每一步成长。",
+  ...pageMeta("/learning"),
 };
 
 export default function LearningPage() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
       <PageHeader
         eyebrow="Learning"
         title="学习中心"

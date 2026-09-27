@@ -121,16 +121,16 @@ export function LearningRoadmap() {
             className="card p-6"
           >
             <div className="mb-4 flex items-center gap-3">
-              <div className={`flex h-10 w-10 items-center justify-center rounded-[4px] ${colors.bg}`}>
+              <div className={`flex h-10 w-10 items-center justify-center ${colors.bg}`}>
                 <Icon size={20} className={colors.color} />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-slate-900 dark:text-slate-50">{section.category}</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <h3 className="font-display font-semibold text-foreground">{section.category}</h3>
+                <p className="text-xs text-print">
                   {masteredCount}/{section.items.length} 已掌握
                 </p>
               </div>
-              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{progress}%</span>
+              <span className="text-sm font-medium text-foreground">{progress}%</span>
             </div>
             <div className="mb-4 h-2 rounded-full bg-hair">
               <div
@@ -146,19 +146,19 @@ export function LearningRoadmap() {
                     key={item}
                     type="button"
                     onClick={() => toggle(sectionIdx, itemIdx)}
-                    className="flex w-full items-center gap-2.5 rounded-[4px] px-1 py-1 text-left transition-colors hover:bg-slate-50 dark:hover:bg-slate-900"
+                    className="flex w-full items-center gap-2.5 px-1 py-1 text-left transition-colors hover:bg-raise"
                     aria-pressed={done}
                   >
                     {done ? (
                       <CheckCircle2 size={16} className="text-wire" />
                     ) : (
-                      <Circle size={16} className="text-slate-300 dark:text-slate-600" />
+                      <Circle size={16} className="text-muted" />
                     )}
                     <span
                       className={`text-sm ${
                         done
-                          ? "text-slate-500 dark:text-slate-400"
-                          : "text-slate-700 dark:text-slate-200"
+                          ? "text-print"
+                          : "text-foreground"
                       }`}
                     >
                       {item}

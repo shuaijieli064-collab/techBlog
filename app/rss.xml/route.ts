@@ -19,7 +19,7 @@ export function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>林晨的博客</title>
+    <title>Nox7th的博客</title>
     <link>${BASE_URL}</link>
     <description>记录软件工程学习、项目实践和成长复盘的个人技术博客。</description>
     <language>zh-CN</language>

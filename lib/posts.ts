@@ -28,7 +28,7 @@ export const posts: Post[] = [
     category: "前端开发",
     tags: ["Next.js", "博客搭建", "前端实践"],
     readTime: "6 分钟",
-    author: "林晨",
+    author: "Nox7th",
     featured: true,
     sections: [
       {
@@ -77,7 +77,7 @@ export default function HomePage() {
     category: "计算机基础",
     tags: ["数据结构", "算法", "学习方法"],
     readTime: "5 分钟",
-    author: "林晨",
+    author: "Nox7th",
     sections: [
       {
         heading: "先理解，再刷题",
@@ -111,7 +111,7 @@ export default function HomePage() {
     category: "项目复盘",
     tags: ["项目经验", "工程思维", "复盘"],
     readTime: "7 分钟",
-    author: "林晨",
+    author: "Nox7th",
     sections: [
       {
         heading: "项目刚开始时的误区",
@@ -145,7 +145,7 @@ export default function HomePage() {
     category: "成长记录",
     tags: ["学习规划", "效率提升", "大学生活"],
     readTime: "4 分钟",
-    author: "林晨",
+    author: "Nox7th",
     sections: [
       {
         heading: "固定节奏比高强度更重要",
@@ -179,7 +179,7 @@ export default function HomePage() {
     category: "Java 学习笔记",
     tags: ["Java", "Java 基础", "学习笔记", "面向对象"],
     readTime: "8 分钟",
-    author: "林晨",
+    author: "Nox7th",
     sections: [
       {
         heading: "Java 的核心思想",
@@ -213,7 +213,7 @@ export default function HomePage() {
     category: "Java 后端",
     tags: ["Java", "Spring Boot", "学习笔记", "后端框架"],
     readTime: "7 分钟",
-    author: "林晨",
+    author: "Nox7th",
     sections: [
       {
         heading: "Spring Boot 的魅力",
@@ -247,7 +247,7 @@ export default function HomePage() {
     category: "Java 数据层",
     tags: ["Java", "MySQL", "MyBatis", "数据库"],
     readTime: "6 分钟",
-    author: "林晨",
+    author: "Nox7th",
     sections: [
       {
         heading: "为什么要理解事务",
@@ -281,7 +281,7 @@ export default function HomePage() {
     category: "Java 技术栈",
     tags: ["Java", "Redis", "消息队列", "架构设计"],
     readTime: "9 分钟",
-    author: "林晨",
+    author: "Nox7th",
     sections: [
       {
         heading: "缓存解决的是速度问题",
@@ -334,10 +334,6 @@ export function getPublishedPosts() {
       if (Boolean(a.featured) !== Boolean(b.featured)) return a.featured ? -1 : 1;
       return b.date.localeCompare(a.date);
     });
-}
-
-export function getAllCategories() {
-  return Array.from(new Set(getPublishedPosts().map((post) => post.category))).sort();
 }
 
 export function getPostBySlug(slug: string) {

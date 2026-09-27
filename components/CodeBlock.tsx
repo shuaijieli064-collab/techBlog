@@ -103,11 +103,11 @@ function tokenizeLine(line: string, language: string): Token[] {
 }
 
 const tokenClass: Record<TokenType, string> = {
-  plain: "text-slate-300",
-  keyword: "text-sky-400",
-  string: "text-emerald-400",
-  comment: "text-slate-500 italic",
-  number: "text-amber-400",
+  plain: "text-[#9fb0c8]",
+  keyword: "text-[#5ce1ff]",
+  string: "text-[#ffb454]",
+  comment: "text-[#64748f] italic",
+  number: "text-[#ffb454]",
 };
 
 export default function CodeBlock({
@@ -127,22 +127,22 @@ export default function CodeBlock({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-[4px] border border-hair bg-slate-900">
-      <div className="flex items-center gap-2 border-b border-slate-700 bg-slate-800 px-4 py-2">
+    <div className="relative overflow-hidden border border-hair bg-[#080d15]">
+      <div className="flex items-center gap-2 border-b border-hair bg-[#080d15] px-4 py-2">
         <span className="flex h-2 w-2 rounded-full bg-wire/80" />
-        <span className="flex h-2 w-2 rounded-full bg-amber-500/80" />
-        <span className="flex h-2 w-2 rounded-full bg-emerald-500/80" />
-        <span className="ml-2 text-xs font-medium text-slate-300">{language}</span>
+        <span className="flex h-2 w-2 rounded-full bg-signal/80" />
+        <span className="flex h-2 w-2 rounded-full bg-wire/80" />
+        <span className="ml-2 text-xs font-medium text-muted">{language}</span>
         <button
           type="button"
           onClick={handleCopy}
-          className="ml-auto flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-slate-700"
+          className="ml-auto flex h-7 w-7 items-center justify-center transition-colors hover:bg-raise"
           aria-label="复制代码"
         >
           {copied ? (
-            <Check size={14} className="text-green-400" />
+            <Check size={14} className="text-wire" />
           ) : (
-            <Copy size={14} className="text-slate-300" />
+            <Copy size={14} className="text-muted" />
           )}
         </button>
       </div>
@@ -150,7 +150,7 @@ export default function CodeBlock({
         <code>
           {lines.map((line, lineIdx) => (
             <div key={`${lineIdx}-${line.slice(0, 8)}`} className="flex">
-              <span className="mr-4 w-6 shrink-0 select-none text-right text-slate-600">
+              <span className="mr-4 w-6 shrink-0 select-none text-right text-muted">
                 {lineIdx + 1}
               </span>
               <span className="whitespace-pre">

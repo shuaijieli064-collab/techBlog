@@ -33,7 +33,7 @@ export function PostToc({ items }: { items: Item[] }) {
       aria-label="文章目录"
       className="card p-5"
     >
-      <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-slate-50">
+      <div className="mb-3 flex items-center gap-2 font-display text-sm font-semibold text-foreground">
         <List size={16} className="text-wire" />
         目录
       </div>
@@ -42,7 +42,7 @@ export function PostToc({ items }: { items: Item[] }) {
           <li key={item.id}>
             <a
               href={`#${item.id}`}
-              className={`block rounded-[4px] px-2 py-1.5 text-sm transition-colors ${
+              className={`block px-2 py-1.5 text-sm transition-colors ${
                 activeId === item.id
                   ? "bg-wire/10 font-medium text-wire"
                   : "text-print hover:bg-background hover:text-wire"

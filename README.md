@@ -1,4 +1,4 @@
-# 林晨的博客 · Developer Workspace
+# Nox7th的博客 · Developer Workspace
 
 基于 Next.js 的程序员个人工作台，将博客升级为「Developer OS」：工作台、知识库、项目、学习、成长、AI Center 与开发者工具一体化。
 

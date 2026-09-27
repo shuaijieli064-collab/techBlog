@@ -7,10 +7,12 @@ import { GitHubActivity } from "@/components/GitHubActivity";
 import { ProjectProgressSummary } from "@/components/ProjectList";
 import { SectionRule } from "@/components/SectionRule";
 import { getPublishedPosts } from "@/lib/posts";
+import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "工作台",
   description: "个人开发者工作台：统计、今日任务、技能画像与 AI 推荐。",
+  ...pageMeta("/dashboard"),
 };
 
 const skills = [
@@ -41,12 +43,12 @@ export default function DashboardPage() {
   const latest = posts.slice(0, 3);
   const values: Record<(typeof statCards)[number]["valueKey"], string | number> = {
     posts: String(totalPosts).padStart(2, "0"),
-    tasks: "3/3",
+    tasks: "1/3",
     streak: 12,
   };
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <section className="mb-8">
         <p className="font-mono text-xs text-muted">
           ~/dashboard · {new Date().toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric", weekday: "long" })}
@@ -57,7 +59,7 @@ export default function DashboardPage() {
       </section>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
+        <div className="min-w-0 space-y-6 lg:col-span-2">
           <div className="grid gap-4 sm:grid-cols-3">
             {statCards.map((stat) => (
               <div key={stat.label} className="card p-5">
@@ -93,7 +95,7 @@ export default function DashboardPage() {
                 <Link
                   key={post.slug}
                   href={`/posts/${post.slug}`}
-                  className="flex items-center justify-between rounded-[4px] border border-hair p-4 transition-colors hover:border-wire"
+                  className="flex items-center justify-between border border-hair p-4 transition-colors hover:border-wire"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 font-mono text-[11px] text-wire">{post.category}</div>
@@ -113,9 +115,11 @@ export default function DashboardPage() {
               ))}
             </div>
           </div>
+
+          <ProjectProgressSummary />
         </div>
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <div className="card p-6">
             <SectionRule title="快捷操作" meta="QUICK" />
             <div className="grid grid-cols-2 gap-3">
@@ -123,9 +127,9 @@ export default function DashboardPage() {
                 <Link
                   key={action.label}
                   href={action.href}
-                  className="flex flex-col items-center gap-2 rounded-[4px] border border-hair p-4 transition-colors hover:border-wire"
+                  className="flex flex-col items-center gap-2 border border-hair p-4 transition-colors hover:border-wire"
                 >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-hair text-wire">
+                  <div className="flex h-9 w-9 items-center justify-center border border-hair text-wire">
                     <action.icon size={17} />
                   </div>
                   <span className="text-sm font-medium text-foreground">{action.label}</span>
@@ -143,9 +147,9 @@ export default function DashboardPage() {
                     <span className="text-print">{skill.name}</span>
                     <span className="text-muted">{skill.level}%</span>
                   </div>
-                  <div className="h-1.5 rounded-[2px] bg-hair/50">
+                  <div className="h-1.5 bg-hair/50">
                     <div
-                      className="h-full rounded-[2px] bg-wire transition-all duration-500"
+                      className="h-full bg-wire transition-all duration-500"
                       style={{ width: `${skill.level}%` }}
                     />
                   </div>
@@ -157,7 +161,7 @@ export default function DashboardPage() {
           <div className="card p-6">
             <SectionRule title="AI 助手" meta="LOCAL" />
             <div className="space-y-3">
-              <div className="rounded-[4px] border border-hair bg-background/70 p-4 font-mono text-[13px] leading-6 text-print">
+              <div className="border border-hair bg-background/70 p-4 font-mono text-[13px] leading-6 text-print">
                 <span className="mr-1.5 text-signal">{"❯"}</span>
                 昨天学习了 <span className="text-wire">HashMap</span>，今天建议{" "}
                 <span className="text-wire">ConcurrentHashMap</span>
@@ -179,7 +183,6 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <ProjectProgressSummary />
           <GitHubActivity />
         </div>
       </div>

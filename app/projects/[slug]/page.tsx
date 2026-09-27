@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ArrowLeft, Calendar, GitBranch, ExternalLink, BookOpen, CheckCircle2, Circle } from "lucide-react";
 
 import { projects, getProjectById, statusMap } from "@/lib/projects";
+import { pageMeta } from "@/lib/site";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.id }));
@@ -20,6 +21,7 @@ export async function generateMetadata({
   return {
     title: `${project.title} | 项目中心`,
     description: project.description,
+    ...pageMeta(`/projects/${slug}`),
   };
 }
 
@@ -36,7 +38,7 @@ export default async function ProjectDetailPage({
   const completed = project.todos.filter((t) => t.done).length;
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-6">
         <Link
           href="/projects"
@@ -51,15 +53,15 @@ export default async function ProjectDetailPage({
           <span className={`rounded-full px-3 py-1 text-xs font-medium ${status.color}`}>
             {status.label}
           </span>
-          <span className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400">
+          <span className="flex items-center gap-1.5 text-sm text-print">
             <Calendar size={14} /> {project.startDate}
           </span>
         </div>
 
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
+        <h1 className="text-3xl font-bold font-display tracking-tight text-foreground sm:text-4xl">
           {project.title}
         </h1>
-        <p className="mt-4 text-lg leading-8 text-slate-600 dark:text-slate-300">
+        <p className="mt-4 text-lg leading-8 text-print">
           {project.longDescription}
         </p>
 
@@ -67,7 +69,7 @@ export default async function ProjectDetailPage({
           {project.tech.map((t) => (
             <span
               key={t}
-              className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+              className="rounded-full bg-raise px-3 py-1 text-xs font-medium text-print"
             >
               {t}
             </span>
@@ -76,8 +78,8 @@ export default async function ProjectDetailPage({
 
         <div className="mt-8">
           <div className="mb-2 flex items-center justify-between text-sm">
-            <span className="text-slate-500 dark:text-slate-400">进度</span>
-            <span className="font-medium text-slate-700 dark:text-slate-300">{project.progress}%</span>
+            <span className="text-print">进度</span>
+            <span className="font-medium text-foreground">{project.progress}%</span>
           </div>
           <div className="h-2 rounded-full bg-hair">
             <div
@@ -109,7 +111,7 @@ export default async function ProjectDetailPage({
               href={project.docs}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-[4px] border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 dark:border-slate-700 dark:text-slate-300"
+              className="btn-secondary gap-2 px-4 py-2"
             >
               <BookOpen size={15} /> 文档
             </a>
@@ -117,10 +119,10 @@ export default async function ProjectDetailPage({
         </div>
 
         <section className="mt-10">
-          <h2 className="mb-4 text-xl font-semibold text-slate-900 dark:text-slate-50">亮点</h2>
+          <h2 className="mb-4 text-xl font-semibold font-display text-foreground">亮点</h2>
           <ul className="space-y-2">
             {project.highlights.map((h) => (
-              <li key={h} className="flex items-start gap-2 text-slate-600 dark:text-slate-300">
+              <li key={h} className="flex items-start gap-2 text-print">
                 <CheckCircle2 size={16} className="mt-1 shrink-0 text-wire" />
                 <span>{h}</span>
               </li>
@@ -130,8 +132,8 @@ export default async function ProjectDetailPage({
 
         <section className="mt-10">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">TODO</h2>
-            <span className="text-sm text-slate-400">
+            <h2 className="text-xl font-semibold font-display text-foreground">TODO</h2>
+            <span className="text-sm text-muted">
               {completed}/{project.todos.length}
             </span>
           </div>
@@ -141,13 +143,13 @@ export default async function ProjectDetailPage({
                 {todo.done ? (
                   <CheckCircle2 size={16} className="text-wire" />
                 ) : (
-                  <Circle size={16} className="text-slate-300 dark:text-slate-600" />
+                  <Circle size={16} className="text-muted" />
                 )}
                 <span
                   className={`text-sm ${
                     todo.done
-                      ? "text-slate-400 line-through"
-                      : "text-slate-700 dark:text-slate-200"
+                      ? "text-muted line-through"
+                      : "text-foreground"
                   }`}
                 >
                   {todo.text}
@@ -155,7 +157,7 @@ export default async function ProjectDetailPage({
               </div>
             ))}
           </div>
-          <p className="mt-4 text-xs text-slate-400">列表页的 TODO 勾选状态会保存在本机浏览器。</p>
+          <p className="mt-4 text-xs text-muted">列表页的 TODO 勾选状态会保存在本机浏览器。</p>
         </section>
       </article>
     </main>

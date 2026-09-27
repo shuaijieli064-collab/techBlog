@@ -71,8 +71,8 @@ export function AlgorithmProgress() {
             className="card card-hover p-5"
           >
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="font-medium text-slate-900 dark:text-slate-50">{algo.name}</h3>
-              <span className="text-xs text-slate-500 dark:text-slate-400">
+              <h3 className="font-display font-medium text-foreground">{algo.name}</h3>
+              <span className="text-xs text-print">
                 {algo.mastered}/{algo.count}
               </span>
             </div>
@@ -86,7 +86,7 @@ export function AlgorithmProgress() {
               <button
                 type="button"
                 onClick={() => bump(algo.name, -1)}
-                className="flex-1 rounded-[4px] border border-slate-200 py-1 text-xs text-slate-600 hover:border-slate-300 dark:border-slate-700 dark:text-slate-300"
+                className="flex-1 border border-hair py-1 text-xs text-print"
                 aria-label={`减少 ${algo.name} 已掌握`}
               >
                 −
@@ -94,7 +94,7 @@ export function AlgorithmProgress() {
               <button
                 type="button"
                 onClick={() => bump(algo.name, 1)}
-                className="flex-1 rounded-[4px] border border-hair py-1 text-xs text-print hover:border-wire hover:text-wire"
+                className="flex-1 border border-hair py-1 text-xs text-print hover:border-wire hover:text-wire"
                 aria-label={`增加 ${algo.name} 已掌握`}
               >
                 +

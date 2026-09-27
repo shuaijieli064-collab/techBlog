@@ -13,8 +13,8 @@ export function SectionRule({
 }) {
   return (
     <div className="mb-4 flex items-baseline justify-between gap-4 border-b border-hair pb-2">
-      <h2 className="section-title">
-        <span className="mr-2 font-mono font-normal text-wire">{"//"}</span>
+      <h2 className="section-title flex items-center gap-2.5">
+        <span aria-hidden className="h-3.5 w-[3px] shrink-0 bg-wire" />
         {title}
       </h2>
       <div className="flex items-baseline gap-4">
@@ -22,9 +22,9 @@ export function SectionRule({
         {href && metaLabel && (
           <Link
             href={href}
-            className="font-mono text-xs text-print transition-colors hover:text-wire"
+            className="font-mono text-xs text-print underline-offset-4 transition-colors hover:text-wire hover:underline"
           >
-            [ {metaLabel} ]
+            {metaLabel}
           </Link>
         )}
       </div>

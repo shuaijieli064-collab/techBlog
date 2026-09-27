@@ -134,15 +134,6 @@ export const functionLibrary: FunctionCard[] = [
   }
 ];
 
-export function getAllLanguages() {
-  const langs = new Set(functionLibrary.map(f => f.language));
-  return Array.from(langs).sort();
-}
-
-export function getFunctionsByCategory(category: string) {
-  return functionLibrary.filter(f => f.category === category);
-}
-
 export function searchFunctions(keyword: string) {
   const k = keyword.toLowerCase();
   return functionLibrary.filter(

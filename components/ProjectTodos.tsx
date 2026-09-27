@@ -66,8 +66,8 @@ export function ProjectTodos({ projectId, defaultTodos }: { projectId: string; d
   return (
     <div>
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400">TODO</h3>
-        <span className="text-xs text-slate-400">
+        <h3 className="text-sm font-medium text-print">TODO</h3>
+        <span className="text-xs text-muted">
           {completed}/{todos.length}
         </span>
       </div>
@@ -77,17 +77,17 @@ export function ProjectTodos({ projectId, defaultTodos }: { projectId: string; d
             key={`${projectId}-${todo.text}`}
             type="button"
             onClick={() => toggle(i)}
-            className="flex w-full items-center gap-2.5 rounded-[4px] px-1 py-0.5 text-left transition-colors hover:bg-slate-50 dark:hover:bg-slate-900"
+            className="flex w-full items-center gap-2.5 px-1 py-0.5 text-left transition-colors hover:bg-raise"
             aria-pressed={todo.done}
           >
             {todo.done ? (
               <CheckCircle2 size={16} className="text-wire" />
             ) : (
-              <Circle size={16} className="text-slate-300 dark:text-slate-600" />
+              <Circle size={16} className="text-muted" />
             )}
             <span
               className={`text-sm ${
-                todo.done ? "text-slate-400 line-through" : "text-slate-700 dark:text-slate-200"
+                todo.done ? "text-muted line-through" : "text-foreground"
               }`}
             >
               {todo.text}

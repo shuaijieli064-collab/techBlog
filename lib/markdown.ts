@@ -24,7 +24,7 @@ export function slugifyHeading(text: string): string {
 
 function inline(text: string): string {
   let s = escapeHtml(text);
-  s = s.replace(/`([^`]+)`/g, '<code class="rounded-[3px] border border-hair bg-background px-1.5 py-0.5 font-mono text-[0.9em] text-wire">$1</code>');
+  s = s.replace(/`([^`]+)`/g, '<code class="border border-hair bg-background px-1.5 py-0.5 font-mono text-[0.9em] text-wire">$1</code>');
   s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
   s = s.replace(
@@ -174,24 +174,24 @@ export function extractHeadings(md: string): Heading[] {
 export function renderBlockHtml(b: Block): string {
   switch (b.type) {
     case "h1":
-      return `<h1 class="mt-2 mb-4 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">${b.html}</h1>`;
+      return `<h1 class="mt-2 mb-4 text-3xl font-bold tracking-tight text-foreground">${b.html}</h1>`;
     case "h2":
-      return `<h2 id="${b.id}" class="mt-8 mb-3 scroll-mt-24 text-xl font-semibold text-slate-900 dark:text-slate-50">${b.html}</h2>`;
+      return `<h2 id="${b.id}" class="mt-8 mb-3 scroll-mt-24 text-xl font-semibold text-foreground">${b.html}</h2>`;
     case "h3":
-      return `<h3 id="${b.id}" class="mt-6 mb-2 scroll-mt-24 text-lg font-semibold text-slate-800 dark:text-slate-100">${b.html}</h3>`;
+      return `<h3 id="${b.id}" class="mt-6 mb-2 scroll-mt-24 text-lg font-semibold text-foreground">${b.html}</h3>`;
     case "p":
-      return `<p class="my-3 leading-7 text-slate-600 dark:text-slate-300">${b.html}</p>`;
+      return `<p class="my-3 leading-7 text-print">${b.html}</p>`;
     case "quote":
-      return `<blockquote class="my-4 border-l-4 border-wire bg-wire/[0.06] px-4 py-3 text-slate-700 dark:bg-wire/10 dark:text-slate-200">${b.html}</blockquote>`;
+      return `<blockquote class="my-4 border-l-4 border-wire bg-wire/[0.06] px-4 py-3 text-print">${b.html}</blockquote>`;
     case "code":
-      return `<pre class="my-4 overflow-x-auto rounded-[4px] border border-hair bg-slate-950 p-4 text-sm text-slate-100"><code data-lang="${escapeHtml(b.lang)}">${escapeHtml(b.code)}</code></pre>`;
+      return `<pre class="my-4 overflow-x-auto border border-hair bg-[#080d15] p-4 text-sm text-print"><code data-lang="${escapeHtml(b.lang)}">${escapeHtml(b.code)}</code></pre>`;
     case "hr":
       return `<hr class="my-8 border-hair" />`;
     case "table":
       return `<div class="my-4 overflow-x-auto"><table class="w-full min-w-[480px] border-collapse text-sm"><thead><tr class="bg-background">${b.headers
         .map(
           (h) =>
-            `<th class="border border-hair px-3 py-2 text-left font-medium text-slate-700 dark:text-slate-300">${h}</th>`,
+            `<th class="border border-hair px-3 py-2 text-left font-medium text-foreground">${h}</th>`,
         )
         .join("")}</tr></thead><tbody>${b.rows
         .map(
@@ -199,7 +199,7 @@ export function renderBlockHtml(b: Block): string {
             `<tr>${row
               .map(
                 (c) =>
-                  `<td class="border border-hair px-3 py-2 text-slate-600 dark:text-slate-300">${c}</td>`,
+                  `<td class="border border-hair px-3 py-2 text-print">${c}</td>`,
               )
               .join("")}</tr>`,
         )
@@ -208,10 +208,10 @@ export function renderBlockHtml(b: Block): string {
       const tag = b.ordered ? "ol" : "ul";
       const hasCheckbox = b.items.some((it) => it.includes("☑") || it.includes("☐"));
       let cls = b.ordered
-        ? "my-3 list-decimal space-y-1.5 pl-5 text-slate-600 marker:text-wire dark:text-slate-300"
-        : "my-3 list-disc space-y-1.5 pl-5 text-slate-600 marker:text-wire dark:text-slate-300";
+        ? "my-3 list-decimal space-y-1.5 pl-5 text-print marker:text-wire"
+        : "my-3 list-disc space-y-1.5 pl-5 text-print marker:text-wire";
       if (hasCheckbox && !b.ordered) {
-        cls = "my-3 list-none space-y-1.5 pl-1 text-slate-600 dark:text-slate-300";
+        cls = "my-3 list-none space-y-1.5 pl-1 text-print";
       }
       return `<${tag} class="${cls}">${b.items.map((it) => `<li class="leading-7">${it}</li>`).join("")}</${tag}>`;
     }

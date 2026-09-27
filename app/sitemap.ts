@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { getPublishedPosts } from "@/lib/posts";
+import { getAllTags, getPublishedPosts } from "@/lib/posts";
+import { notes } from "@/lib/notes";
 import { projects } from "@/lib/projects";
 import { BASE_URL } from "@/lib/site";
 
@@ -38,5 +39,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...postPages, ...projectPages];
+  const notePages = notes.map((note) => ({
+    url: `${BASE_URL}/notes/${note.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  const tagPages = getAllTags().map((tag) => ({
+    url: `${BASE_URL}/tags/${encodeURIComponent(tag)}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
+  }));
+
+  return [...staticPages, ...postPages, ...projectPages, ...notePages, ...tagPages];
 }

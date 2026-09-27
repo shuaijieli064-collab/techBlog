@@ -3,10 +3,12 @@ import type { Metadata } from "next";
 import { GitBranch, Mail, MapPin, BookOpen, Folder, ArrowRight, ExternalLink } from "lucide-react";
 import { getPublishedPosts } from "@/lib/posts";
 import { skills } from "@/lib/growth";
+import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "个人主页",
-  description: "林晨的个人主页：技能概览、精选项目与最新文章。",
+  description: "Nox7th的个人主页：技能概览、精选项目与最新文章。",
+  ...pageMeta("/profile"),
 };
 
 const projects = [
@@ -20,19 +22,19 @@ export default function ProfilePage() {
   const latestPosts = posts.slice(0, 3);
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
       <section className="card p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-          <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[4px] bg-wire text-4xl font-bold text-white">
-            林
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-wire text-4xl font-bold text-[#04131b]">
+            N
           </div>
           <div className="flex-1">
             <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-wire">Profile</p>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">林晨</h1>
-            <p className="mt-2 text-slate-600 dark:text-slate-300">
+            <h1 className="text-3xl font-bold font-display tracking-tight text-foreground">Nox7th</h1>
+            <p className="mt-2 text-print">
               软件工程学生 · 关注后端开发、算法与工程实践
             </p>
-            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-print">
               <span className="flex items-center gap-1.5">
                 <MapPin size={14} />
                 中国
@@ -59,21 +61,21 @@ export default function ProfilePage() {
       <section className="mt-8 grid gap-4 sm:grid-cols-3">
         <div className="card p-5 text-center">
           <div className="text-3xl font-bold text-wire">{posts.length}</div>
-          <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">技术文章</div>
+          <div className="mt-1 text-sm text-print">技术文章</div>
         </div>
         <div className="card p-5 text-center">
           <div className="text-3xl font-bold text-wire">{projects.length}</div>
-          <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">个人项目</div>
+          <div className="mt-1 text-sm text-print">个人项目</div>
         </div>
         <div className="card p-5 text-center">
           <div className="text-3xl font-bold text-wire">{skills.length}</div>
-          <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">技能方向</div>
+          <div className="mt-1 text-sm text-print">技能方向</div>
         </div>
       </section>
 
       <section className="mt-8 card p-8">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">技能概览</h2>
+          <h2 className="text-xl font-bold font-display text-foreground">技能概览</h2>
           <Link href="/growth" className="flex items-center gap-1 text-sm text-wire hover:opacity-80">
             成长中心 <ArrowRight size={14} />
           </Link>
@@ -82,8 +84,8 @@ export default function ProfilePage() {
           {skills.slice(0, 8).map((skill) => (
             <div key={skill.name}>
               <div className="mb-1.5 flex justify-between text-sm">
-                <span className="text-slate-700 dark:text-slate-300">{skill.name}</span>
-                <span className="text-xs text-slate-500 dark:text-slate-400">{skill.level}%</span>
+                <span className="text-foreground">{skill.name}</span>
+                <span className="text-xs text-print">{skill.level}%</span>
               </div>
               <div className="h-2 rounded-full bg-hair">
                 <div
@@ -99,7 +101,7 @@ export default function ProfilePage() {
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <section className="card p-8">
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-slate-50">
+            <h2 className="flex items-center gap-2 text-xl font-bold font-display text-foreground">
               <BookOpen size={18} className="text-wire" />
               最新文章
             </h2>
@@ -110,11 +112,11 @@ export default function ProfilePage() {
               <Link
                 key={post.slug}
                 href={`/posts/${post.slug}`}
-                className="block rounded-[4px] border border-hair p-4 transition-colors hover:border-wire"
+                className="block border border-hair p-4 transition-colors hover:border-wire"
               >
                 <div className="text-xs font-medium text-wire">{post.category}</div>
-                <div className="mt-1 font-medium text-slate-900 dark:text-slate-50">{post.title}</div>
-                <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{post.readTime}</div>
+                <div className="mt-1 font-medium text-foreground">{post.title}</div>
+                <div className="mt-1 text-xs text-print">{post.readTime}</div>
               </Link>
             ))}
           </div>
@@ -122,7 +124,7 @@ export default function ProfilePage() {
 
         <section className="card p-8">
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-slate-50">
+            <h2 className="flex items-center gap-2 text-xl font-bold font-display text-foreground">
               <Folder size={18} className="text-wire" />
               精选项目
             </h2>
@@ -133,24 +135,24 @@ export default function ProfilePage() {
               <Link
                 key={project.name}
                 href={project.href}
-                className="block rounded-[4px] border border-hair p-4 transition-colors hover:border-wire"
+                className="block border border-hair p-4 transition-colors hover:border-wire"
               >
                 <div className="flex items-center justify-between">
-                  <div className="font-medium text-slate-900 dark:text-slate-50">{project.name}</div>
-                  <span className="flex items-center gap-1 text-xs text-slate-400">
+                  <div className="font-medium text-foreground">{project.name}</div>
+                  <span className="flex items-center gap-1 text-xs text-muted">
                     ★ {project.stars}
                   </span>
                 </div>
-                <div className="mt-1 text-sm text-slate-500 dark:text-slate-400">{project.description}</div>
+                <div className="mt-1 text-sm text-print">{project.description}</div>
               </Link>
             ))}
           </div>
         </section>
       </div>
 
-      <section className="mt-8 rounded-[4px] border border-wire/30 bg-wire/[0.05] p-8 text-center">
-        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">一起交流</h2>
-        <p className="mt-2 text-slate-600 dark:text-slate-300">
+      <section className="mt-8 border border-wire/30 bg-wire/[0.05] p-8 text-center">
+        <h2 className="text-xl font-bold font-display text-foreground">一起交流</h2>
+        <p className="mt-2 text-print">
           欢迎技术交流与合作，可以通过邮件或 GitHub 联系我。
         </p>
         <div className="mt-5 flex flex-wrap justify-center gap-3">

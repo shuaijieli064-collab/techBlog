@@ -68,10 +68,10 @@ export function StudyRecords() {
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+        <h2 className="font-display text-2xl font-bold tracking-tight text-foreground">
           学习记录
         </h2>
-        <span className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400">
+        <span className="flex items-center gap-1.5 text-sm text-print">
           <Clock size={14} /> 累计 {totalHours.toFixed(1)} 小时 · {records.length} 条
         </span>
       </div>
@@ -125,18 +125,18 @@ export function StudyRecords() {
             <article className="card p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="mb-1 flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                  <div className="mb-1 flex flex-wrap items-center gap-2 text-xs text-print">
                     <time dateTime={record.date}>{record.date}</time>
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 dark:bg-slate-800">
+                    <span className="rounded-full bg-raise px-2 py-0.5">
                       {record.topic}
                     </span>
                     <span className="flex items-center gap-1">
                       <Clock size={11} /> {record.hours}h
                     </span>
                   </div>
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-50">{record.title}</h3>
+                  <h3 className="font-display font-semibold text-foreground">{record.title}</h3>
                   {record.description && (
-                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                    <p className="mt-1 text-sm text-print">
                       {record.description}
                     </p>
                   )}
@@ -144,7 +144,7 @@ export function StudyRecords() {
                 <button
                   type="button"
                   onClick={() => remove(record.id)}
-                  className="shrink-0 rounded-[4px] p-1.5 text-slate-400 transition-opacity hover:bg-rose-50 hover:text-rose-500 md:opacity-0 md:group-hover:opacity-100 dark:hover:bg-rose-950/40"
+                  className="shrink-0 p-1.5 text-muted transition-opacity hover:bg-alert/10 hover:text-alert md:opacity-0 md:group-hover:opacity-100"
                   aria-label="删除记录"
                 >
                   <Trash2 size={14} />

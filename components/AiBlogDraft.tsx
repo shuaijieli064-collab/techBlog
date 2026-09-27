@@ -92,14 +92,14 @@ ${template.prompt}
   };
 
   return (
-    <div className="mt-8 rounded-[4px] border border-wire/30 bg-wire/[0.05] p-6">
+    <div className="mt-8 border border-wire/30 bg-wire/[0.05] p-6">
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-[4px] border border-hair bg-panel">
+        <div className="flex h-10 w-10 items-center justify-center border border-hair bg-panel">
           <Sparkles size={18} className="text-wire" />
         </div>
         <div>
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">AI 生成博客草稿</h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <h2 className="font-display text-lg font-semibold text-foreground">AI 生成博客草稿</h2>
+          <p className="text-sm text-print">
             本地模板先生成 Markdown 骨架；接入 Edge Functions 后可换真模型。
           </p>
         </div>
@@ -137,26 +137,26 @@ ${template.prompt}
       {draft && (
         <div className="mt-4">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-500">draft.md</span>
+            <span className="text-xs font-medium text-print">draft.md</span>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={copy}
-                className="inline-flex items-center gap-1 rounded-[4px] border border-hair bg-panel px-2.5 py-1 text-xs font-medium text-print hover:border-wire"
+                className="inline-flex items-center gap-1 border border-hair bg-panel px-2.5 py-1 text-xs font-medium text-print hover:border-wire"
               >
-                {copied ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
+                {copied ? <Check size={12} className="text-wire" /> : <Copy size={12} />}
                 {copied ? "已复制" : "复制"}
               </button>
               <button
                 type="button"
                 onClick={download}
-                className="inline-flex items-center gap-1 rounded-[4px] border border-hair bg-panel px-2.5 py-1 text-xs font-medium text-print hover:border-wire"
+                className="inline-flex items-center gap-1 border border-hair bg-panel px-2.5 py-1 text-xs font-medium text-print hover:border-wire"
               >
                 <Download size={12} /> 下载 .md
               </button>
             </div>
           </div>
-          <pre className="max-h-72 overflow-auto rounded-[4px] border border-hair bg-background p-4 font-mono text-xs leading-6 text-print">
+          <pre className="max-h-72 overflow-auto border border-hair bg-background p-4 font-mono text-xs leading-6 text-print">
             {draft}
           </pre>
         </div>

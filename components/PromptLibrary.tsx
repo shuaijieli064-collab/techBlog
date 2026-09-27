@@ -122,7 +122,7 @@ export function PromptLibrary() {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-40 animate-pulse rounded-[4px] border border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-900" />
+          <div key={i} className="h-40 animate-pulse border border-hair bg-panel" />
         ))}
       </div>
     );
@@ -133,7 +133,7 @@ export function PromptLibrary() {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-1">
-            <Search size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted" />
             <input
               type="search"
               value={query}
@@ -159,11 +159,11 @@ export function PromptLibrary() {
             onClick={() => setShowFavOnly((v) => !v)}
             className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
               showFavOnly
-                ? "border-amber-400 bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300"
-                : "border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+                ? "border-signal bg-signal/10 text-signal"
+                : "border-hair bg-panel text-print"
             }`}
           >
-            <Star size={14} className={showFavOnly ? "fill-amber-400" : ""} />
+            <Star size={14} className={showFavOnly ? "fill-signal" : ""} />
             收藏 {state.favorites.length > 0 && `(${state.favorites.length})`}
           </button>
           {["全部", ...promptCategories].map((cat) => (
@@ -173,8 +173,8 @@ export function PromptLibrary() {
               onClick={() => setCategory(cat)}
               className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                 category === cat
-                  ? "border-wire bg-wire text-white"
-                  : "border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+                  ? "border-wire bg-wire text-[#04131b]"
+                  : "border-hair bg-panel text-print"
               }`}
             >
               {cat}
@@ -184,8 +184,8 @@ export function PromptLibrary() {
       </div>
 
       {creating && (
-        <div className="rounded-[4px] border border-wire/30 bg-wire/[0.05] p-5">
-          <h3 className="mb-4 text-sm font-semibold text-slate-900 dark:text-slate-100">新建本地提示词</h3>
+        <div className="border border-wire/30 bg-wire/[0.05] p-5">
+          <h3 className="mb-4 font-display text-sm font-semibold text-foreground">新建本地提示词</h3>
           <div className="space-y-3">
             <input
               value={draft.title}
@@ -224,9 +224,9 @@ export function PromptLibrary() {
       )}
 
       {filtered.length === 0 ? (
-        <div className="rounded-[4px] border border-dashed border-hair py-16 text-center">
-          <p className="font-medium text-slate-700 dark:text-slate-200">没有匹配的提示词</p>
-          <p className="mt-1 text-sm text-slate-500">换个关键词，或新建一条本地提示词。</p>
+        <div className="border border-dashed border-hair py-16 text-center">
+          <p className="font-display font-medium text-foreground">没有匹配的提示词</p>
+          <p className="mt-1 text-sm text-print">换个关键词，或新建一条本地提示词。</p>
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -242,11 +242,11 @@ export function PromptLibrary() {
               >
                 <div className="mb-2 flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <h3 className="truncate font-medium text-slate-900 dark:text-slate-50">{prompt.title}</h3>
-                    <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
+                    <h3 className="truncate font-display font-medium text-foreground">{prompt.title}</h3>
+                    <p className="mt-0.5 text-sm text-print">
                       {prompt.category}
                       {isCustom && (
-                        <span className="ml-1.5 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] dark:bg-slate-800">
+                        <span className="ml-1.5 bg-raise px-1.5 py-0.5 text-[10px]">
                           本地
                         </span>
                       )}
@@ -256,13 +256,13 @@ export function PromptLibrary() {
                     type="button"
                     onClick={() => toggleFav(prompt.id)}
                     aria-label={fav ? "取消收藏" : "收藏"}
-                    className="shrink-0 rounded-[4px] p-1.5 hover:bg-slate-50 dark:hover:bg-slate-900"
+                    className="shrink-0 p-1.5 hover:bg-raise"
                   >
-                    <Star size={16} className={fav ? "fill-amber-400 text-amber-400" : "text-slate-400"} />
+                    <Star size={16} className={fav ? "fill-signal text-signal" : "text-muted"} />
                   </button>
                 </div>
 
-                <p className={`text-sm leading-6 text-slate-600 dark:text-slate-300 ${open ? "" : "line-clamp-3"}`}>
+                <p className={`text-sm leading-6 text-print ${open ? "" : "line-clamp-3"}`}>
                   {prompt.content}
                 </p>
 
@@ -272,7 +272,7 @@ export function PromptLibrary() {
                     <button
                       type="button"
                       onClick={() => setExpandedId(open ? null : prompt.id)}
-                      className="rounded-[4px] px-2 py-1 text-xs text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-900"
+                      className="px-2 py-1 text-xs text-print hover:bg-raise"
                     >
                       {open ? "收起" : "展开"}
                     </button>
@@ -280,7 +280,7 @@ export function PromptLibrary() {
                       <button
                         type="button"
                         onClick={() => removeCustom(prompt.id)}
-                        className="rounded-[4px] px-2 py-1 text-xs text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                        className="px-2 py-1 text-xs text-alert hover:bg-alert/10"
                       >
                         删除
                       </button>
@@ -288,9 +288,9 @@ export function PromptLibrary() {
                     <button
                       type="button"
                       onClick={() => copy(prompt)}
-                      className="inline-flex items-center gap-1 rounded-[3px] border border-hair bg-transparent px-2.5 py-1 text-xs font-medium text-print hover:border-wire hover:text-wire"
+                      className="inline-flex items-center gap-1 border border-hair bg-transparent px-2.5 py-1 text-xs font-medium text-print hover:border-wire hover:text-wire"
                     >
-                      {copiedId === prompt.id ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
+                      {copiedId === prompt.id ? <Check size={12} className="text-wire" /> : <Copy size={12} />}
                       {copiedId === prompt.id ? "已复制" : "复制"}
                     </button>
                   </div>

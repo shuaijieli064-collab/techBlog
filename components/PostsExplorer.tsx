@@ -28,7 +28,7 @@ export function PostsExplorer() {
         <div className="relative">
           <Search
             size={16}
-            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"
           />
           <input
             type="search"
@@ -46,7 +46,7 @@ export function PostsExplorer() {
             onClick={() => setCategory(null)}
             className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
               category === null
-                ? "border-wire bg-wire text-white"
+                ? "border-wire bg-wire text-[#04131b]"
                 : "border-hair bg-panel text-print hover:border-wire hover:text-wire"
             }`}
           >
@@ -63,7 +63,7 @@ export function PostsExplorer() {
                 onClick={() => setCategory(active ? null : cat)}
                 className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                   active
-                    ? "border-wire bg-wire text-white"
+                    ? "border-wire bg-wire text-[#04131b]"
                     : "border-hair bg-panel text-print hover:border-wire hover:text-wire"
                 }`}
               >
@@ -76,12 +76,12 @@ export function PostsExplorer() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-[4px] border border-dashed border-hair bg-panel/50 py-20 text-center">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-[4px] border border-hair bg-background">
-            <Inbox size={22} className="text-slate-400" />
+        <div className="flex flex-col items-center justify-center border border-dashed border-hair bg-panel/50 py-20 text-center">
+          <div className="mb-4 flex h-12 w-12 items-center justify-center border border-hair bg-background">
+            <Inbox size={22} className="text-muted" />
           </div>
-          <p className="text-base font-semibold text-slate-700 dark:text-slate-200">没有匹配的文章</p>
-          <p className="mt-1.5 max-w-sm text-sm leading-6 text-slate-500 dark:text-slate-400">
+          <p className="font-display text-base font-semibold text-foreground">没有匹配的文章</p>
+          <p className="mt-1.5 max-w-sm text-sm leading-6 text-print">
             换个关键词，或点击「全部」清除筛选。
           </p>
           <button

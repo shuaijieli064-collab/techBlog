@@ -5,9 +5,12 @@ export function PostCard({ post }: { post: Post }) {
   return (
     <article className="card card-hover group flex h-full flex-col p-5">
       <div className="mb-4 flex items-center justify-between gap-3 border-b border-hair pb-3 font-mono text-[11px] tracking-[0.06em] text-muted">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {post.featured && (
-            <span className="text-signal">[置顶]</span>
+            <span className="inline-flex items-center gap-1 text-signal">
+              <span aria-hidden className="h-1 w-1 bg-signal" />
+              置顶
+            </span>
           )}
           <span className="text-wire">{post.category}</span>
         </div>
@@ -15,7 +18,7 @@ export function PostCard({ post }: { post: Post }) {
       </div>
 
       <Link href={`/posts/${post.slug}`} className="block">
-        <h2 className="mb-3 text-lg font-bold leading-snug tracking-tight text-foreground transition-colors group-hover:text-wire sm:text-xl">
+        <h2 className="mb-3 font-display text-lg font-bold leading-snug text-foreground transition-colors group-hover:text-wire sm:text-xl">
           {post.title}
         </h2>
       </Link>

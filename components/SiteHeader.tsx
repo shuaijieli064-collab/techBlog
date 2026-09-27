@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 type NavChild = { href: string; label: string };
 type NavItem = { href: string; label: string; children?: NavChild[] };
@@ -77,37 +76,35 @@ function NavDropdown({
       <div className="flex items-center gap-0.5">
         <Link
           href={item.href}
-          className={`rounded-[3px] px-2 py-1 font-mono text-[13px] transition-colors ${
+          className={`border-b-2 px-2 py-1.5 text-[13px] font-medium transition-colors ${
             active
-              ? "bg-wire/10 text-wire"
-              : "text-print hover:bg-wire/10 hover:text-wire"
+              ? "border-wire text-wire"
+              : "border-transparent text-print hover:text-foreground"
           }`}
         >
-          {active ? `[${item.label}]` : item.label}
+          {item.label}
         </Link>
         <button
           type="button"
           aria-label={`${item.label} 子菜单`}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className={`rounded p-0.5 ${
-            active ? "text-wire" : "text-muted hover:text-print"
-          }`}
+          className={`p-0.5 ${active ? "text-wire" : "text-muted hover:text-print"}`}
         >
           <ChevronDown size={13} className={`transition-transform ${open ? "rotate-180" : ""}`} />
         </button>
       </div>
       {open && item.children && (
-        <div className="absolute left-0 top-full z-40 mt-2 min-w-[10.5rem] rounded-[4px] border border-hair bg-panel p-1">
+        <div className="absolute left-0 top-full z-40 mt-2 min-w-[10.5rem] border border-hair bg-panel p-1 shadow-[0_12px_32px_-16px_rgba(0,0,0,0.8)]">
           {item.children.map((child) => (
             <Link
               key={child.href}
               href={child.href}
               onClick={() => setOpen(false)}
-              className={`block rounded-[3px] px-3 py-2 font-mono text-[13px] transition-colors ${
+              className={`block px-3 py-2 text-[13px] transition-colors ${
                 pathname === child.href
                   ? "bg-wire/10 text-wire"
-                  : "text-print hover:bg-wire/10 hover:text-wire"
+                  : "text-print hover:bg-raise hover:text-foreground"
               }`}
             >
               {child.label}
@@ -137,18 +134,25 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-hair bg-panel/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 border-b border-hair bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-hair bg-wire font-mono text-sm font-bold text-white">
-            L
+        <Link href="/" className="group flex shrink-0 items-center gap-2.5">
+          <span
+            aria-hidden
+            className="flex h-9 w-9 items-center justify-center border border-wire/50 text-wire transition-colors group-hover:border-wire group-hover:shadow-[0_0_14px_-6px_var(--glow)]"
+          >
+            <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="5" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M10 1.5v3.2M10 15.3v3.2M1.5 10h3.2M15.3 10h3.2" stroke="currentColor" strokeWidth="1.4" />
+              <circle cx="10" cy="10" r="1.4" fill="currentColor" />
+            </svg>
           </span>
           <div className="hidden sm:block">
-            <div className="text-[15px] font-bold tracking-tight text-foreground">
-              林晨的博客
+            <div className="font-display text-[15px] font-extrabold leading-none tracking-[0.08em] text-foreground">
+              NOX7TH
             </div>
-            <div className="font-mono text-[10px] tracking-[0.08em] text-muted">
-              ~/dev-workspace
+            <div className="mt-1 font-mono text-[9.5px] tracking-[0.16em] text-muted">
+              DEVELOPER WORKSPACE
             </div>
           </div>
         </Link>
@@ -161,29 +165,25 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-[3px] px-2 py-1 font-mono text-[13px] transition-colors ${
+                className={`border-b-2 px-2 py-1.5 text-[13px] font-medium transition-colors ${
                   isActive(pathname, item.href)
-                    ? "bg-wire/10 text-wire"
-                    : "text-print hover:bg-wire/10 hover:text-wire"
+                    ? "border-wire text-wire"
+                    : "border-transparent text-print hover:text-foreground"
                 }`}
               >
-                {isActive(pathname, item.href) ? `[${item.label}]` : item.label}
+                {item.label}
               </Link>
             ),
           )}
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          <ThemeToggle />
-          <Link
-            href="/posts"
-            className="hidden rounded-[4px] bg-wire px-4 py-2 font-mono text-[13px] font-semibold text-white transition-[filter] hover:brightness-110 sm:inline-flex"
-          >
+          <Link href="/posts" className="btn-primary hidden !py-2 font-semibold sm:inline-flex">
             阅读文章
           </Link>
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center rounded-[4px] border border-hair bg-panel text-print transition-colors hover:border-wire hover:text-wire lg:hidden"
+            className="flex h-9 w-9 items-center justify-center border border-hair bg-panel text-print transition-colors hover:border-wire hover:text-wire lg:hidden"
             aria-label={open ? "关闭菜单" : "打开菜单"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
@@ -198,19 +198,19 @@ export function SiteHeader() {
           aria-label="移动导航"
           className="border-t border-hair bg-panel/95 backdrop-blur-xl lg:hidden"
         >
-          <div className="mx-auto grid max-w-6xl gap-1 px-4 py-4 sm:px-6">
+          <div className="mx-auto grid max-w-6xl gap-0.5 px-4 py-4 sm:px-6">
             {navItems.map((item) => (
               <div key={item.href}>
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className={`block rounded-[3px] px-4 py-2.5 font-mono text-sm transition-colors ${
+                  className={`block border-l-2 px-4 py-2.5 text-sm transition-colors ${
                     isActive(pathname, item.href)
-                      ? "bg-wire/10 text-wire"
-                      : "text-print hover:bg-wire/10 hover:text-wire"
+                      ? "border-wire bg-wire/10 font-medium text-wire"
+                      : "border-transparent text-print hover:text-foreground"
                   }`}
                 >
-                  {isActive(pathname, item.href) ? `[${item.label}]` : item.label}
+                  {item.label}
                 </Link>
                 {item.children && (
                   <div className="ml-4 grid gap-0.5 border-l border-hair pl-3">
@@ -221,7 +221,7 @@ export function SiteHeader() {
                           key={child.href}
                           href={child.href}
                           onClick={() => setOpen(false)}
-                          className="rounded-[3px] px-3 py-2 font-mono text-[13px] text-muted hover:text-wire"
+                          className="px-3 py-2 text-[13px] text-muted transition-colors hover:text-wire"
                         >
                           {child.label}
                         </Link>

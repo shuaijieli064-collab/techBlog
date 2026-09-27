@@ -113,8 +113,28 @@
 1. ✅ **视觉走查 + 响应式 375/768/1280**（8 页截图、6 处修复）
 2. ✅ **Notes Markdown 详情页**（`lib/markdown.ts` + `/notes/[slug]` SSG）；博客 Markdown 正文接入标为 🔄 铺路完成
 
+## 站点质量优化（S1–S6）— 已完成
+
+1. ✅ **S1 SEO**：21 页 canonical/og:url 自指修复（`lib/site.ts` `pageMeta()` helper + RSS types 合并防顶掉）、补 `/` `/tools` `/tags/[tag]` metadata、title 双后缀修复（functions/文章页）、WebSite+Article JSON-LD、`public/og.png`（1200×630，后随重设计改为 HUD 风，Playwright 渲染）+ og:image/twitter:image、sitemap 补 notes/tags（56 条）；断言脚本 56/56 绿（`C:\Users\lsj\AppData\Local\Temp\opencode\assert-seo.ps1`）
+2. ✅ **S2 UI 遗留**：functions 搜索过滤（新 `FunctionsExplorer`，Suspense+useSearchParams）+ `?category=` 生效（FILTER 条/单分类/bogus 忽略）+ 空态清空；archive `JAVA` 大写混排去除；`FunctionSearchInput.tsx` 删除
+3. ✅ **S3 性能**：perf 基线（首页/工作台/文章 total 104–115ms）；tools 页拆分 13 个工具模块（`components/tools/*`），12 个 `next/dynamic` 按需加载（点击 tab 才拉 chunk，初始 -12KB）；`GitHubActivity` 转 server 组件（唯一 0-hook client）
+4. ✅ **S4 代码质量**：删 3 个死导出（`getAllCategories`/`getAllLanguages`/`getFunctionsByCategory`）；RegexTester 匹配 token 收敛 `.chip`；发现并修复既有 bug：`.input-base{width:100%}` 覆盖 `w-16` 致正则 flags 框 664px（改 `w-16!`）
+5. ✅ **S5 a11y**：skip-link（Tab→焦点可见→Enter→`#main-content`）+ 24 个 `<main>` 加 id/tabIndex；accessibility 树 4 页走查（landmark/label 齐全）；8 页无名控件扫描全 0
+6. ✅ **S6** Playwright 冒烟：`@playwright/test` + chromium，`npm test`（build+start:3100）14/14 绿——SEO canonical×7、Article JSON-LD、sitemap、functions 搜索/分类、tools 切换+正则、skip-link、暗色画布渲染（无 `.dark` 类 + body 背景断言）
+
+> 每阶段 lint / typecheck / build 三件套全绿；截图证据走查后已清理（`.tmp-screens/`）
+
+## 深空 HUD 整站重设计 — 已完成
+
+1. ✅ **设计令牌**：`app/globals.css` 单一暗色主题（`#070b12` 底 / `#5ce1ff` 唯一强调 / `#ffb454` 遥测 / `#ff5c5c` 告警 / `--hair` 发丝线）+ 锐角 utility（仅圆点/头像留圆）+ `@custom-variant dark` 惰性保留（`ThemeToggle` 删除）
+2. ✅ **身份统一 Nox7th**：layout/README/RSS/profile 全量替换，头像字形 `林`→`N`，icon.svg reticle 化
+3. ✅ **全站迁移**：35 个 app 文件 + 28 个组件 + `lib/markdown.ts` 渲染层 ~250 处 slate/white/dark/圆角/阴影 → 令牌；CodeBlock 语法高亮按令牌重调；移除文本箭头与括号导航（保留方向性配对例外）
+4. ✅ **氛围组件**：`ScrambleText`（解码动效）/ `RadarSweep`（雷达）/ `Telemetry`（遥测）；首页 hero 重写、页眉/分区线/PostCard/EmptyState 重写
+5. ✅ **修缺陷**：dashboard 375px 横向溢出（`min-w-0`）、左右列空洞重平衡、tasks 计数 3/3→1/3 与面板一致、GitHubActivity `//` 前缀与 `[ 打开 GitHub ]`
+6. ✅ **验证**：lint / typecheck / build 全绿，`npm test` 14/14，10 路由 × 桌面/移动 DOM 验证 ALL PASS，20 张截图视觉自评通过
+
 ## 建议下一轮
 
 - ⬜ 真实域名替换（配置 NEXT_PUBLIC_SITE_URL）+ Supabase 环境变量 + Cloudflare 部署（Phase 14）
-- ⬜ 安全面 RLS 用例、（可选）Playwright 冒烟
+- ⬜ 安全面 RLS 用例
 - ⬜ 需要你提供：真实域名、是否接 Supabase/GitHub token

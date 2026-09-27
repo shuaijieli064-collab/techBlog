@@ -4,10 +4,12 @@ import { NotebookPen, GraduationCap, Terminal, FileQuestion, Archive, FunctionSq
 
 import { PageHeader } from "@/components/PageHeader";
 import { AiBlogDraft } from "@/components/AiBlogDraft";
+import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "知识库",
   description: "个人知识库入口：技术笔记、学习笔记、面试题与常用命令。",
+  ...pageMeta("/knowledge"),
 };
 
 const sections = [
@@ -57,7 +59,7 @@ const sections = [
 
 export default function KnowledgePage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <PageHeader
         eyebrow="Knowledge Base"
         title="个人知识库"
@@ -67,15 +69,15 @@ export default function KnowledgePage() {
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {sections.map((section) => (
           <Link key={section.title} href={section.href} className="card card-hover group p-6">
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-[4px] bg-wire/10">
+            <div className="mb-4 flex h-10 w-10 items-center justify-center bg-wire/10">
               <section.icon size={20} className="text-wire" />
             </div>
-            <h2 className="text-lg font-semibold text-slate-900 group-hover:text-wire dark:text-slate-50 dark:group-hover:text-wire">
+            <h2 className="text-lg font-semibold text-foreground group-hover:text-wire">
               {section.title}
             </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{section.desc}</p>
+            <p className="mt-2 text-sm leading-6 text-print">{section.desc}</p>
             <span className="mt-4 inline-block text-sm font-medium text-wire">
-              {section.linkLabel} →
+              {section.linkLabel}
             </span>
           </Link>
         ))}

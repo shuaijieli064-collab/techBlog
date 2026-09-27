@@ -99,8 +99,8 @@ export function PostEngagement({ slug, title }: { slug: string; title: string })
 
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <div className="flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-600 dark:border-slate-700 dark:text-slate-300">
-        <Eye size={15} className="text-slate-400" />
+      <div className="flex items-center gap-1.5 rounded-full border border-hair px-3 py-1.5 text-sm text-print">
+        <Eye size={15} className="text-muted" />
         <span>{views} 阅读</span>
       </div>
 
@@ -110,20 +110,20 @@ export function PostEngagement({ slug, title }: { slug: string; title: string })
         aria-pressed={liked}
         className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors ${
           liked
-            ? "border-rose-300 bg-rose-50 text-rose-600 dark:border-rose-800 dark:bg-rose-950/40 dark:text-rose-400"
-            : "border-slate-200 text-slate-600 hover:border-rose-300 hover:text-rose-600 dark:border-slate-700 dark:text-slate-300 dark:hover:text-rose-400"
+            ? "border-alert bg-alert/10 text-alert"
+            : "border-hair text-print hover:border-alert hover:text-alert"
         }`}
       >
-        <Heart size={15} className={liked ? "fill-rose-500" : ""} />
+        <Heart size={15} className={liked ? "fill-alert" : ""} />
         <span>{likes} 点赞</span>
       </button>
 
       <button
         type="button"
         onClick={share}
-        className="flex items-center gap-1.5 rounded-[4px] border border-hair px-3 py-1.5 text-sm text-print transition-colors hover:border-wire hover:text-wire"
+        className="flex items-center gap-1.5 border border-hair px-3 py-1.5 text-sm text-print transition-colors hover:border-wire hover:text-wire"
       >
-        {copied ? <Check size={15} className="text-green-500" /> : <Share2 size={15} />}
+        {copied ? <Check size={15} className="text-wire" /> : <Share2 size={15} />}
         <span>{copied ? "已复制链接" : "分享"}</span>
       </button>
     </div>

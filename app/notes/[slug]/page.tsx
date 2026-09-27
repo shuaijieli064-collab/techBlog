@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
 import { Markdown } from "@/components/Markdown";
 import { getNoteBySlug, notes } from "@/lib/notes";
 import { getPostBySlug } from "@/lib/posts";
+import { pageMeta } from "@/lib/site";
 
 export function generateStaticParams() {
   return notes.map((n) => ({ slug: n.slug }));
@@ -22,6 +23,7 @@ export async function generateMetadata({
   return {
     title: `${note.title} | 笔记`,
     description: note.summary,
+    ...pageMeta(`/notes/${slug}`),
   };
 }
 
@@ -41,7 +43,7 @@ export default async function NoteDetailPage({
   const body = note.content.replace(/^#\s+[^\n]+\n+/, "");
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-6">
         <Link
           href="/notes"
@@ -52,8 +54,8 @@ export default async function NoteDetailPage({
       </div>
 
       <article className="card p-6 sm:p-10">
-        <header className="mb-8 border-b border-slate-100 pb-6 dark:border-slate-800">
-          <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+        <header className="mb-8 border-b border-hair pb-6">
+          <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-print">
             <span className="rounded-full bg-wire/10 px-2.5 py-1 font-medium text-wire">
               {note.group}
             </span>
@@ -64,17 +66,17 @@ export default async function NoteDetailPage({
               <Clock size={12} /> {note.readTime}
             </span>
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
+          <h1 className="text-3xl font-bold font-display tracking-tight text-foreground sm:text-4xl">
             {note.title}
           </h1>
-          <p className="mt-3 text-base leading-7 text-slate-600 dark:text-slate-300">
+          <p className="mt-3 text-base leading-7 text-print">
             {note.summary}
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             {note.tags.map((t) => (
               <span
                 key={t}
-                className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400"
+                className="inline-flex items-center gap-1 rounded-full border border-hair bg-raise px-2.5 py-1 text-xs text-print"
               >
                 <Tag size={11} /> {t}
               </span>
@@ -85,8 +87,8 @@ export default async function NoteDetailPage({
         <Markdown content={body} />
 
         {related.length > 0 && (
-          <section className="mt-10 border-t border-slate-100 pt-6 dark:border-slate-800">
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <section className="mt-10 border-t border-hair pt-6">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-print">
               相关文章
             </h2>
             <div className="space-y-2">
@@ -96,7 +98,7 @@ export default async function NoteDetailPage({
                     <Link
                       key={post.slug}
                       href={`/posts/${post.slug}`}
-                      className="block rounded-[4px] border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
+                      className="block border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
                     >
                       {post.title}
                     </Link>

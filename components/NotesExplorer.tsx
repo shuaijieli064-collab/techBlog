@@ -47,7 +47,7 @@ export function NotesExplorer() {
       <div className="relative mb-8">
         <Search
           size={16}
-          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"
         />
         <input
           type="search"
@@ -80,25 +80,25 @@ export function NotesExplorer() {
               <div className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-wire">
                 {group.title}
               </div>
-              <p className="text-base leading-7 text-slate-600 dark:text-slate-300">
+              <p className="text-base leading-7 text-print">
                 {group.summary}
               </p>
 
               {group.groupNotes.length > 0 && (
                 <div className="mt-5 space-y-2">
-                  <div className="text-xs font-medium uppercase tracking-wider text-slate-400">
+                  <div className="text-xs font-medium uppercase tracking-wider text-muted">
                     笔记
                   </div>
                   {group.groupNotes.map((note) => (
                     <Link
                       key={note.slug}
                       href={`/notes/${note.slug}`}
-                      className="block rounded-[4px] border border-wire/30 bg-wire/[0.05] px-4 py-3 transition-colors hover:border-wire"
+                      className="block border border-wire/30 bg-wire/[0.05] px-4 py-3 transition-colors hover:border-wire"
                     >
-                      <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
+                      <div className="text-sm font-medium text-foreground">
                         {note.title}
                       </div>
-                      <div className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                      <div className="mt-0.5 text-xs text-print">
                         {note.summary}
                       </div>
                     </Link>
@@ -107,7 +107,7 @@ export function NotesExplorer() {
               )}
 
               <div className="mt-5 space-y-3">
-                <div className="text-xs font-medium uppercase tracking-wider text-slate-400">
+                <div className="text-xs font-medium uppercase tracking-wider text-muted">
                   关联文章
                 </div>
                 {group.posts.length > 0 ? (
@@ -115,13 +115,13 @@ export function NotesExplorer() {
                     <Link
                       key={post.slug}
                       href={`/posts/${post.slug}`}
-                      className="block rounded-[4px] border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
+                      className="block border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
                     >
                       {post.title}
                     </Link>
                   ))
                 ) : (
-                  <div className="rounded-[4px] border border-dashed border-hair px-4 py-3 text-sm text-muted">
+                  <div className="border border-dashed border-hair px-4 py-3 text-sm text-muted">
                     该模块还在持续补充中
                   </div>
                 )}
