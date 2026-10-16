@@ -24,7 +24,7 @@
 
   /* structure */
   --hair: rgba(125, 195, 235, 0.18);
-  --grid-line: rgba(92, 225, 255, 0.055);
+  --grid-line: rgba(148, 163, 255, 0.04);
   --glow: rgba(92, 225, 255, 0.35);
 
   /* radius scale — crisp-modern: soft panels, pill tags, round dots */
@@ -89,11 +89,12 @@ body {
     "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   text-rendering: optimizeLegibility;
   background-color: var(--background);
-  /* one faint top wash so the deep-space base reads as a gradient, not a flat void */
+  /* night-sky wash — indigo zenith glow fading into a faint cyan horizon */
   background-image: radial-gradient(
     120% 72% at 50% -10%,
-    rgba(92, 225, 255, 0.05),
-    transparent 58%
+    rgba(124, 108, 240, 0.07),
+    rgba(92, 225, 255, 0.028) 42%,
+    transparent 60%
   );
   background-repeat: no-repeat;
 }
@@ -642,49 +643,62 @@ img {
   }
 }
 
-/* ---------- ambient deep-space layers (fixed, -z-10, behind content) ---------- */
+/* ---------- ambient starry-sky layers (fixed, -z-10, behind content) ---------- */
 
-.glow-top {
+/* Night-sky wash — indigo zenith glow with a faint cyan horizon breath */
+.sky-wash {
   position: absolute;
   inset: 0 0 auto 0;
-  height: 520px;
-  background: radial-gradient(
-    900px 460px at 50% -6%,
-    rgba(92, 225, 255, 0.07),
-    transparent 65%
-  );
+  height: 560px;
+  background:
+    radial-gradient(900px 460px at 50% -6%, rgba(124, 108, 240, 0.08), transparent 65%),
+    radial-gradient(700px 380px at 68% -10%, rgba(92, 225, 255, 0.045), transparent 62%);
 }
 
-.aurora {
+/* Nebula clouds — three slow-drifting colour masses (transform-only animation) */
+.nebula {
   position: absolute;
   pointer-events: none;
   will-change: transform;
 }
 
-.aurora-a {
-  width: 68vmax;
-  height: 68vmax;
-  left: -16vmax;
-  top: -26vmax;
+.nebula-indigo {
+  width: 72vmax;
+  height: 72vmax;
+  left: -20vmax;
+  top: -28vmax;
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(92, 225, 255, 0.075),
+    rgba(99, 102, 241, 0.07),
     transparent 62%
   );
-  animation: aurora-drift-a 52s ease-in-out infinite alternate;
+  animation: nebula-drift-a 88s ease-in-out infinite alternate;
 }
 
-.aurora-b {
-  width: 58vmax;
-  height: 58vmax;
-  right: -20vmax;
-  bottom: -22vmax;
+.nebula-violet {
+  width: 60vmax;
+  height: 60vmax;
+  right: -22vmax;
+  top: 16%;
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(255, 180, 84, 0.045),
+    rgba(167, 139, 250, 0.055),
     transparent 60%
   );
-  animation: aurora-drift-b 64s ease-in-out infinite alternate;
+  animation: nebula-drift-b 104s ease-in-out infinite alternate;
+}
+
+.nebula-teal {
+  width: 78vmax;
+  height: 78vmax;
+  right: -26vmax;
+  bottom: -30vmax;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(34, 211, 238, 0.045),
+    transparent 60%
+  );
+  animation: nebula-drift-c 96s ease-in-out infinite alternate;
 }
 
 .bg-grid {
@@ -693,53 +707,51 @@ img {
   will-change: transform;
 }
 
-/* Perspective horizon — grid recedes to a vanishing point, flows toward viewer */
-.horizon-band {
+/* Planetary limb — a vast dark ellipse arcs up from below the fold, rim-lit by
+   a thin cyan atmosphere line. Anchors the sky without a Tron-style grid floor. */
+.planet-band {
   position: absolute;
   inset: auto 0 0 0;
   height: 30vh;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to top, #000 45%, transparent 100%);
-  mask-image: linear-gradient(to top, #000 45%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, #000 62%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 62%, transparent 100%);
 }
 
-.horizon {
+.planet-haze {
   position: absolute;
-  inset: auto 0 0 0;
-  height: 340px;
-  transform: perspective(520px) rotateX(60deg);
-  transform-origin: 50% 100%;
-}
-
-.horizon-grid {
-  position: absolute;
-  left: -60%;
-  right: -60%;
-  top: -80%;
-  bottom: -30%;
-  background-image:
-    linear-gradient(rgba(92, 225, 255, 0.11) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(92, 225, 255, 0.11) 1px, transparent 1px);
-  background-size:
-    72px 72px,
-    72px 72px;
-  animation: horizon-flow 2.8s linear infinite;
-  will-change: transform;
-}
-
-.horizon-glow {
-  position: absolute;
-  inset: auto 0 auto 0;
-  bottom: 116px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(92, 225, 255, 0.4),
-    transparent
+  left: 50%;
+  bottom: -4vmax;
+  width: 170vmax;
+  height: 24vmax;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    50% 100% at 50% 100%,
+    rgba(92, 225, 255, 0.17),
+    rgba(92, 225, 255, 0.05) 42%,
+    transparent 68%
   );
-  box-shadow: 0 0 16px rgba(92, 225, 255, 0.3);
-  opacity: 0.7;
+}
+
+.planet {
+  position: absolute;
+  left: 50%;
+  bottom: -158vmax;
+  width: 300vmax;
+  height: 160vmax;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    120% 90% at 50% 0%,
+    #0b1526 0%,
+    #070c18 34%,
+    #04060f 62%,
+    #02040a 100%
+  );
+  box-shadow:
+    inset 0 1.5px 0 rgba(92, 225, 255, 0.55),
+    inset 0 6px 22px rgba(92, 225, 255, 0.16),
+    0 -2px 16px rgba(92, 225, 255, 0.22);
 }
 
 .spotlight {
@@ -751,8 +763,8 @@ img {
   margin: -420px 0 0 -420px;
   background: radial-gradient(
     circle,
-    rgba(92, 225, 255, 0.085),
-    rgba(92, 225, 255, 0.03) 34%,
+    rgba(92, 225, 255, 0.06),
+    rgba(92, 225, 255, 0.022) 34%,
     transparent 68%
   );
   transform: translate3d(50vw, 44vh, 0);
@@ -776,8 +788,8 @@ img {
 }
 
 @media (max-width: 640px) {
-  .horizon-band {
-    height: 20vh;
+  .planet-band {
+    height: 22vh;
   }
 }
 
@@ -807,24 +819,21 @@ img {
   }
 }
 
-@keyframes aurora-drift-a {
+@keyframes nebula-drift-a {
   to {
-    transform: translate3d(9vmax, 7vmax, 0) scale(1.12);
+    transform: translate3d(8vmax, 6vmax, 0) scale(1.1);
   }
 }
 
-@keyframes aurora-drift-b {
+@keyframes nebula-drift-b {
   to {
-    transform: translate3d(-8vmax, -6vmax, 0) scale(1.08);
+    transform: translate3d(-7vmax, 5vmax, 0) scale(1.08);
   }
 }
 
-@keyframes horizon-flow {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
+@keyframes nebula-drift-c {
   to {
-    transform: translate3d(0, 72px, 0);
+    transform: translate3d(-6vmax, -7vmax, 0) scale(1.12);
   }
 }
 
@@ -908,9 +917,7 @@ main {
   main,
   .scanlines,
   .status-dot,
-  .aurora-a,
-  .aurora-b,
-  .horizon-grid,
+  .nebula,
   [data-boot],
   [data-radar-sweep],
   .telemetry-cell,
