@@ -50,7 +50,7 @@ export default async function ProjectDetailPage({
 
       <article className="card p-6 sm:p-10">
         <div className="mb-4 flex flex-wrap items-center gap-3">
-          <span className={`rounded-full px-3 py-1 text-xs font-medium ${status.color}`}>
+          <span className={` px-3 py-1 text-xs font-medium ${status.color}`}>
             {status.label}
           </span>
           <span className="flex items-center gap-1.5 text-sm text-print">
@@ -69,7 +69,7 @@ export default async function ProjectDetailPage({
           {project.tech.map((t) => (
             <span
               key={t}
-              className="rounded-full bg-raise px-3 py-1 text-xs font-medium text-print"
+              className="bg-raise px-3 py-1 text-xs font-medium text-print"
             >
               {t}
             </span>
@@ -83,14 +83,14 @@ export default async function ProjectDetailPage({
             href={project.github}
             target="_blank"
             rel="noreferrer"
-            className="btn-secondary gap-2 px-4 py-2"
+            className="btn-secondary gap-2"
           >
             <GitBranch size={15} /> GitHub
           </a>
           {project.demo && (
             <Link
               href={project.demo}
-              className="btn-primary gap-2 px-4 py-2"
+              className="btn-primary gap-2"
             >
               <ExternalLink size={15} /> 在线演示
             </Link>
@@ -100,7 +100,7 @@ export default async function ProjectDetailPage({
               href={project.docs}
               target="_blank"
               rel="noreferrer"
-              className="btn-secondary gap-2 px-4 py-2"
+              className="btn-secondary gap-2"
             >
               <BookOpen size={15} /> 文档
             </a>

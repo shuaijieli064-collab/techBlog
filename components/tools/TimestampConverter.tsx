@@ -31,7 +31,7 @@ export default function TimestampConverter() {
             placeholder="1693000000"
             className="input-base flex-1 font-mono"
           />
-          <button onClick={toHuman} className="btn-primary px-4 py-2">
+          <button onClick={toHuman} className="btn-primary">
             转换
           </button>
         </div>
@@ -45,7 +45,7 @@ export default function TimestampConverter() {
             onChange={(e) => setDateStr(e.target.value)}
             className="input-base flex-1"
           />
-          <button onClick={toTimestamp} className="btn-primary px-4 py-2">
+          <button onClick={toTimestamp} className="btn-primary">
             转换
           </button>
         </div>

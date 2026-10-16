@@ -48,14 +48,14 @@ export default function HashTool() {
         placeholder="输入要哈希的文本…"
         className="input-base h-28 font-mono"
       />
-      <button onClick={run} className="btn-primary px-4 py-2">
+      <button onClick={run} className="btn-primary">
         计算哈希
       </button>
       {error && <p className="text-sm text-alert">{error}</p>}
       <div className="space-y-2">
         {Object.entries(results).map(([label, value]) => (
           <div key={label} className="relative">
-            <div className="flex items-center justify-between border border-hair bg-background px-3 py-2">
+            <div className="flex items-center justify-between rounded-md border border-hair bg-background px-3 py-2">
               <span className="label-mono">{label}</span>
               <code className="ml-2 flex-1 truncate font-mono text-xs text-foreground">
                 {value}

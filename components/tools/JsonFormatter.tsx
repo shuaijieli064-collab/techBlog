@@ -26,7 +26,7 @@ export default function JsonFormatter() {
         placeholder="粘贴 JSON 数据..."
         className="input-base h-40 font-mono"
       />
-      <button onClick={format} className="btn-primary px-4 py-2">
+      <button onClick={format} className="btn-primary">
         格式化
       </button>
       {error && <p className="text-sm text-alert">{error}</p>}

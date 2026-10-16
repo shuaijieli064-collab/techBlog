@@ -1,5 +1,5 @@
 {
-  "name": "techblog_app",
+  "name": "nexus-dev",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:ci": "playwright test --reporter=line",
+    "check": "npm run lint && npm run typecheck && npm run build"
   },
   "dependencies": {
     "lucide-react": "^1.47.0",

@@ -32,8 +32,8 @@ export default function AboutPage() {
             { label: "当前阶段", value: "大二在读" },
             { label: "目标", value: "持续输出与成长" },
           ].map((item) => (
-            <div key={item.label} className="bg-background p-5">
-              <div className="text-sm text-print">{item.label}</div>
+            <div key={item.label} className="rounded-lg border border-hair bg-background/60 p-5 transition-colors hover:border-wire/40">
+              <div className="label-mono">{item.label}</div>
               <div className="mt-2 text-lg font-semibold text-foreground">{item.value}</div>
             </div>
           ))}

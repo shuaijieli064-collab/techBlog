@@ -18,6 +18,50 @@ export type Post = {
   sections: PostSection[];
 };
 
+/** 用户在 /posts/admin 创建的文章（正文为 Markdown，落 blog-posts 域）。 */
+export type UserPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  category: string;
+  tags: string[];
+  readTime?: string;
+  author: string;
+  featured?: boolean;
+  status?: "draft" | "published";
+  content: string;
+};
+
+export type AnyPost = Post | UserPost;
+
+/** 将 blog-posts 域中的 JSON 安全转换为 UserPost[]（丢弃脏字段）。 */
+export function userPostsFrom(json: unknown): UserPost[] {
+  if (!Array.isArray(json)) return [];
+  return json.flatMap((item) => {
+    if (typeof item !== "object" || item === null) return [];
+    const o = item as Record<string, unknown>;
+    if (typeof o.slug !== "string" || typeof o.title !== "string" || typeof o.content !== "string") {
+      return [];
+    }
+    return [
+      {
+        slug: o.slug,
+        title: o.title,
+        excerpt: typeof o.excerpt === "string" ? o.excerpt : "",
+        date: typeof o.date === "string" ? o.date : new Date().toISOString().slice(0, 10),
+        category: typeof o.category === "string" ? o.category : "未分类",
+        tags: Array.isArray(o.tags) ? o.tags.filter((t): t is string => typeof t === "string") : [],
+        readTime: typeof o.readTime === "string" ? o.readTime : undefined,
+        author: typeof o.author === "string" ? o.author : "访客",
+        featured: o.featured === true ? true : undefined,
+        status: o.status === "draft" || o.status === "published" ? o.status : "published",
+        content: o.content,
+      },
+    ];
+  });
+}
+
 export const posts: Post[] = [
   {
     slug: "nextjs-beginner-notes",
@@ -308,11 +352,12 @@ export default function HomePage() {
   }
 ];
 
-export function isPublished(post: Post) {
+export function isPublished(post: AnyPost) {
   return post.status !== "draft";
 }
 
-export function postToMarkdown(post: Post): string {
+export function postToMarkdown(post: AnyPost): string {
+  if ("content" in post) return post.content;
   return post.sections
     .map((section) => {
       const parts: string[] = [];
@@ -326,8 +371,8 @@ export function postToMarkdown(post: Post): string {
     .join("\n\n");
 }
 
-export function getPublishedPosts() {
-  return posts
+export function getPublishedPosts(userPosts: UserPost[] = []) {
+  return [...posts, ...userPosts]
     .filter(isPublished)
     .slice()
     .sort((a, b) => {
@@ -336,23 +381,23 @@ export function getPublishedPosts() {
     });
 }
 
-export function getPostBySlug(slug: string) {
-  const post = posts.find((p) => p.slug === slug);
+export function getPostBySlug(slug: string, userPosts: UserPost[] = []) {
+  const post = [...posts, ...userPosts].find((p) => p.slug === slug);
   if (!post || !isPublished(post)) return undefined;
   return post;
 }
 
-export function getAllTags() {
+export function getAllTags(userPosts: UserPost[] = []) {
   const tagSet = new Set<string>();
-  getPublishedPosts().forEach((post) => post.tags.forEach((tag) => tagSet.add(tag)));
+  getPublishedPosts(userPosts).forEach((post) => post.tags.forEach((tag) => tagSet.add(tag)));
   return Array.from(tagSet).sort();
 }
 
-export function getPostsByTag(tag: string) {
-  return getPublishedPosts().filter((post) => post.tags.includes(tag));
+export function getPostsByTag(tag: string, userPosts: UserPost[] = []) {
+  return getPublishedPosts(userPosts).filter((post) => post.tags.includes(tag));
 }
 
-export function searchPosts(list: Post[], query: string) {
+export function searchPosts(list: AnyPost[], query: string) {
   const q = query.trim().toLowerCase();
   if (!q) return list;
   return list.filter((post) => {
@@ -361,7 +406,9 @@ export function searchPosts(list: Post[], query: string) {
       post.excerpt,
       post.category,
       ...post.tags,
-      ...post.sections.flatMap((s) => [s.heading ?? "", ...s.paragraphs]),
+      ...("sections" in post
+        ? post.sections.flatMap((s) => [s.heading ?? "", ...s.paragraphs])
+        : [post.content]),
     ]
       .join("\n")
       .toLowerCase();

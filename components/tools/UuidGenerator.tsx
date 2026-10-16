@@ -14,7 +14,7 @@ export default function UuidGenerator() {
 
   return (
     <div className="space-y-4">
-      <button onClick={generate} className="btn-primary px-4 py-2">
+      <button onClick={generate} className="btn-primary">
         生成 UUID
       </button>
       <div className="space-y-2">

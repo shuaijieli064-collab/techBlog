@@ -1,5 +1,6 @@
 export const WORKSPACE_DOMAINS = [
   "daily-tasks",
+  "task-board",
   "project-todos",
   "learning-mastered",
   "algorithms",
@@ -7,6 +8,7 @@ export const WORKSPACE_DOMAINS = [
   "skill-levels",
   "prompt-library",
   "post-metrics",
+  "blog-posts",
 ] as const;
 
 export type WorkspaceDomain = (typeof WORKSPACE_DOMAINS)[number];

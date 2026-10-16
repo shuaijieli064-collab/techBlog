@@ -71,7 +71,7 @@ export default function SqlFormatter() {
         placeholder="select id,name from users where age>18 order by name"
         className="input-base h-36 font-mono"
       />
-      <button onClick={format} className="btn-primary px-4 py-2">
+      <button onClick={format} className="btn-primary">
         格式化
       </button>
       {error && <p className="text-sm text-alert">{error}</p>}

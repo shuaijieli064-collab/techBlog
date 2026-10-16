@@ -49,7 +49,7 @@ export default function ColorTool() {
           type="color"
           value={valid ?? "#0ea5e9"}
           onChange={(e) => setHex(e.target.value)}
-          className="h-12 w-16 cursor-pointer border border-hair bg-panel p-1"
+          className="h-12 w-16 cursor-pointer rounded-md border border-hair bg-panel p-1"
           aria-label="选择颜色"
         />
         <input
@@ -60,7 +60,7 @@ export default function ColorTool() {
         />
       </div>
       <div
-        className="h-24 border border-hair"
+        className="h-24 rounded-lg border border-hair"
         style={{ backgroundColor: valid ?? "transparent" }}
       />
       {valid && rgb && (

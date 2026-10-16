@@ -2,19 +2,33 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Markdown } from "@/components/Markdown";
+import { ReadingProgress } from "@/components/ReadingProgress";
 import { PostEngagement } from "@/components/PostEngagement";
+import { PostPagination } from "@/components/PostPagination";
 import { PostToc } from "@/components/PostToc";
 import { extractHeadings } from "@/lib/markdown";
-import { getPostBySlug, posts, postToMarkdown } from "@/lib/posts";
+import { getPostBySlug, posts, postToMarkdown, userPostsFrom } from "@/lib/posts";
+import { readDomain } from "@/lib/server/db";
 import { BASE_URL, pageMeta } from "@/lib/site";
 
+// 用户文章存于本地 DB：页面必须按需渲染，否则生产模式会把
+// generateStaticParams 之外的新 slug 判为静态 404。
+export const dynamic = "force-dynamic";
+
+// Next 16 的 params 不再自动解码 URL 编码：中文/含保留字符的 slug
+// 收到的是百分号编码串（如 %E4%B8%AD…），必须手动 decode 后匹配数据。
 export function generateStaticParams() {
   return posts.filter((post) => post.status !== "draft").map((post) => ({ slug: post.slug }));
 }
 
+function readUserPosts() {
+  return userPostsFrom(readDomain("blog-posts"));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const { slug: encoded } = await params;
+  const slug = decodeURIComponent(encoded);
+  const post = getPostBySlug(slug, readUserPosts());
 
   if (!post) {
     return { title: "文章未找到" };
@@ -24,18 +38,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: post.title,
     description: post.excerpt,
+    authors: [post.author],
     ...meta,
     openGraph: {
       ...meta.openGraph,
       type: "article",
       publishedTime: post.date,
+      authors: [post.author],
+      tags: post.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [meta.openGraph.images[0]],
     },
   };
 }
 
 export default async function PostDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const { slug: encoded } = await params;
+  const slug = decodeURIComponent(encoded);
+  const post = getPostBySlug(slug, readUserPosts());
 
   if (!post) {
     notFound();
@@ -58,6 +82,7 @@ export default async function PostDetailPage({ params }: { params: Promise<{ slu
 
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -99,7 +124,7 @@ export default async function PostDetailPage({ params }: { params: Promise<{ slu
               <Link
                 key={tag}
                 href={`/tags/${encodeURIComponent(tag)}`}
-                className="border border-hair bg-background px-3 py-1.5 text-xs font-medium text-print transition-colors hover:border-wire hover:text-wire"
+                className="rounded-full border border-hair bg-background px-3 py-1.5 text-xs font-medium text-print transition-colors hover:border-wire hover:text-wire"
               >
                 #{tag}
               </Link>
@@ -122,18 +147,24 @@ export default async function PostDetailPage({ params }: { params: Promise<{ slu
         </aside>
       </div>
 
-      <div className="mt-10 flex items-center justify-between border border-hair bg-background p-5">
+      <div className="mt-10">
+        <PostPagination slug={slug} />
+      </div>
+
+      <div className="mt-6 flex items-center justify-between">
         <Link
           href="/posts"
-          className="font-medium text-foreground hover:text-wire"
+          className="group inline-flex items-center gap-1.5 font-medium text-print transition-colors hover:text-wire"
         >
-          ← 返回文章列表
+          <span aria-hidden className="transition-transform group-hover:-translate-x-0.5">←</span>
+          返回文章列表
         </Link>
         <Link
           href="/"
-          className="font-medium text-foreground hover:text-wire"
+          className="group inline-flex items-center gap-1.5 font-medium text-print transition-colors hover:text-wire"
         >
-          回到首页 →
+          回到首页
+          <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
         </Link>
       </div>
     </main>

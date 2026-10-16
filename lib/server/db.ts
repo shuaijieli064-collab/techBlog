@@ -4,6 +4,30 @@ import path from "node:path";
 
 import type { Json, WorkspaceDomain } from "@/lib/workspace/types";
 
+/**
+ * Check Node.js version for native SQLite support (requires Node.js 22.6.0+).
+ * Throws a helpful error if the version is too old.
+ */
+function assertNodeVersion(): void {
+  const version = process.version;
+  const match = version.match(/^v(\d+)\.(\d+)\.(\d+)/);
+  if (!match) return; // Unknown version format, let it fail naturally
+  const major = Number(match[1]);
+  const minor = Number(match[2]);
+  const patch = Number(match[3]);
+  const isSupported = major > 22 || (major === 22 && minor > 6) || (major === 22 && minor === 6 && patch >= 0);
+  if (!isSupported) {
+    throw new Error(
+      `Native SQLite (node:sqlite) requires Node.js 22.6.0 or later. ` +
+      `Current version: ${version}. ` +
+      `Please upgrade Node.js or use a compatible runtime (e.g., Node.js 22 LTS).`
+    );
+  }
+}
+
+// Run version check on module load
+assertNodeVersion();
+
 type Cached = { path: string; db: DatabaseSync };
 
 function resolveDbPath(): string {

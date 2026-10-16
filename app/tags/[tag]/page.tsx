@@ -3,8 +3,17 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { PostCard } from "@/components/PostCard";
-import { getAllTags, getPostsByTag } from "@/lib/posts";
+import { PageHeader } from "@/components/PageHeader";
+import { getAllTags, getPostsByTag, userPostsFrom } from "@/lib/posts";
+import { readDomain } from "@/lib/server/db";
 import { pageMeta } from "@/lib/site";
+
+function readUserPosts() {
+  return userPostsFrom(readDomain("blog-posts"));
+}
+
+// 标签页包含 DB 中的用户文章：强制按需渲染（generateStaticParams 仅作路由声明）。
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return getAllTags().map((tag) => ({ tag }));
@@ -31,7 +40,7 @@ export default function TagPage({ params }: { params: Promise<{ tag: string }> }
 async function TagPageInner({ params }: { params: Promise<{ tag: string }> }) {
   const { tag } = await params;
   const decodedTag = decodeURIComponent(tag);
-  const matchingPosts = getPostsByTag(decodedTag);
+  const matchingPosts = getPostsByTag(decodedTag, readUserPosts());
 
   if (matchingPosts.length === 0) {
     notFound();
@@ -39,20 +48,16 @@ async function TagPageInner({ params }: { params: Promise<{ tag: string }> }) {
 
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-wire">标签</p>
-          <h1 className="text-4xl font-bold font-display tracking-tight text-foreground">
-            #{decodedTag}
-          </h1>
-        </div>
-        <Link
-          href="/posts"
-          className="btn-secondary px-4 py-2"
-        >
-          查看全部文章
-        </Link>
-      </div>
+      <PageHeader
+        code={`#${decodedTag}`}
+        eyebrow="标签"
+        title={`#${decodedTag}`}
+        action={
+          <Link href="/posts" className="btn-secondary">
+            查看全部文章
+          </Link>
+        }
+      />
 
       <div className="grid gap-8 md:grid-cols-2">
         {matchingPosts.map((post) => (

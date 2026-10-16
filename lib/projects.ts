@@ -36,19 +36,19 @@ export const statusMap: Record<
   },
   developing: {
     label: "Developing",
-    color: "border border-hair bg-background text-print",
+    color: "border border-wire/50 bg-wire/10 text-wire",
   },
   testing: {
     label: "Testing",
-    color: "border border-hair bg-background text-print",
+    color: "border border-signal/50 bg-signal/10 text-signal",
   },
   completed: {
     label: "Completed",
-    color: "border border-hair bg-background text-print",
+    color: "border border-wire bg-wire/10 text-wire",
   },
   archived: {
     label: "Archived",
-    color: "border border-hair bg-background text-print",
+    color: "border border-muted/50 bg-muted/10 text-muted",
   },
 };
 
@@ -62,7 +62,7 @@ export const projects: Project[] = [
     tech: ["Java", "Spring Boot", "MySQL", "Redis", "Vue", "AI"],
     status: "developing",
     progress: 40,
-    github: "https://github.com",
+    github: "https://github.com/shuaijieli064-collab/Intelligent-Growth-Platform-for-College-Students",
     startDate: "2026-08",
     highlights: [
       "学习计划生成与每日任务推送",
@@ -86,7 +86,7 @@ export const projects: Project[] = [
     tech: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
     status: "developing",
     progress: 75,
-    github: "https://github.com",
+    github: "https://github.com/shuaijieli064-collab/techBlog",
     demo: "/",
     startDate: "2026-09",
     highlights: [
@@ -113,7 +113,7 @@ export const projects: Project[] = [
     tech: ["TypeScript", "LocalStorage"],
     status: "completed",
     progress: 100,
-    github: "https://github.com",
+    github: "https://github.com/shuaijieli064-collab",
     startDate: "2026-07",
     highlights: ["题目分类统计", "进度追踪", "错题本与复习提醒"],
     todos: [

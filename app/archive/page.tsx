@@ -1,8 +1,10 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { getPublishedPosts } from "@/lib/posts";
+import { getPublishedPosts, userPostsFrom } from "@/lib/posts";
+import { readDomain } from "@/lib/server/db";
 import { pageMeta } from "@/lib/site";
+import { PageHeader } from "@/components/PageHeader";
 
 export const metadata: Metadata = {
   title: "文章归档",
@@ -10,8 +12,11 @@ export const metadata: Metadata = {
   ...pageMeta("/archive"),
 };
 
+// 归档包含 DB 中的用户文章：强制按需渲染，避免生产模式静态化后数据陈旧。
+export const dynamic = "force-dynamic";
+
 export default function ArchivePage() {
-  const posts = getPublishedPosts();
+  const posts = getPublishedPosts(userPostsFrom(readDomain("blog-posts")));
   const groupedPosts = posts.reduce<Record<string, typeof posts>>((acc, post) => {
     const year = new Date(post.date).getFullYear().toString();
     if (!acc[year]) {
@@ -25,14 +30,7 @@ export default function ArchivePage() {
 
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mb-10">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-wire">
-          归档
-        </p>
-        <h1 className="text-4xl font-bold font-display tracking-tight text-foreground">
-          时间线里的成长记录
-        </h1>
-      </div>
+      <PageHeader code="archive" eyebrow="归档" title="时间线里的成长记录" />
 
       <div className="space-y-10">
         {years.map((year) => (

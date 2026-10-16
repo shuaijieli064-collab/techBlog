@@ -35,7 +35,7 @@ export function ProjectList() {
                   >
                     {project.title}
                   </Link>
-                  <span className={`rounded-full px-3 py-1 text-xs font-medium ${status.color}`}>
+                  <span className={`rounded-full border border-hair px-3 py-1 font-mono text-xs ${status.color}`}>
                     {status.label}
                   </span>
                 </div>
@@ -47,7 +47,7 @@ export function ProjectList() {
                   查看详情
                 </Link>
               </div>
-              <div className="flex items-center gap-4 text-sm text-print">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-print">
                 <div className="flex items-center gap-1.5">
                   <Calendar size={14} />
                   <span>{project.startDate}</span>
@@ -94,7 +94,7 @@ export function ProjectList() {
                 {project.tech.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full bg-raise px-3 py-1 text-xs font-medium text-print"
+                    className="bg-raise px-3 py-1 font-mono text-xs text-print"
                   >
                     {t}
                   </span>
@@ -142,9 +142,9 @@ export function ProjectProgressSummary() {
                 </Link>
                 <span className="text-muted">{value}%</span>
               </div>
-              <div className="h-1.5 bg-hair/50">
+              <div className="h-1.5 rounded-full bg-hair/50">
                 <div
-                  className="h-full bg-wire"
+                  className="h-full rounded-full bg-wire"
                   style={{ width: `${value}%` }}
                 />
               </div>

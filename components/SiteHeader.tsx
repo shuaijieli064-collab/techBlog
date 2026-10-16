@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Search } from "lucide-react";
 
 type NavChild = { href: string; label: string };
 type NavItem = { href: string; label: string; children?: NavChild[] };
@@ -17,6 +17,7 @@ const navItems: NavItem[] = [
     label: "博客",
     children: [
       { href: "/posts", label: "文章列表" },
+      { href: "/posts/admin", label: "文章管理" },
       { href: "/notes", label: "笔记地图" },
       { href: "/archive", label: "归档" },
     ],
@@ -30,6 +31,7 @@ const navItems: NavItem[] = [
     label: "AI 中心",
     children: [
       { href: "/ai", label: "总览" },
+      { href: "/ai/chat", label: "AI 对话" },
       { href: "/ai/models", label: "模型" },
       { href: "/ai/agents", label: "Agents" },
       { href: "/ai/prompts", label: "提示词库" },
@@ -76,10 +78,10 @@ function NavDropdown({
       <div className="flex items-center gap-0.5">
         <Link
           href={item.href}
-          className={`border-b-2 px-2 py-1.5 text-[13px] font-medium transition-colors ${
+          className={`rounded-full px-3 py-1.5 text-[13px] font-medium transition-colors ${
             active
-              ? "border-wire text-wire"
-              : "border-transparent text-print hover:text-foreground"
+              ? "bg-wire/10 text-wire"
+              : "text-print hover:bg-raise hover:text-foreground"
           }`}
         >
           {item.label}
@@ -95,21 +97,23 @@ function NavDropdown({
         </button>
       </div>
       {open && item.children && (
-        <div className="absolute left-0 top-full z-40 mt-2 min-w-[10.5rem] border border-hair bg-panel p-1 shadow-[0_12px_32px_-16px_rgba(0,0,0,0.8)]">
-          {item.children.map((child) => (
-            <Link
-              key={child.href}
-              href={child.href}
-              onClick={() => setOpen(false)}
-              className={`block px-3 py-2 text-[13px] transition-colors ${
-                pathname === child.href
-                  ? "bg-wire/10 text-wire"
-                  : "text-print hover:bg-raise hover:text-foreground"
-              }`}
-            >
-              {child.label}
-            </Link>
-          ))}
+        <div className="absolute left-0 top-full z-40 min-w-[10.5rem] pt-2">
+          <div className="glass rounded-md border border-hair p-1 shadow-[0_12px_32px_-16px_rgba(0,0,0,0.8)]">
+            {item.children.map((child) => (
+              <Link
+                key={child.href}
+                href={child.href}
+                onClick={() => setOpen(false)}
+                className={`block px-3 py-2 text-[13px] transition-colors ${
+                  pathname === child.href
+                    ? "bg-wire/10 text-wire"
+                    : "text-print hover:bg-raise hover:text-foreground"
+                }`}
+              >
+                {child.label}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -119,27 +123,34 @@ function NavDropdown({
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [prevPathname, setPrevPathname] = useState(pathname);
+  const [lastPathname, setLastPathname] = useState(pathname);
 
-  if (prevPathname !== pathname) {
-    setPrevPathname(pathname);
+  // 路由变化时收起移动菜单（React 官方推荐的渲染期 state 调整模式）
+  if (lastPathname !== pathname) {
+    setLastPathname(pathname);
     setOpen(false);
   }
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
     };
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-hair bg-background/85 backdrop-blur-xl">
+    <header className="glass sticky top-0 z-30 border-b border-hair">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="group flex shrink-0 items-center gap-2.5">
           <span
             aria-hidden
-            className="flex h-9 w-9 items-center justify-center border border-wire/50 text-wire transition-colors group-hover:border-wire group-hover:shadow-[0_0_14px_-6px_var(--glow)]"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-wire/50 text-wire transition-colors group-hover:border-wire group-hover:shadow-[0_0_14px_-6px_var(--glow)]"
           >
             <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
               <circle cx="10" cy="10" r="5" stroke="currentColor" strokeWidth="1.4" />
@@ -149,10 +160,10 @@ export function SiteHeader() {
           </span>
           <div className="hidden sm:block">
             <div className="font-display text-[15px] font-extrabold leading-none tracking-[0.08em] text-foreground">
-              NOX7TH
+              NEXUS
             </div>
             <div className="mt-1 font-mono text-[9.5px] tracking-[0.16em] text-muted">
-              DEVELOPER WORKSPACE
+              DEV WORKSPACE
             </div>
           </div>
         </Link>
@@ -165,10 +176,10 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`border-b-2 px-2 py-1.5 text-[13px] font-medium transition-colors ${
+                className={`rounded-full px-3 py-1.5 text-[13px] font-medium transition-colors ${
                   isActive(pathname, item.href)
-                    ? "border-wire text-wire"
-                    : "border-transparent text-print hover:text-foreground"
+                    ? "bg-wire/10 text-wire"
+                    : "text-print hover:bg-raise hover:text-foreground"
                 }`}
               >
                 {item.label}
@@ -178,12 +189,33 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          <Link href="/posts" className="btn-primary hidden !py-2 font-semibold sm:inline-flex">
+          {/* 搜索/命令入口：整条可点，直达命令面板（⌘/Ctrl + K） */}
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent("command-palette:toggle"))}
+            className="press hidden items-center gap-2 rounded-md border border-hair bg-panel px-3 py-1.5 text-xs text-muted transition-colors hover:border-wire/60 hover:text-print md:flex"
+            aria-label="打开命令面板"
+            title="命令面板（Ctrl/⌘ + K）"
+          >
+            <Search size={13} className="shrink-0" />
+            <span>搜索页面、工具或执行命令…</span>
+            <kbd className="kbd shrink-0">⌘K</kbd>
+          </button>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent("command-palette:toggle"))}
+            className="press flex h-9 w-9 items-center justify-center rounded-md border border-hair bg-panel text-print transition-colors hover:border-wire hover:text-wire md:hidden"
+            aria-label="打开命令面板"
+            title="命令面板（Ctrl/⌘ + K）"
+          >
+            <Search size={16} />
+          </button>
+          <Link href="/posts" className="btn-primary btn-sm press hidden font-semibold sm:inline-flex">
             阅读文章
           </Link>
           <button
             type="button"
-            className="flex h-9 w-9 items-center justify-center border border-hair bg-panel text-print transition-colors hover:border-wire hover:text-wire lg:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-hair bg-panel text-print transition-colors hover:border-wire hover:text-wire lg:hidden"
             aria-label={open ? "关闭菜单" : "打开菜单"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
@@ -196,15 +228,19 @@ export function SiteHeader() {
       {open && (
         <nav
           aria-label="移动导航"
-          className="border-t border-hair bg-panel/95 backdrop-blur-xl lg:hidden"
+          className="glass border-t border-hair lg:hidden"
         >
           <div className="mx-auto grid max-w-6xl gap-0.5 px-4 py-4 sm:px-6">
-            {navItems.map((item) => (
-              <div key={item.href}>
+            {navItems.map((item, i) => (
+              <div
+                key={item.href}
+                className="fade-up"
+                style={{ animationDelay: `${i * 35}ms` }}
+              >
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className={`block border-l-2 px-4 py-2.5 text-sm transition-colors ${
+                  className={`block rounded-r-md border-l-2 px-4 py-2.5 text-sm transition-colors ${
                     isActive(pathname, item.href)
                       ? "border-wire bg-wire/10 font-medium text-wire"
                       : "border-transparent text-print hover:text-foreground"

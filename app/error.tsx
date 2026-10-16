@@ -26,13 +26,13 @@ export default function Error({
           <button
             type="button"
             onClick={reset}
-            className="btn-primary px-5 py-3"
+            className="btn-primary"
           >
             重试
           </button>
           <Link
             href="/"
-            className="btn-secondary px-5 py-3"
+            className="btn-secondary"
           >
             返回首页
           </Link>

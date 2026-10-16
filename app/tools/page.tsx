@@ -15,6 +15,7 @@ export default function ToolsPage() {
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
       <PageHeader
+        code="07"
         eyebrow="Tools"
         title="开发者工具"
         description="浏览器端运行，数据不会上传到服务器。"

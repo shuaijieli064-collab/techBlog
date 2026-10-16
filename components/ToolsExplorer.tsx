@@ -50,10 +50,10 @@ export default function ToolsExplorer() {
             key={tool.id}
             onClick={() => setActive(tool.id)}
             aria-pressed={active === tool.id}
-            className={`flex shrink-0 items-center gap-2 whitespace-nowrap border px-3 py-2 font-mono text-sm transition-colors lg:w-full ${
+            className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg border px-3 py-2 font-mono text-sm transition-all duration-200 lg:w-full ${
               active === tool.id
-                ? "border-wire bg-panel font-semibold text-wire"
-                : "border-hair bg-panel text-print hover:border-wire hover:text-wire"
+                ? "border-wire/50 bg-panel font-semibold text-wire shadow-[0_0_14px_-4px_rgba(92,225,255,0.5)]"
+                : "border-hair bg-panel text-print hover:border-wire/40 hover:text-wire"
             }`}
           >
             {tool.name}
@@ -62,7 +62,8 @@ export default function ToolsExplorer() {
         ))}
       </nav>
 
-      <div className="card p-6">
+      <div className="card relative overflow-hidden p-6">
+        <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-wire to-transparent opacity-60" />
         <ActiveTool />
       </div>
     </div>

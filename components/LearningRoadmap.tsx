@@ -22,13 +22,12 @@ const iconByCategory: Record<string, React.ElementType> = {
 
 const colorByCategory: Record<string, { color: string; bg: string }> = {
   "Java 基础": { color: "text-wire", bg: "bg-wire/10" },
-  "后端框架": { color: "text-wire", bg: "bg-wire/10" },
-  数据库: { color: "text-wire", bg: "bg-wire/10" },
-  计算机基础: { color: "text-wire", bg: "bg-wire/10" },
+  "后端框架": { color: "text-violet", bg: "bg-violet/10" },
+  数据库: { color: "text-signal", bg: "bg-signal/10" },
+  计算机基础: { color: "text-alert", bg: "bg-alert/10" },
 };
 
-const defaultData: RoadmapData = {
-  roadmap: [
+export const defaultData: RoadmapData = {  roadmap: [
     {
       category: "Java 基础",
       items: ["面向对象", "集合框架", "异常处理", "IO流", "多线程", "JVM"],
@@ -66,7 +65,7 @@ const defaultData: RoadmapData = {
   ],
 };
 
-const defaultMastered: boolean[][] = defaultData.roadmap.map((s) => s.defaults);
+export const defaultMastered: boolean[][] = defaultData.roadmap.map((s) => s.defaults);
 
 function normalizeMastered(input: boolean[][]): boolean[][] {
   if (!Array.isArray(input) || input.length !== defaultData.roadmap.length) {
@@ -116,9 +115,9 @@ export function LearningRoadmap() {
               </div>
               <span className="text-sm font-medium text-foreground">{progress}%</span>
             </div>
-            <div className="mb-4 h-2 rounded-full bg-hair">
+            <div className="mb-4 h-2  bg-hair">
               <div
-                className={`h-full rounded-full transition-all duration-500 ${colors.color.replace("text-", "bg-")}`}
+                className={`h-full  transition-all duration-500 ${colors.color.replace("text-","bg-")}`}
                 style={{ width: `${progress}%` }}
               />
             </div>

@@ -67,7 +67,7 @@ export function NotesExplorer() {
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="btn-primary px-5 py-2"
+              className="btn-primary"
             >
               清除搜索
             </button>
@@ -93,7 +93,7 @@ export function NotesExplorer() {
                     <Link
                       key={note.slug}
                       href={`/notes/${note.slug}`}
-                      className="block border border-wire/30 bg-wire/[0.05] px-4 py-3 transition-colors hover:border-wire"
+                      className="block rounded-lg border border-wire/30 bg-wire/[0.05] px-4 py-3 transition-colors hover:border-wire"
                     >
                       <div className="text-sm font-medium text-foreground">
                         {note.title}
@@ -115,13 +115,13 @@ export function NotesExplorer() {
                     <Link
                       key={post.slug}
                       href={`/posts/${post.slug}`}
-                      className="block border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
+                      className="block rounded-lg border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
                     >
                       {post.title}
                     </Link>
                   ))
                 ) : (
-                  <div className="border border-dashed border-hair px-4 py-3 text-sm text-muted">
+                  <div className="rounded-md border border-dashed border-hair px-4 py-3 text-sm text-muted">
                     该模块还在持续补充中
                   </div>
                 )}

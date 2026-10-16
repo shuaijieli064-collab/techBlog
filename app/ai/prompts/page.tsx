@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 
 import { PromptLibrary } from "@/components/PromptLibrary";
+import { PageHeader } from "@/components/PageHeader";
 import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -23,13 +24,12 @@ export default function AiPromptsPage() {
         </Link>
       </div>
 
-      <div className="mb-10">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-wire">Prompt Library</p>
-        <h1 className="text-4xl font-bold font-display tracking-tight text-foreground">提示词库</h1>
-        <p className="mt-4 max-w-2xl text-lg leading-8 text-print">
-          收集和管理各类场景下的高效提示词。支持搜索、分类、一键复制、本地收藏与新建（数据仅存浏览器）。
-        </p>
-      </div>
+      <PageHeader
+        code="prompts"
+        eyebrow="Prompt Library"
+        title="提示词库"
+        description="收集和管理各类场景下的高效提示词。支持搜索、分类、一键复制、本地收藏与新建（数据仅存浏览器）。"
+      />
 
       <PromptLibrary />
     </main>

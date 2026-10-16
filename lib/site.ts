@@ -2,7 +2,7 @@ const raw = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL;
 
 export const BASE_URL = (raw || "https://example.com").replace(/\/$/, "");
 
-export const SITE_NAME = "Nox7th 的开发者工作台";
+export const SITE_NAME = "Nexus · Nox7th 的开发者工作台";
 
 /**
  * Per-page SEO fields: self-referencing canonical + complete OpenGraph.

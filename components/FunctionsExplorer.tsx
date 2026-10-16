@@ -51,7 +51,7 @@ export default function FunctionsExplorer() {
             type="button"
             onClick={() => setQuery("")}
             aria-label="清除搜索"
-            className="absolute right-2 top-1/2 -translate-y-1/2 border border-hair p-1 text-muted transition-colors hover:border-wire hover:text-wire"
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md border border-hair p-1 text-muted transition-colors hover:border-wire hover:text-wire"
           >
             <X size={14} />
           </button>
@@ -59,7 +59,7 @@ export default function FunctionsExplorer() {
       </div>
 
       {activeCategory && (
-        <div className="mb-8 flex flex-wrap items-center gap-3 border border-wire/40 bg-wire/[0.06] px-4 py-2.5 font-mono text-sm text-wire">
+        <div className="mb-8 flex flex-wrap items-center gap-3 rounded-full border border-wire/40 bg-wire/[0.06] px-4 py-2.5 font-mono text-sm text-wire">
           <span className="tracking-[0.1em] text-xs text-muted">FILTER</span>
           <span>#{activeCategory}</span>
           <span className="text-xs text-muted">{total} 项</span>
@@ -73,14 +73,14 @@ export default function FunctionsExplorer() {
       )}
 
       {sections.length === 0 ? (
-        <div className="border border-hair bg-panel/60 px-6 py-16 text-center">
+        <div className="rounded-xl border border-hair bg-panel/60 px-6 py-16 text-center">
           <p className="font-mono text-sm text-muted">
             未找到匹配 “{query}” 的函数
           </p>
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="btn-secondary mt-5 px-4 py-2"
+            className="btn-secondary mt-5"
           >
             清除搜索
           </button>

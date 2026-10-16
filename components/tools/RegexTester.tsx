@@ -33,7 +33,7 @@ export default function RegexTester() {
           placeholder="g"
           className="input-base w-16! font-mono"
         />
-        <button onClick={test} className="btn-primary px-4 py-2">
+        <button onClick={test} className="btn-primary">
           测试
         </button>
       </div>

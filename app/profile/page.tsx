@@ -52,7 +52,7 @@ export default function ProfilePage() {
           </div>
           <Link
             href="/about"
-            className="btn-primary px-5 py-2.5"
+            className="btn-primary"
           >
             了解更多
           </Link>
@@ -98,7 +98,7 @@ export default function ProfilePage() {
               <Link
                 key={post.slug}
                 href={`/posts/${post.slug}`}
-                className="block border border-hair p-4 transition-colors hover:border-wire"
+                className="block rounded-lg border border-hair p-4 transition-colors hover:border-wire"
               >
                 <div className="text-xs font-medium text-wire">{post.category}</div>
                 <div className="mt-1 font-medium text-foreground">{post.title}</div>
@@ -121,7 +121,7 @@ export default function ProfilePage() {
               <Link
                 key={project.name}
                 href={project.href}
-                className="block border border-hair p-4 transition-colors hover:border-wire"
+                className="block rounded-lg border border-hair p-4 transition-colors hover:border-wire"
               >
                 <div className="flex items-center justify-between">
                   <div className="font-medium text-foreground">{project.name}</div>
@@ -136,7 +136,7 @@ export default function ProfilePage() {
         </section>
       </div>
 
-      <section className="mt-8 border border-wire/30 bg-wire/[0.05] p-8 text-center">
+      <section className="mt-8 rounded-lg border border-wire/30 bg-wire/[0.05] p-8 text-center">
         <h2 className="text-xl font-bold font-display text-foreground">一起交流</h2>
         <p className="mt-2 text-print">
           欢迎技术交流与合作，可以通过邮件或 GitHub 联系我。
@@ -144,14 +144,14 @@ export default function ProfilePage() {
         <div className="mt-5 flex flex-wrap justify-center gap-3">
           <a
             href="mailto:hello@example.com"
-            className="btn-primary gap-2 px-5 py-2.5"
+            className="btn-primary gap-2"
           >
             <Mail size={16} />
             发送邮件
           </a>
           <a
             href="https://github.com"
-            className="btn-secondary gap-2 px-5 py-2.5"
+            className="btn-secondary gap-2"
           >
             <GitBranch size={16} />
             GitHub

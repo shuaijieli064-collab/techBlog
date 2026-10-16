@@ -23,9 +23,14 @@ export function Telemetry({ items }: { items: TelemetryItem[] }) {
   }, [items]);
 
   return (
-    <div className="mt-4 grid grid-cols-2 gap-px border border-hair bg-hair sm:grid-cols-4">
+    <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-wire/20 bg-wire/10 sm:grid-cols-4">
       {items.map((item, i) => (
-        <div key={item.label} className="bg-panel px-5 py-4">
+        <div
+          key={item.label}
+          className="telemetry-cell group relative bg-panel px-5 py-4 transition-colors hover:bg-wire/[0.04]"
+          style={{ animationDelay: `${0.2 + i * 0.13}s` }}
+        >
+          <span aria-hidden className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-wire/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
           <div className="label-mono">{item.label}</div>
           <div className="mt-1.5 flex items-baseline gap-1.5">
             <span className="font-display text-2xl font-extrabold tabular-nums text-foreground">

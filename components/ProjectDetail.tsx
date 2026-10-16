@@ -23,9 +23,9 @@ export function ProjectProgress({ project }: { project: Project }) {
         <span className="text-print">进度</span>
         <span className="font-medium text-foreground">{progress}%</span>
       </div>
-      <div className="h-2 rounded-full bg-hair">
+      <div className="h-2  bg-hair">
         <div
-          className="h-full rounded-full bg-wire transition-all duration-500"
+          className="h-full  bg-wire transition-all duration-500"
           style={{ width: `${progress}%` }}
         />
       </div>

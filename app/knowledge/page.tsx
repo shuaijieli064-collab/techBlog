@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { NotebookPen, GraduationCap, Terminal, FileQuestion, Archive, FunctionSquare } from "lucide-react";
 
 import { PageHeader } from "@/components/PageHeader";
-import { AiBlogDraft } from "@/components/AiBlogDraft";
+import { AiBlogDraft } from "@/components/ai/AiBlogDraft";
 import { pageMeta } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -61,6 +61,7 @@ export default function KnowledgePage() {
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
       <PageHeader
+        code="06"
         eyebrow="Knowledge Base"
         title="个人知识库"
         description="把零散知识整理成可检索的结构：笔记、面试题、命令与归档统一入口。"

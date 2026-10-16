@@ -41,7 +41,7 @@ export function GrowthTimeline() {
               />
               <article className="card card-hover p-5">
                 <div className="mb-2 flex flex-wrap items-center gap-3">
-                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${colors.bg} ${colors.text}`}>
+                  <span className={` px-2.5 py-0.5 text-xs font-medium ${colors.bg} ${colors.text}`}>
                     {typeLabels[event.type]}
                   </span>
                   <time className="text-xs text-print" dateTime={event.date}>
@@ -54,7 +54,7 @@ export function GrowthTimeline() {
                   {event.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full bg-raise px-2 py-0.5 text-[11px] text-print"
+                      className="bg-raise px-2 py-0.5 text-[11px] text-print"
                     >
                       #{tag}
                     </span>

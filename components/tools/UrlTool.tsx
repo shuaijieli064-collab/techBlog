@@ -22,7 +22,7 @@ export default function UrlTool() {
       <div className="flex gap-2">
         <button
           onClick={() => setMode("encode")}
-          className={`px-3 py-1.5 font-mono text-sm ${
+          className={`rounded-md px-3 py-1.5 font-mono text-sm ${
             mode === "encode"
               ? "border border-wire bg-wire text-[#04131b]"
               : "border border-hair text-print hover:border-wire hover:text-wire"
@@ -32,7 +32,7 @@ export default function UrlTool() {
         </button>
         <button
           onClick={() => setMode("decode")}
-          className={`px-3 py-1.5 font-mono text-sm ${
+          className={`rounded-md px-3 py-1.5 font-mono text-sm ${
             mode === "decode"
               ? "border border-wire bg-wire text-[#04131b]"
               : "border border-hair text-print hover:border-wire hover:text-wire"

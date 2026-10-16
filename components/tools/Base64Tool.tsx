@@ -26,7 +26,7 @@ export default function Base64Tool() {
       <div className="flex gap-2">
         <button
           onClick={() => setMode("encode")}
-          className={`px-3 py-1.5 font-mono text-sm ${
+          className={`rounded-md px-3 py-1.5 font-mono text-sm ${
             mode === "encode"
               ? "border border-wire bg-wire text-[#04131b]"
               : "border border-hair text-print hover:border-wire hover:text-wire"
@@ -36,7 +36,7 @@ export default function Base64Tool() {
         </button>
         <button
           onClick={() => setMode("decode")}
-          className={`px-3 py-1.5 font-mono text-sm ${
+          className={`rounded-md px-3 py-1.5 font-mono text-sm ${
             mode === "decode"
               ? "border border-wire bg-wire text-[#04131b]"
               : "border border-hair text-print hover:border-wire hover:text-wire"
@@ -51,7 +51,7 @@ export default function Base64Tool() {
         placeholder="输入内容..."
         className="input-base h-32 font-mono"
       />
-      <button onClick={convert} className="btn-primary px-4 py-2">
+      <button onClick={convert} className="btn-primary">
         转换
       </button>
       {output && (

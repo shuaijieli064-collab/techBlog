@@ -1,24 +1,16 @@
 "use client";
 
+import { RingProgress } from "@/components/viz/RingProgress";
+import { defaultData } from "@/components/LearningRoadmap";
 import { useWorkspace } from "@/lib/workspace/client";
 
 type AlgoDefault = { name: string; count: number; mastered: number };
 type AlgoStored = { name: string; mastered: number };
 
-const defaults: AlgoDefault[] = [
-  { name: "数组", count: 12, mastered: 8 },
-  { name: "字符串", count: 8, mastered: 5 },
-  { name: "双指针", count: 5, mastered: 3 },
-  { name: "滑动窗口", count: 4, mastered: 2 },
-  { name: "链表", count: 6, mastered: 3 },
-  { name: "栈/队列", count: 5, mastered: 3 },
-  { name: "哈希", count: 7, mastered: 4 },
-  { name: "二叉树", count: 8, mastered: 4 },
-  { name: "DFS/BFS", count: 6, mastered: 3 },
-  { name: "回溯", count: 5, mastered: 2 },
-  { name: "动态规划", count: 10, mastered: 4 },
-  { name: "贪心", count: 4, mastered: 2 },
-];
+// Single source of truth: algorithm seed data lives with the learning roadmap.
+const defaults: AlgoDefault[] = defaultData.algorithms;
+
+const storedDefaults: AlgoStored[] = defaults.map(({ name, mastered }) => ({ name, mastered }));
 
 function mergeWithDefaults(stored: AlgoStored[]): AlgoDefault[] {
   return defaults.map((item) => {
@@ -29,9 +21,14 @@ function mergeWithDefaults(stored: AlgoStored[]): AlgoDefault[] {
 }
 
 export function AlgorithmProgress() {
-  const [stored, setStored] = useWorkspace<AlgoStored[]>("algorithms", defaults);
+  const [stored, setStored] = useWorkspace<AlgoStored[]>("algorithms", storedDefaults);
 
   const items = Array.isArray(stored) ? mergeWithDefaults(stored) : defaults;
+
+  const masteredTotal = items.reduce((a, i) => a + i.mastered, 0);
+  const countTotal = items.reduce((a, i) => a + i.count, 0);
+  const overall = countTotal ? masteredTotal / countTotal : 0;
+  const pct = Math.round(overall * 100);
 
   const bump = (name: string, delta: number) => {
     const next = items.map((item) =>
@@ -43,7 +40,23 @@ export function AlgorithmProgress() {
   };
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div>
+      <div className="card mb-5 flex items-center gap-5 p-5">
+        <RingProgress
+          value={overall}
+          size={78}
+          stroke={6}
+          center={`${pct}%`}
+          label="算法总体进度"
+        />
+        <div>
+          <div className="label-mono">ALGORITHM MASTERY</div>
+          <div className="mt-1.5 font-mono text-sm text-print">
+            已掌握 <span className="text-wire">{masteredTotal}</span>/{countTotal} 题
+          </div>
+        </div>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {items.map((algo) => {
         const progress = Math.round((algo.mastered / algo.count) * 100);
         return (
@@ -67,7 +80,7 @@ export function AlgorithmProgress() {
               <button
                 type="button"
                 onClick={() => bump(algo.name, -1)}
-                className="flex-1 border border-hair py-1 text-xs text-print"
+                className="flex-1 rounded-md border border-hair py-1 text-xs text-print transition-colors hover:border-wire hover:text-wire"
                 aria-label={`减少 ${algo.name} 已掌握`}
               >
                 −
@@ -75,7 +88,7 @@ export function AlgorithmProgress() {
               <button
                 type="button"
                 onClick={() => bump(algo.name, 1)}
-                className="flex-1 border border-hair py-1 text-xs text-print hover:border-wire hover:text-wire"
+                className="flex-1 rounded-md border border-hair py-1 text-xs text-print transition-colors hover:border-wire hover:text-wire"
                 aria-label={`增加 ${algo.name} 已掌握`}
               >
                 +
@@ -84,6 +97,7 @@ export function AlgorithmProgress() {
           </div>
         );
       })}
+      </div>
     </div>
   );
 }

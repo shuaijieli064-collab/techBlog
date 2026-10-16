@@ -16,6 +16,7 @@ export default function LearningPage() {
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
       <PageHeader
+        code="04"
         eyebrow="Learning"
         title="学习中心"
         description="系统化学习路径与算法练习追踪。掌握状态可点击切换，进度保存在浏览器本地。"

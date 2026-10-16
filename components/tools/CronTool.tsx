@@ -69,7 +69,7 @@ export default function CronTool() {
         />
       </div>
       <div
-        className={`border p-4 font-mono text-sm ${
+        className={`rounded-lg border p-4 font-mono text-sm ${
           error
             ? "border-signal bg-signal/10 text-signal"
             : "border-hair bg-background text-print"
@@ -83,7 +83,7 @@ export default function CronTool() {
             key={ex.expr}
             type="button"
             onClick={() => setExpr(ex.expr)}
-            className="border border-hair px-3 py-1.5 font-mono text-xs text-print transition-colors hover:border-wire hover:text-wire"
+            className="rounded-full border border-hair px-3 py-1.5 font-mono text-xs text-print transition-colors hover:border-wire hover:text-wire"
           >
             {ex.expr} · {ex.desc}
           </button>

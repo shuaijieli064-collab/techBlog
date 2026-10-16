@@ -127,7 +127,7 @@ export default function CodeBlock({
   };
 
   return (
-    <div className="relative overflow-hidden border border-hair bg-[#080d15]">
+    <div className="relative overflow-hidden rounded-lg border border-hair bg-[#080d15]">
       <div className="flex items-center gap-2 border-b border-hair bg-[#080d15] px-4 py-2">
         <span className="flex h-2 w-2 rounded-full bg-wire/80" />
         <span className="flex h-2 w-2 rounded-full bg-signal/80" />
@@ -136,11 +136,11 @@ export default function CodeBlock({
         <button
           type="button"
           onClick={handleCopy}
-          className="ml-auto flex h-7 w-7 items-center justify-center transition-colors hover:bg-raise"
+          className="ml-auto flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:bg-raise"
           aria-label="复制代码"
         >
           {copied ? (
-            <Check size={14} className="text-wire" />
+            <Check size={14} className="pop text-wire" />
           ) : (
             <Copy size={14} className="text-muted" />
           )}

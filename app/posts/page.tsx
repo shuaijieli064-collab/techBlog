@@ -14,6 +14,7 @@ export default function PostsPage() {
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
       <PageHeader
+        code="01"
         eyebrow="文章列表"
         title="学习笔记与项目记录"
         action={<BackHome />}

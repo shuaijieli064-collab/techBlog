@@ -1,4 +1,5 @@
 import CodeBlock from "@/components/CodeBlock";
+import { MarkdownErrorBoundary } from "@/components/MarkdownErrorBoundary";
 import { markdownToBlocks, renderBlockHtml } from "@/lib/markdown";
 
 export function Markdown({ content }: { content: string }) {
@@ -12,7 +13,9 @@ export function Markdown({ content }: { content: string }) {
             <CodeBlock code={block.code} language={block.lang} />
           </div>
         ) : (
-          <div key={index} dangerouslySetInnerHTML={{ __html: renderBlockHtml(block) }} />
+          <MarkdownErrorBoundary key={index}>
+            <div dangerouslySetInnerHTML={{ __html: renderBlockHtml(block) }} />
+          </MarkdownErrorBoundary>
         ),
       )}
     </div>

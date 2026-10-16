@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { Copy, Check, Star, Plus, Search, X, Save } from "lucide-react";
 
 import { promptCategories, seedPrompts, type PromptItem } from "@/lib/prompts";
@@ -34,6 +34,13 @@ export function PromptLibrary() {
   const [creating, setCreating] = useState(false);
   const [draft, setDraft] = useState({ title: "", category: promptCategories[0] as string, content: "" });
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimer.current) clearTimeout(copyTimer.current);
+    };
+  }, []);
 
   const allPrompts = useMemo(() => [...state.custom, ...seedPrompts], [state.custom]);
 
@@ -55,7 +62,8 @@ export function PromptLibrary() {
     try {
       await navigator.clipboard.writeText(prompt.content);
       setCopiedId(prompt.id);
-      setTimeout(() => setCopiedId(null), 2000);
+      if (copyTimer.current) clearTimeout(copyTimer.current);
+      copyTimer.current = setTimeout(() => setCopiedId(null), 2000);
       update({
         ...state,
         useCounts: {
@@ -101,7 +109,7 @@ export function PromptLibrary() {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-40 animate-pulse border border-hair bg-panel" />
+          <div key={i} className="h-40 animate-pulse rounded-lg border border-hair bg-panel" />
         ))}
       </div>
     );
@@ -118,14 +126,14 @@ export function PromptLibrary() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="搜索提示词标题或内容…"
-              className="w-full input-base pl-11!"
+              className="input-base pl-11!"
               aria-label="搜索提示词"
             />
           </div>
           <button
             type="button"
             onClick={() => setCreating((v) => !v)}
-            className="btn-primary px-5 py-3"
+            className="btn-primary"
           >
             {creating ? <X size={16} /> : <Plus size={16} />}
             {creating ? "取消" : "新建提示词"}
@@ -163,7 +171,7 @@ export function PromptLibrary() {
       </div>
 
       {creating && (
-        <div className="border border-wire/30 bg-wire/[0.05] p-5">
+        <div className="rounded-lg border border-wire/30 bg-wire/[0.05] p-5">
           <h3 className="mb-4 font-display text-sm font-semibold text-foreground">新建本地提示词</h3>
           <div className="space-y-3">
             <input
@@ -194,7 +202,7 @@ export function PromptLibrary() {
               type="button"
               onClick={createPrompt}
               disabled={!draft.title.trim() || !draft.content.trim()}
-              className="btn-primary gap-2 px-4 py-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn-primary gap-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Save size={14} /> 保存到本地
             </button>
@@ -203,7 +211,7 @@ export function PromptLibrary() {
       )}
 
       {filtered.length === 0 ? (
-        <div className="border border-dashed border-hair py-16 text-center">
+        <div className="rounded-lg border border-dashed border-hair py-16 text-center">
           <p className="font-display font-medium text-foreground">没有匹配的提示词</p>
           <p className="mt-1 text-sm text-print">换个关键词，或新建一条本地提示词。</p>
         </div>
@@ -217,8 +225,9 @@ export function PromptLibrary() {
             return (
               <article
                 key={prompt.id}
-                className="flex flex-col card card-hover p-4"
+                className="group relative flex flex-col overflow-hidden card card-hover p-4"
               >
+                <span aria-hidden className="absolute inset-y-0 left-0 w-0.5 scale-y-0 bg-gradient-to-b from-wire to-violet transition-transform duration-300 group-hover:scale-y-100" />
                 <div className="mb-2 flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <h3 className="truncate font-display font-medium text-foreground">{prompt.title}</h3>
@@ -267,7 +276,7 @@ export function PromptLibrary() {
                     <button
                       type="button"
                       onClick={() => copy(prompt)}
-                      className="inline-flex items-center gap-1 border border-hair bg-transparent px-2.5 py-1 text-xs font-medium text-print hover:border-wire hover:text-wire"
+                      className="inline-flex items-center gap-1 rounded-full border border-hair bg-transparent px-2.5 py-1 text-xs font-medium text-print hover:border-wire hover:text-wire"
                     >
                       {copiedId === prompt.id ? <Check size={12} className="text-wire" /> : <Copy size={12} />}
                       {copiedId === prompt.id ? "已复制" : "复制"}

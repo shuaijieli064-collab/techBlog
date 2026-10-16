@@ -99,7 +99,7 @@ export default function MarkdownTool() {
           aria-label="Markdown 源码"
         />
         <div
-          className="prose-preview h-64 overflow-auto border border-hair bg-background p-4 text-sm leading-7 text-print"
+          className="prose-preview h-64 overflow-auto rounded-lg border border-hair bg-background p-4 text-sm leading-7 text-print"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       </div>

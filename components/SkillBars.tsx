@@ -25,9 +25,9 @@ export function SkillBars({ variant }: { variant: "dashboard" | "profile" }) {
               <span className="text-foreground">{skill.name}</span>
               <span className="text-xs text-print">{skill.level}%</span>
             </div>
-            <div className="h-2 rounded-full bg-hair">
+            <div className="h-2  bg-hair">
               <div
-                className={`h-full rounded-full ${skill.color} transition-all duration-500`}
+                className={`h-full  ${skill.color} transition-all duration-500`}
                 style={{ width: `${skill.level}%` }}
               />
             </div>
@@ -45,9 +45,9 @@ export function SkillBars({ variant }: { variant: "dashboard" | "profile" }) {
             <span className="text-print">{skill.name}</span>
             <span className="text-muted">{skill.level}%</span>
           </div>
-          <div className="h-1.5 bg-hair/50">
+          <div className="h-1.5 rounded-full bg-hair/50">
             <div
-              className="h-full bg-wire transition-all duration-500"
+              className="h-full rounded-full bg-gradient-to-r from-wire to-violet transition-all duration-500 shadow-[0_0_8px_rgba(92,225,255,0.5)]"
               style={{ width: `${skill.level}%` }}
             />
           </div>

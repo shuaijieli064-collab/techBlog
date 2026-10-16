@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ArrowLeft, Calendar, Clock, Tag } from "lucide-react";
 
 import { Markdown } from "@/components/Markdown";
+import { ReadingProgress } from "@/components/ReadingProgress";
 import { getNoteBySlug, notes } from "@/lib/notes";
 import { getPostBySlug } from "@/lib/posts";
 import { pageMeta } from "@/lib/site";
@@ -36,14 +37,16 @@ export default async function NoteDetailPage({
   const note = getNoteBySlug(slug);
   if (!note) notFound();
 
-  const related = (note.relatedPostSlugs ?? [])
-    .map((s) => getPostBySlug(s))
-    .filter(Boolean);
+  const related = (note.relatedPostSlugs ?? []).flatMap((s) => {
+    const post = getPostBySlug(s);
+    return post ? [post] : [];
+  });
 
   const body = note.content.replace(/^#\s+[^\n]+\n+/, "");
 
   return (
     <main id="main-content" tabIndex={-1} className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+      <ReadingProgress />
       <div className="mb-6">
         <Link
           href="/notes"
@@ -56,7 +59,7 @@ export default async function NoteDetailPage({
       <article className="card p-6 sm:p-10">
         <header className="mb-8 border-b border-hair pb-6">
           <div className="mb-3 flex flex-wrap items-center gap-3 text-xs text-print">
-            <span className="rounded-full bg-wire/10 px-2.5 py-1 font-medium text-wire">
+            <span className="bg-wire/10 px-2.5 py-1 font-medium text-wire">
               {note.group}
             </span>
             <span className="flex items-center gap-1">
@@ -92,18 +95,15 @@ export default async function NoteDetailPage({
               相关文章
             </h2>
             <div className="space-y-2">
-              {related.map(
-                (post) =>
-                  post && (
-                    <Link
-                      key={post.slug}
-                      href={`/posts/${post.slug}`}
-                      className="block border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
-                    >
-                      {post.title}
-                    </Link>
-                  ),
-              )}
+              {related.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/posts/${post.slug}`}
+                  className="block rounded-lg border border-hair bg-background px-4 py-3 text-sm text-print transition-colors hover:border-wire hover:text-wire"
+                >
+                  {post.title}
+                </Link>
+              ))}
             </div>
           </section>
         )}

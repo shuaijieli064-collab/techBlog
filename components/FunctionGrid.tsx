@@ -41,7 +41,7 @@ function FunctionCardItem({ func }: { func: FunctionCard }) {
       </button>
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-wire/10 px-2.5 py-1 text-xs font-medium text-wire">
+        <span className="bg-wire/10 px-2.5 py-1 text-xs font-medium text-wire">
           {func.language}
         </span>
         <span className="rounded-full border border-hair bg-raise px-2.5 py-1 text-xs font-medium text-print">

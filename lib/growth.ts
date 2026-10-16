@@ -108,10 +108,10 @@ export const typeLabels: Record<GrowthEventType, string> = {
 
 export const typeColors: Record<GrowthEventType, { bg: string; text: string; dot: string }> = {
   milestone: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
-  post: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
-  project: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
+  post: { bg: "bg-violet/10", text: "text-violet", dot: "bg-violet" },
+  project: { bg: "bg-signal/10", text: "text-signal", dot: "bg-signal" },
   learning: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
-  achievement: { bg: "bg-wire/10", text: "text-wire", dot: "bg-wire" },
+  achievement: { bg: "bg-alert/10", text: "text-alert", dot: "bg-alert" },
 };
 
 export type StudyRecord = {
