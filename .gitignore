@@ -49,6 +49,11 @@ dev-server.err.log
 # local screenshots (responsive QA)
 .tmp-screens/
 
+# agent-internal artifacts (memory logs, process screenshots, plans from tools)
+.workbuddy/
+.trae/
+generated-images/
+
 # vercel
 .vercel
 
