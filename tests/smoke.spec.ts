@@ -74,7 +74,80 @@ test.describe("interactions", () => {
 
   test("dark canvas renders on load", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(7, 11, 18)");
+    // 设计语言 v2 的空间底色令牌 --background: #05070e
+    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(5, 7, 14)");
     await expect(page.locator('html')).not.toHaveClass(/\bdark\b/);
+  });
+
+  test("global search filters content and highlights matches", async ({ page }) => {
+    await page.goto("/search");
+    await expect(page.getByText("开始检索")).toBeVisible();
+    await page.getByLabel("搜索内容").fill("split");
+    // 命中函数速查中的 "String split"，结果以高亮 mark 呈现并跳转到 /tools?q=
+    await expect(page.locator("mark").first()).toBeVisible();
+    await expect(page.locator('a[href*="/tools?q="]').first()).toBeVisible();
+    await page.getByLabel("清空").click();
+    await expect(page.getByText("开始检索")).toBeVisible();
+  });
+
+  test("settings page renders data, env, migration and danger sections", async ({ page }) => {
+    await page.goto("/settings");
+    await expect(page.getByRole("heading", { name: "数据概览" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "环境状态" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "数据迁移" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "危险区" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /导出全部数据/ })).toBeVisible();
+  });
+});
+
+test.describe("phase 23: palette / search / feedback", () => {
+  test("command palette opens with Ctrl+K and Enter navigates", async ({ page }) => {
+    await page.goto("/");
+    await page.keyboard.press("Control+k");
+    const dialog = page.getByRole("dialog", { name: "命令面板" });
+    await expect(dialog).toBeVisible();
+    await page.getByLabel("搜索命令").fill("归档");
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/\/archive$/);
+    await expect(dialog).toBeHidden();
+  });
+
+  test("palette fuzzy-matches latin subsequence", async ({ page }) => {
+    await page.goto("/");
+    await page.keyboard.press("Control+k");
+    // 「psts」是 posts 的非连续子序列（p-o-s-t-s），检验跳字符模糊匹配
+    await page.getByLabel("搜索命令").fill("psts");
+    await expect(page.getByRole("dialog", { name: "命令面板" })).toContainText("文章列表");
+  });
+
+  test("search page keyboard nav opens the first hit", async ({ page }) => {
+    await page.goto("/search");
+    await page.getByLabel("搜索内容").fill("split");
+    await expect(page.locator("mark").first()).toBeVisible();
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/\/tools\?q=/);
+  });
+
+  test("search records recent queries and offers one-click re-search", async ({ page }) => {
+    await page.goto("/search");
+    await page.getByLabel("搜索内容").fill("Redis");
+    // recents are persisted after a short debounce
+    await page.waitForTimeout(900);
+    const stored = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("nexus:recent-queries") ?? "[]"),
+    );
+    expect(stored).toContain("Redis");
+    await page.getByLabel("清空").click();
+    await expect(page.getByRole("button", { name: "Redis", exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Redis", exact: true }).click();
+    await expect(page.getByLabel("搜索内容")).toHaveValue("Redis");
+  });
+
+  test("toast appears after export from the command palette", async ({ page }) => {
+    await page.goto("/");
+    await page.keyboard.press("Control+k");
+    await page.getByLabel("搜索命令").fill("导出全部数据");
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("status")).toContainText(/导出/);
   });
 });

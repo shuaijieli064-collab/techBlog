@@ -124,7 +124,7 @@ test.describe("workspace UI persistence", () => {
     await page.goto("/dashboard");
 
     const tasksCard = page.locator(".card").filter({ hasText: "TASKS" });
-    await expect(tasksCard.locator(".font-mono.text-3xl")).toHaveText("01/02");
+    await expect(tasksCard.locator(".font-mono.text-lg")).toHaveText("01/02");
 
     const streakCard = page.locator(".card").filter({ hasText: "STREAK" });
     await expect(streakCard.locator(".font-mono.text-3xl")).toHaveText("02");
@@ -139,7 +139,7 @@ test.describe("workspace UI persistence", () => {
     await expect(
       page.locator(".group").filter({ hasText: "测试任务A" }).getByLabel("标记未完成"),
     ).toHaveAttribute("aria-pressed", "true");
-    await expect(tasksCard.locator(".font-mono.text-3xl")).toHaveText("02/02");
+    await expect(tasksCard.locator(".font-mono.text-lg")).toHaveText("02/02");
   });
 
   test("project todo toggle drives progress live, persists, and syncs detail page", async ({ page }) => {

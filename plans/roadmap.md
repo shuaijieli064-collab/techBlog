@@ -143,8 +143,70 @@
 5. ✅ **测试**：Playwright 隔离（webServer `WORKSPACE_DB_PATH=data/test.db` + 每次跑前清库）；新增 `tests/00-workspace.spec.ts` 7 用例——import 200/409 幂等、GET/PUT 回环、404/400/413 校验、view/like/unlike（含幂等与下限）、dashboard 统计+任务跨刷新、TODO 联动进度+详情页同步、阅读/点赞跨刷新；`npm test` 21/21 绿（文件名 `00-` 保证清库后先于 UI 冒烟执行）
 6. ✅ **验证**：lint / typecheck / build 全绿；dev 库跨重启持久化实测（探针 PUT → 重启 dev → GET 仍在 → 清理）；用户浏览器旧 localStorage 首访已自动迁移（daily-tasks 4 条入库）
 
+## Phase 16 旗舰级视觉体验升级（深空 HUD 2.0）✅
+- 输出：`plans/phase16-visual-polish.md`
+- ✅ **P1 签名 hero**：全屏首屏 + `HeroNebula` 星云粒子场（220–560 粒子、指针牵引、滚动视差、reduced-motion 单帧）+ `SCROLL` 滚动引导；canvas 像素级验证通过
+- ✅ **P2 材质质感**：全站胶片噪点、`.glass` 玻璃面板（页头/下拉/移动导航）、细线滚动条、`.sweep` 卡片光扫
+- ✅ **P3 排版签名**：`PageHeader` mono 编号签名（`// 01 · …` ×8 列表页）、标题 `text-wrap: balance`、遥测错峰点亮
+- ✅ **P4 数据驾驶舱**：自绘 SVG 图表库（`RadarChart` / `RingProgress` / `Sparkline` / `HeatGrid` / `TimelineDensity`）接入 dashboard 4 格驾驶舱、growth 技能雷达+事件分布、learning 算法汇总环形、GitHub 热力网格；全部读真实数据（study-records / skill-levels / algorithms / daily-tasks）
+- ✅ **P5 动效统一**：React `ViewTransition` 路由过渡（Next 16 零配置）、`Reveal` 滚动揭示（首页 3 板块 + dashboard 6 板块）、`useCountUp` 数字滚动；全部纳入 prefers-reduced-motion 静态化
+- ✅ **验证**：lint / typecheck / build 全绿，`npm test` 21/21（测试选择器适配新环形 TASKS 卡）；before/after 25×2 张截图对照走查通过
+
+## Phase 17 工作台操作性升级（Developer OS 可操作化）✅
+- 输出：`plans/phase17-workspace-ux.md`
+- ✅ **A 命令式快捷操作**：全局命令面板 `CommandPalette`（`Ctrl/⌘+K` + 页头按钮，搜索 16 页面/13 工具/5 快捷动作，↑↓+Enter 执行软导航，零依赖）
+- ✅ **B 任务/项目闭环**：新域 `task-board` 任务箱（优先级 0-2 / 三态 backlog·today·done / 归档），「移到今日→完成→恢复」与今日任务清单双向联动；项目 TODO 补全增删（列表+详情页同步）
+- ✅ **C 数据录入编辑**：学习记录主题下拉/编辑模式/周分组/周统计/空状态（+排序稳定性修复）；技能自定义增删；本周概览卡（周时长+7 天趋势/路线图环形/算法环形/连续天数）
+- ✅ **D 外部联动**：`/api/github/events` 服务端代理（`GITHUB_USERNAME` 可配置，当前占位），活动卡 LIVE/FALLBACK 徽标；本周规划 7 列周视图；AI 规划改为真实数据规则生成（任务箱+未掌握知识点+算法缺口），静态模板兜底
+- ✅ **验证**：lint/typecheck/build 全绿，`npm test` **25/25**（既有 21 不回归 + 新增 4 操作链路用例）；25 张终版截图走查通过
+
+## Phase 18 AI 能力整体接入（ModelScope 真实化）✅
+- 输出：`plans/phase18-ai-integration.md`
+- ✅ **统一基础设施**：`lib/ai.ts` 模型清单（6 个 ModelScope 模型）+ 6 个 Agent 预设单源；`/api/ai/status` 状态接口（不返回 Key）
+- ✅ **AI 中心真实化**：`/ai/models` 从虚构 mock 重写为真实配置页（Key 状态/端点/默认模型 + 真实模型卡）；`/ai/agents` 模型映射真实化 + 「去对话」入口；首页 4 卡（新增 AI 对话）
+- ✅ **AI 对话工作台**：`/ai/chat` 通用对话（模型切换 / Agent 预设 / 注入工作台真实数据 / Markdown 渲染 / 会话本地持久化 / `?agent=` 直达）
+- ✅ **工作台 AI 助手**：右侧 mock 卡 → `AiAssistantCard`（真实数据生成今日建议，LIVE 徽标，复制/重生成/去对话）
+- ✅ **AI 规划今天真实化**：`DailyTasks.planToday` 真实 LLM 生成（JSON 容错解析），失败回落本地规则并提示
+- ✅ **验证**：lint/typecheck/build 全绿，`npm test` **25/25** 零回归；`/api/ai/status` 与 `/api/ai/chat` 实测链路贯通；5 张截图走查通过
+
+## Phase 19 六项体验优化（Refine & Real-data）✅
+- 输出：`plans/phase19-refine.md`
+- ✅ **菜单栏 bug**：AI 下拉补「AI 对话」入口；桌面下拉 hover 间隙闪烁修复（pt-2 连续 hover 通道）；渲染期 state 调整采用官方推荐模式（lint 零告警）
+- ✅ **字体**：正文中文统一为 Noto Sans SC（原 Windows 命中微软雅黑、与标题字形不一致）；清理 display 栈重复系统字面量
+- ✅ **项目结构**：AI 组件归组 `components/ai/`（3 文件），删除无引用 `SkeletonCard.tsx`
+- ✅ **内容真实性**：3 处项目占位链接 `github.com` → 真实仓库（study-assistant↔大创平台 / tech-blog↔techBlog / algorithm-tracker→账号主页）
+- ✅ **博客**：文章详情新增「上一篇/下一篇」导航卡片（边界自动隐藏）
+- ✅ **GitHub 账号接入**：`GITHUB_USERNAME=shuaijieli064-collab` 配置（用户截图提供 + API 校验），GitHub 卡实测 **LIVE · 真实数据**
+- ✅ **验证**：lint/typecheck/build 全绿，`npm test` **25/25** 零回归，浏览器实测三处通过
+
+## Phase 20 博客内容系统（自由增删改）✅
+- 输出：`plans/phase20-blog-crud.md`
+- ✅ **数据层**：`WORKSPACE_DOMAINS` 新增 `blog-posts` 域；`lib/posts.ts` 升级为「静态示例 ∪ 用户文章」合并源（`UserPost` / `userPostsFrom` 脏数据安全转换；详情/归档/标签/上下篇全部合并）
+- ✅ **管理界面**：`/posts/admin` 新建/编辑/删除文章（标题、slug 自动生成+唯一校验、分类、标签、日期、作者、草稿/发布、摘要、**正文 Markdown textarea + 实时预览**）；内置示例只读区；删除二次确认
+- ✅ **自由使用补全**：AI 草稿「保存为文章」一键入库（`?new=1&title=&content=` 预填）；`/api/workspace/export` 全域 JSON 导出（管理页按钮 + 命令面板动作）；「清空自定义文章」一键重置（示例保留）
+- ✅ **关键 bug 修复**：Next 16 路由 `params` 不再自动解码 URL 编码 → 中文 slug 详情页正文整体缺失；`[slug]/page.tsx` 手动 `decodeURIComponent` 修复（标签页已解码无需改）
+- ✅ **验证**：lint/typecheck 全绿，`npm test` **27/27**（既有 25 零回归 + 新增 blog-admin 2 用例：增删改全链路 + 草稿隐藏）
+
+## Phase 21 生产级完善（核心模块补齐 + 设计统一 + 交互细节）✅
+- ✅ **构建阻断修复**：`app/manifest.ts` `purpose:"any maskable"`→`"maskable"`；`components/ai/AiChat.tsx` 错误态统一为 `{message, docs}` 结构（修复类型转换丢失）；`app/page.tsx` JSX 文本以 `//` 开头触发的 lint 错误；`app/not-found.tsx` 服务端组件误用 `onKeyDown` → 原生 GET 表单；`middleware.ts` 迁移为 `proxy.ts`（Next 16.3 弃用警告消除）
+- ✅ **死代码清理**：删除无引用 `HeroNebula.tsx` / `HeroOrbital.tsx` / `RadarSweep.tsx`
+- ✅ **核心模块·全局搜索**：新增 `/search` 页（`lib/search.ts` 统一索引文章+笔记+函数，服务端构建、客户端实时过滤 + `<mark>` 高亮 + 分组计数 + 空态）；命令面板补「全局搜索」页与「未匹配→全局搜索」兜底链接；页头加搜索图标入口；`not-found` 表单改指向 `/search`
+- ✅ **核心模块·设置与数据中心**：新增 `/settings` 页（数据概览按域计数 / 环境状态 AI·GitHub·站点 / 数据迁移导出+导入恢复 / 危险区清空自定义文章，二次确认）；复用 `/api/workspace/export` 与 `[domain]` PUT
+- ✅ **交互细节**：`ReadingProgress` 阅读进度条（文章/笔记详情）；`BackToTop` 返回顶部；`KeyboardHelp` `?` 快捷键帮助弹层；全局挂载于 `layout`
+- ✅ **设计统一**：`EmptyState` 支持自定义图标；全站按钮尺寸覆盖类失效问题（`.btn-primary` 层序实测后置于 `.px-4` 之后）批量清理并补 `.btn-sm/.btn-xs`；圆角按「直角 + 圆点例外」规整套件化脚本批量处理；修正 `PostEngagement` 阅读量重复计数 / `setTimeout` 泄漏 / `PostCard` 阴影越界 / `GitHubActivity` 硬编码 / `PageHeader` code 渲染 / `SkillLevels`/`AlgorithmProgress`/`ProjectList`/`Telemetry`/`WeekOverview` 等 15+ 处真实缺陷；dashboard `?focus=` 深链补齐（命令面板 4 动作恢复可用）
+- ✅ **验证**：lint / typecheck / build 全绿；`npm test` **29/29**（既有 27 零回归 + 新增全局搜索 / 设置页 2 用例）
+
+## Phase 22 UI 系统性重设计（设计语言 v2：NEBULA）✅
+- ✅ **设计令牌重建**（`app/globals.css`）：空间底色加深（`#05070e`）与表面三段梯阶（panel/raise + 渐变微光）；圆角体系 `--radius-xs/sm/md/lg/xl`（卡片 14px、控件 10px、标签 pill、圆点例外）并接入 Tailwind `@theme`；阴影三级（`--shadow-1/2/glow`，环境色低对比）；动效三速（`--dur-fast/base/slow` + `--ease-spring`）
+- ✅ **组件类升级**：`.card` 渐变微光 + 一级阴影；`.card-hover` 上浮 3px + 二级阴影 +  accent 边框；`.btn-primary` 青→蓝渐变 + 内高光 + 按压反馈（`active:translateY-1px scale-0.985`）；`.btn-secondary` 同步；`.chip`/标签 pill 化；`.input-base` focus 光环（3px ring）；新增 `.pill` 状态徽标、`.kbd` 键帽、`.link-underline` 下划线生长、`.row-hover` 列表行、`.skeleton` 骨架屏、`.pop` 确认弹跳、`.fade-up` 入场
+- ✅ **圆角批量规整**：两轮精确类名映射（108 处）覆盖全部手写容器/图标盒/徽标/选择器/聊天气泡/进度条（track+fill 圆角化），条件类名逐个人工定制；实测 CSS 层序后清除被 `.card-hover` 覆盖的死悬浮类
+- ✅ **核心界面重设计**：导航激活态 underline→pill（桌面）+ 左指示条圆角（移动）；首页 hero 卡片化 + CTA 光泽；仪表盘 hero 入 `.card` 体系 + `SYSTEM ONLINE` 入 `.pill`；命令面板行圆角 + 激活态左侧 accent 条 + `.kbd`；文章正文排版重做（标题 `#` 前缀标记、1.78 行高、引用右侧圆角、表格容器圆角+分区线、列表 marker 青色、行内代码 pill、hr 渐变线）；目录激活态左accent；分享/复制成功 `.pop` 反馈；聊天气泡尾角（br/bl-sm）+ `fade-up` 入场；搜索结果 `key={query}` 整体淡入 + `mark` 高亮圆角
+- ✅ **可访问性与响应式**：FAB 触控目标 44px + `env(safe-area-inset-bottom)` 安全区；`:focus-visible` 光环带圆角；`prefers-reduced-motion` 全覆盖新增动画（含按压/悬浮 transform）；对比度随墨色阶提升（foreground `#e9f0fd`/print `#a7b6d0`/muted `#7c8daa`）
+- ✅ **验证**：lint / typecheck / build 全绿；`npm test` **29/29**（dark-canvas 用例随新底色令牌更新为 `rgb(5,7,14)`）
+
 ## 建议下一轮
 
 - ⬜ 真实域名替换（配置 NEXT_PUBLIC_SITE_URL）+ Supabase 环境变量 + Cloudflare 部署（Phase 14）
 - ⬜ 安全面 RLS 用例
-- ⬜ 需要你提供：真实域名、是否接 Supabase/GitHub token
+- ⬜ 需要你提供：真实域名
+- ⬜ 可选：对话流式输出（SSE）、外部日历接入、AI 用量统计（ModelScope 控制台）、`GITHUB_TOKEN`（提高 events 限额）
